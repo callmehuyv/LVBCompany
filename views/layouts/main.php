@@ -26,24 +26,36 @@ AppAsset::register($this);
     <div class="wrap">
         <?php
             NavBar::begin([
-                'brandLabel' => 'My Company',
+                'brandLabel' => 'LVB Company',
                 'brandUrl' => Yii::$app->homeUrl,
                 'options' => [
                     'class' => 'navbar-inverse navbar-fixed-top',
                 ],
             ]);
-            echo Nav::widget([
-                'options' => ['class' => 'navbar-nav navbar-right'],
-                'items' => [
-                    ['label' => 'Home', 'url' => ['/site/index']],
-                    ['label' => 'Register', 'url' => ['/site/register']],
-                    Yii::$app->user->isGuest ?
-                        ['label' => 'Login', 'url' => ['/site/login']] :
+
+            if (Yii::$app->user->isGuest) {
+                echo Nav::widget([
+                    'options' => ['class' => 'navbar-nav navbar-right'],
+                    'items' => [
+                        ['label' => 'Home', 'url' => ['/site/index']],
+                        ['label' => 'Login', 'url' => ['/site/login']],
+                        ['label' => 'Line', 'url' => ['/line/index']]
+                    ],
+                ]);
+            } else {
+                echo Nav::widget([
+                    'options' => ['class' => 'navbar-nav navbar-right'],
+                    'items' => [
+                        ['label' => 'Home', 'url' => ['/site/index']],
                         ['label' => 'Logout (' . Yii::$app->user->identity->user_email . ')',
-                            'url' => ['/site/logout'],
-                            'linkOptions' => ['data-method' => 'post']],
-                ],
-            ]);
+                                'url' => ['/site/logout'],
+                                'linkOptions' => ['data-method' => 'post']],
+                        ['label' => 'User', 'url' => ['/user/index']],
+                        ['label' => 'Line', 'url' => ['/line/index']],
+                        ['label' => 'Station', 'url' => ['/station/index']]
+                    ],
+                ]);
+            }
             NavBar::end();
         ?>
 
@@ -57,7 +69,7 @@ AppAsset::register($this);
 
     <footer class="footer">
         <div class="container">
-            <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
+            <p class="pull-left">&copy; LVB Company <?= date('Y') ?></p>
             <p class="pull-right"><?= Yii::powered() ?></p>
         </div>
     </footer>

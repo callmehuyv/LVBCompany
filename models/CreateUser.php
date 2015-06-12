@@ -5,14 +5,17 @@ use Yii;
 use yii\base\Model;
 use app\models\User;
 
-class RegisterForm extends Model {
+class CreateUser extends Model {
     public $user_email;
     public $user_password;
+    public $user_first_name;
+    public $user_last_name;
+    public $user_phone;
     public $confirmPassword;
 
     public function rules() {
         return [
-            [['user_email', 'user_password'], 'required'],
+            [['user_email', 'user_password', 'user_first_name', 'user_last_name', 'user_phone'], 'required'],
             ['user_email', 'email'],
             ['user_email', 'unique', 'targetClass' => '\app\models\User'],
             ['user_password', 'string', 'max' => 128],

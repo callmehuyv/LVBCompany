@@ -17,10 +17,10 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout'],
+                'only' => ['logout', 'register'],
                 'rules' => [
                     [
-                        'actions' => ['logout'],
+                        'actions' => ['logout','register'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -72,7 +72,8 @@ class SiteController extends Controller
     {
         $model = new RegisterForm();
         if ($model->load(Yii::$app->request->post()) && $model->register() ) {
-            return "Luu thanh cong";
+            Yii::$app->getSession()->setFlash('message', 'Tạo tài khoản mới thành công!');
+            return $this->redirect(['/user/index']);
         }
         return $this->render('register', ['model' => $model]);
     }

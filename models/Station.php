@@ -32,10 +32,11 @@ class Station extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id'], 'required'],
-            [['id', 'line_id', 'record_status'], 'integer'],
-            [['description'], 'string'],
-            [['name', 'image'], 'string', 'max' => 255]
+            [['line_id', 'station_description', 'station_name'], 'required'],
+            [['line_id', 'record_status'], 'integer'],
+            [['station_description'], 'string'],
+            [['station_name', 'station_image'], 'string', 'max' => 255],
+            [['station_image'], 'file']
         ];
     }
 
@@ -45,11 +46,11 @@ class Station extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'line_id' => 'Line ID',
-            'name' => 'Name',
-            'description' => 'Description',
-            'image' => 'Image',
+            'station_id' => 'ID',
+            'line_id' => 'Line',
+            'station_name' => 'Name',
+            'station_description' => 'Description',
+            'station_image' => 'Upload New Image',
             'record_status' => 'Record Status',
         ];
     }
@@ -59,6 +60,6 @@ class Station extends \yii\db\ActiveRecord
      */
     public function getLine()
     {
-        return $this->hasOne(Lines::className(), ['id' => 'line_id']);
+        return $this->hasOne(Line::className(), ['line_id' => 'line_id']);
     }
 }

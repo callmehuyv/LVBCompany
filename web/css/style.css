@@ -1,0 +1,17 @@
+.bg-success {
+	padding: 11px;
+	margin: 10px 0;
+}
+
+#dataConfirmModal {
+	display: block;
+	width: 400px;
+	background: #FFFFFF;
+	height: 210px;
+	left: 50%;
+	margin-left: -200px;
+	margin-top: 100px;
+}
+ul {
+	padding-left: 15px;
+}

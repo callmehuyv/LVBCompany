@@ -34,10 +34,11 @@ class Line extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['description'], 'string'],
-            [['start_time', 'end_time'], 'safe'],
+            [['line_description'], 'string'],
+            [['line_start_time', 'line_end_time'], 'safe'],
             [['record_status'], 'integer'],
-            [['name', 'image'], 'string', 'max' => 255]
+            [['line_name', 'line_image'], 'string', 'max' => 255],
+            [['line_image'], 'file']
         ];
     }
 
@@ -47,12 +48,12 @@ class Line extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'name' => 'Name',
-            'description' => 'Description',
-            'start_time' => 'Start Time',
-            'end_time' => 'End Time',
-            'image' => 'Image',
+            'line_id' => 'ID',
+            'line_name' => 'Name',
+            'line_description' => 'Description',
+            'line_start_time' => 'Start Time',
+            'line_end_time' => 'End Time',
+            'line_image' => 'Upload New Line Image',
             'record_status' => 'Record Status',
         ];
     }
@@ -62,7 +63,7 @@ class Line extends \yii\db\ActiveRecord
      */
     public function getStations()
     {
-        return $this->hasMany(Stations::className(), ['line_id' => 'id']);
+        return $this->hasMany(Station::className(), ['line_id' => 'line_id']);
     }
 
     /**
@@ -70,6 +71,6 @@ class Line extends \yii\db\ActiveRecord
      */
     public function getVehicles()
     {
-        return $this->hasMany(Vehicles::className(), ['line_id' => 'id']);
+        return $this->hasMany(Vehicle::className(), ['line_id' => 'line_id']);
     }
 }

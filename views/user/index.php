@@ -4,16 +4,19 @@
     use yii\helpers\Url;
 
     $this->title = 'Edit User';
-    $this->params['breadcrumbs'][] = ['label' => 'Admin', 'url' => ['admin/index']];
+    $this->params['breadcrumbs'][] = ['label' => 'User', 'url' => ['user/index']];
     $this->params['breadcrumbs'][] = $this->title;
     
 ?>
 <div class="site-create">
     
-        <a class="btn btn-success" href="<?php echo Url::toRoute('admin/create_user') ?>">Create new User</a>
+        <a class="btn btn-success" href="<?php echo Url::toRoute('user/create') ?>">Create new User</a>
+
+        <?php if(Yii::$app->session->get('message') != null) : ?>
+            <p class="bg-success"> <?php echo htmlentities(Yii::$app->session->getFlash('message')); ?></p>
+        <?php endif; ?>
 
         <br><br>
-
         <?php
             if (isset($_GET['message'])) {
                 ?>
@@ -55,10 +58,10 @@
                                 ?>
                             </td>
                             <td>
-                                <a class="btn btn-warning" href="<?php echo Url::toRoute('admin/edit_user') ?>?id=<?php echo $user->id ?>">
+                                <a title="Edit" class="btn btn-warning" href="<?php echo Url::toRoute('user/edit') ?>?id=<?php echo $user->id ?>">
                                     <i class="glyphicon glyphicon-refresh"></i>
                                 </a>
-                                <a class="btn btn-danger" href="<?php echo Url::toRoute('admin/delete_user') ?>?id=<?php echo $user->id ?>">
+                                <a data-confirm="Are you sure you want to delete?" title="Remove" class="btn btn-danger" href="<?php echo Url::toRoute('user/delete') ?>?id=<?php echo $user->id ?>">
                                     <i class="glyphicon glyphicon-remove"></i>
                                 </a>
                             </td>

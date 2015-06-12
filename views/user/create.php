@@ -9,8 +9,7 @@ use yii\widgets\ActiveForm;
 ?>
 <div class="site-create">
 
-    <h1>Đăng ký tài khoản</h1>
-    <p>Bản thử nghiệm này cho phép bạn đăng ký tài khoản với quyền admin</p>
+    <h1>TẠO TÀI KHOẢN ADMIN MỚI</h1>
     <?php $form = ActiveForm::begin(); ?>
 
         <?= $form->field($model, 'user_email') ?>
