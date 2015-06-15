@@ -12,6 +12,23 @@ use app\models\CreateUser;
 class UserController extends Controller
 {
 
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index' ,'delete', 'edit', 'create'],
+                'rules' => [
+                    [
+                        'actions' => ['index' ,'delete', 'edit', 'create'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+        ];
+    }
+
     public function actions()
     {
         return [

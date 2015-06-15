@@ -14,6 +14,23 @@ use yii\web\UploadedFile;
 class LineController extends Controller
 {
 
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['delete', 'edit', 'create'],
+                'rules' => [
+                    [
+                        'actions' => ['delete', 'edit', 'create'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+        ];
+    }
+
     public function actions()
     {
         return [

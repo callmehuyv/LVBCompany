@@ -3,7 +3,7 @@
     use yii\widgets\ActiveForm;
     use yii\helpers\Url;
 
-    $this->title = 'Edit User';
+    $this->title = 'List User';
     $this->params['breadcrumbs'][] = ['label' => 'User', 'url' => ['user/index']];
     $this->params['breadcrumbs'][] = $this->title;
     

@@ -38,8 +38,10 @@ AppAsset::register($this);
                     'options' => ['class' => 'navbar-nav navbar-right'],
                     'items' => [
                         ['label' => 'Home', 'url' => ['/site/index']],
-                        ['label' => 'Login', 'url' => ['/site/login']],
-                        ['label' => 'Line', 'url' => ['/line/index']]
+                        ['label' => 'User', 'url' => ['/user/index']],
+                        ['label' => 'Line', 'url' => ['/line/index']],
+                        ['label' => 'Station', 'url' => ['/station/index']],
+                        ['label' => 'Login', 'url' => ['/site/login']]
                     ],
                 ]);
             } else {
@@ -47,12 +49,12 @@ AppAsset::register($this);
                     'options' => ['class' => 'navbar-nav navbar-right'],
                     'items' => [
                         ['label' => 'Home', 'url' => ['/site/index']],
+                        ['label' => 'User', 'url' => ['/user/index']],
+                        ['label' => 'Line', 'url' => ['/line/index']],
+                        ['label' => 'Station', 'url' => ['/station/index']],
                         ['label' => 'Logout (' . Yii::$app->user->identity->user_email . ')',
                                 'url' => ['/site/logout'],
                                 'linkOptions' => ['data-method' => 'post']],
-                        ['label' => 'User', 'url' => ['/user/index']],
-                        ['label' => 'Line', 'url' => ['/line/index']],
-                        ['label' => 'Station', 'url' => ['/station/index']]
                     ],
                 ]);
             }

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 12, 2015 at 01:21 PM
+-- Generation Time: Jun 15, 2015 at 12:58 PM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -64,14 +64,25 @@ CREATE TABLE IF NOT EXISTS `drivers` (
 --
 
 CREATE TABLE IF NOT EXISTS `lines` (
-`id` int(11) NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `description` text,
-  `start_time` datetime DEFAULT NULL,
-  `end_time` datetime DEFAULT NULL,
-  `image` varchar(255) DEFAULT NULL,
+`line_id` int(11) NOT NULL,
+  `line_name` varchar(255) DEFAULT NULL,
+  `line_description` text,
+  `line_start_time` time DEFAULT NULL,
+  `line_end_time` time DEFAULT NULL,
+  `line_image` varchar(255) DEFAULT NULL,
   `record_status` int(11) DEFAULT '4'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `lines`
+--
+
+INSERT INTO `lines` (`line_id`, `line_name`, `line_description`, `line_start_time`, `line_end_time`, `line_image`, `record_status`) VALUES
+(1, 'Hà Nội - Nam Định', 'Hà Nội - Nam Định Description', '00:45:00', '03:15:00', 'uploads/line_1.jpg', 4),
+(2, 'Nam Định - Huế', 'Nam Định - Huế', '03:00:00', '04:00:00', 'uploads/no-thumbnail.png', 4),
+(3, 'Nam Định - Huế', 'Nam Định - Huế', '03:00:00', '04:00:00', 'uploads/line_3.jpg', 4),
+(4, 'Nam Định - Huế', 'Nam Định - Huế', '03:00:00', '04:00:00', 'uploads/line_4.jpg', 4),
+(5, 'Hải Phòng - Huế', 'Hải Phòng - Huế', '03:15:00', '07:15:00', 'uploads/no-thumbnail.png', 4);
 
 -- --------------------------------------------------------
 
@@ -100,13 +111,21 @@ INSERT INTO `roles` (`id`, `name`, `prority`, `record_status`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `stations` (
-  `id` int(255) NOT NULL,
+`station_id` int(255) unsigned NOT NULL,
   `line_id` int(11) DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `description` text,
-  `image` varchar(255) DEFAULT NULL,
+  `station_name` varchar(255) DEFAULT NULL,
+  `station_description` text,
+  `station_image` varchar(255) DEFAULT NULL,
   `record_status` int(11) NOT NULL DEFAULT '4'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `stations`
+--
+
+INSERT INTO `stations` (`station_id`, `line_id`, `station_name`, `station_description`, `station_image`, `record_status`) VALUES
+(1, 4, 'Tên station', 'Mô tả station', 'uploads/station_1.jpg', 4),
+(2, 4, 'Gà Sài Gòn', 'Gà Sài Gòn', 'uploads/line_2.jpg', 4);
 
 -- --------------------------------------------------------
 
@@ -119,61 +138,22 @@ CREATE TABLE IF NOT EXISTS `users` (
   `user_email` varchar(255) NOT NULL,
   `user_first_name` varchar(32) NOT NULL,
   `user_last_name` varchar(32) NOT NULL,
-  `user_phone` int(11) NOT NULL,
+  `user_phone` varchar(12) NOT NULL,
   `user_password` varchar(255) NOT NULL,
   `user_auth_key` varchar(255) NOT NULL,
   `user_access_token` varchar(255) NOT NULL,
   `record_status` int(11) NOT NULL DEFAULT '4'
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`user_id`, `user_email`, `user_first_name`, `user_last_name`, `user_phone`, `user_password`, `user_auth_key`, `user_access_token`, `record_status`) VALUES
-(4, 'vbaothu@gmail.com', '', '', 0, '$2y$13$cpQtqTSIEiJoyD8Uif/UyehGV78NLs2UDxQqEEDurCLMoV9N8QjV.', '123456', '', 4),
-(5, 'vbaothu2@gmail.com', '', '', 0, '$2y$13$vctp/7XkpYohWYvAg89bTOPkGt8Sv8leQK7TX5MwgYpJ5RLUnu9f6', '', '', 4);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `user_info`
---
-
-CREATE TABLE IF NOT EXISTS `user_info` (
-`id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `first_name` varchar(255) DEFAULT NULL,
-  `last_name` varchar(255) DEFAULT NULL,
-  `note` text,
-  `birth_date` datetime DEFAULT NULL,
-  `create_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `user_info`
---
-
-INSERT INTO `user_info` (`id`, `user_id`, `first_name`, `last_name`, `note`, `birth_date`, `create_at`) VALUES
-(3, 4, 'Huy', 'Tran', NULL, NULL, NULL);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `user_role`
---
-
-CREATE TABLE IF NOT EXISTS `user_role` (
-  `user_id` int(11) NOT NULL,
-  `role_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `user_role`
---
-
-INSERT INTO `user_role` (`user_id`, `role_id`) VALUES
-(4, 1);
+(4, 'callmehuyv@gmail.com', 'Huy', 'V', '0962623143', '$2y$13$fMivyhVnsW5U6up/RqJfbedn48TC7L8c0xaKKfVdVHZtFP8JRHDqy', '123456', '', 4),
+(6, 'vbaothu@gmail.com', 'Huy', 'Tran', '0962623143', '$2y$13$Do46ehpQD4ciM7kcc2xZLeu8nt2.4CNeLu97g.k5SNS3HMPqlEXZC', '', '', 4),
+(7, 'admin@admin.com', 'Admin', 'Mr', '0962623143', '$2y$13$PDmIF1/OC21ZcjqdoXKO8.CeuFfvT17Su8pg3Uetu71avocs398vO', '', '', 4),
+(8, 'huymourinho@gmail.com', 'Huy', 'Mourinho', '0123456789', '$2y$13$gPaL1noCn9iXuUlSSRCVFORcIBzaHH5UNrN7AP/GhIpNov/eSCqPq', '', '', 4);
 
 -- --------------------------------------------------------
 
@@ -226,7 +206,7 @@ ALTER TABLE `drivers`
 -- Indexes for table `lines`
 --
 ALTER TABLE `lines`
- ADD PRIMARY KEY (`id`);
+ ADD PRIMARY KEY (`line_id`);
 
 --
 -- Indexes for table `roles`
@@ -238,25 +218,13 @@ ALTER TABLE `roles`
 -- Indexes for table `stations`
 --
 ALTER TABLE `stations`
- ADD PRIMARY KEY (`id`), ADD KEY `line_id` (`line_id`);
+ ADD PRIMARY KEY (`station_id`), ADD KEY `line_id` (`line_id`);
 
 --
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
  ADD PRIMARY KEY (`user_id`);
-
---
--- Indexes for table `user_info`
---
-ALTER TABLE `user_info`
- ADD PRIMARY KEY (`id`), ADD KEY `account_id` (`user_id`);
-
---
--- Indexes for table `user_role`
---
-ALTER TABLE `user_role`
- ADD PRIMARY KEY (`user_id`,`role_id`), ADD KEY `role_id` (`role_id`);
 
 --
 -- Indexes for table `vehicles`
@@ -288,22 +256,22 @@ MODIFY `driver_id` int(10) unsigned NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `lines`
 --
 ALTER TABLE `lines`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `line_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
 MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
+-- AUTO_INCREMENT for table `stations`
+--
+ALTER TABLE `stations`
+MODIFY `station_id` int(255) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+--
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
---
--- AUTO_INCREMENT for table `user_info`
---
-ALTER TABLE `user_info`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `vehicles`
 --
@@ -334,27 +302,14 @@ ADD CONSTRAINT `drivers_ibfk_1` FOREIGN KEY (`vehicle_type_id`) REFERENCES `vehi
 -- Constraints for table `stations`
 --
 ALTER TABLE `stations`
-ADD CONSTRAINT `stations_ibfk_1` FOREIGN KEY (`line_id`) REFERENCES `lines` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `user_info`
---
-ALTER TABLE `user_info`
-ADD CONSTRAINT `user_info_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `user_role`
---
-ALTER TABLE `user_role`
-ADD CONSTRAINT `user_role_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-ADD CONSTRAINT `user_role_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `stations_ibfk_1` FOREIGN KEY (`line_id`) REFERENCES `lines` (`line_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `vehicles`
 --
 ALTER TABLE `vehicles`
 ADD CONSTRAINT `vehicles_ibfk_1` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-ADD CONSTRAINT `vehicles_ibfk_2` FOREIGN KEY (`line_id`) REFERENCES `lines` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `vehicles_ibfk_2` FOREIGN KEY (`line_id`) REFERENCES `lines` (`line_id`) ON DELETE CASCADE ON UPDATE CASCADE,
 ADD CONSTRAINT `vehicles_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
 ADD CONSTRAINT `vehicles_ibfk_4` FOREIGN KEY (`vehicle_type_id`) REFERENCES `vehicle_type` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 

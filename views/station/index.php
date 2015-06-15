@@ -55,7 +55,9 @@
                                  <?php echo $station->line->line_name; ?>
                             </td>
                             <td>
-                                <?= Html::img('@web/'.$station->station_image, ['alt' => 'Line Image', 'width' => '100px']) ?>
+                                <a href="<?php echo Url::to('@web/'.$station->station_image); ?>" data-toggle="lightbox" data-title="View Full Size">
+                                    <img width="100px" src="<?php echo Url::to('@web/'.$station->station_image); ?>" class="img-responsive">
+                                </a>
                             </td>
                             <td>
                                 <a title="Edit" class="btn btn-warning" href="<?php echo Url::toRoute('station/edit') ?>?id=<?php echo $station->station_id ?>">

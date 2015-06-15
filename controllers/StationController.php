@@ -14,6 +14,23 @@ use yii\web\UploadedFile;
 class StationController extends Controller
 {
 
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['delete', 'edit', 'create'],
+                'rules' => [
+                    [
+                        'actions' => ['delete', 'edit', 'create'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+        ];
+    }
+
     public function actions()
     {
         return [
@@ -54,8 +71,8 @@ class StationController extends Controller
             $file = UploadedFile::getInstance($model, 'station_image');
 
             if ($file) {
-                $file->saveAs('uploads/line_' . $model->station_id . '.' . $file->extension);
-                $model->station_image = 'uploads/line_' . $model->station_id . '.' . $file->extension;
+                $file->saveAs('uploads/station_' . $model->station_id . '.' . $file->extension);
+                $model->station_image = 'uploads/station_' . $model->station_id . '.' . $file->extension;
             } else {
                 $model->station_image = $oldImage;
             }
@@ -84,8 +101,8 @@ class StationController extends Controller
             if ($file) {
                 $model->station_image = '';
                 $model->save();
-                $file->saveAs('uploads/line_' . $model->station_id . '.' . $file->extension);
-                $model->station_image = 'uploads/line_' . $model->station_id . '.' . $file->extension;
+                $file->saveAs('uploads/station_' . $model->station_id . '.' . $file->extension);
+                $model->station_image = 'uploads/station_' . $model->station_id . '.' . $file->extension;
             } else {
                 $model->station_image = 'uploads/no-thumbnail.png';
             }

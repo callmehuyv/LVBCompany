@@ -19,10 +19,12 @@ class AppAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/site.css',
-        'css/style.css'
+        'css/style.css',
+        'css/ekko-lightbox.css'
     ];
     public $js = [
-        'js/script.js'
+        'js/script.js',
+        'js/ekko-lightbox.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',

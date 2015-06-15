@@ -3,7 +3,7 @@
     use yii\widgets\ActiveForm;
     use yii\helpers\Url;
 
-    $this->title = 'Edit Line';
+    $this->title = 'List Line';
     $this->params['breadcrumbs'][] = ['label' => 'Line', 'url' => ['line/index']];
     $this->params['breadcrumbs'][] = $this->title;
     
@@ -36,7 +36,7 @@
                 <th>Start Time</th>
                 <th>End Time</th>
                 <th>Line Image</th>
-                <th>List Stations</th>
+                <th>Stations on this Line</th>
                 <th>Action</th>
             </tr>
             <?php
@@ -56,7 +56,9 @@
                                 <?php echo $line->line_end_time ?>
                             </td>
                             <td>
-                                <?= Html::img('@web/'.$line->line_image, ['alt' => 'Line Image', 'width' => '100px']) ?>
+                                <a href="<?php echo Url::to('@web/'.$line->line_image); ?>" data-toggle="lightbox" data-title="View Full Size">
+                                    <img width="100px" src="<?php echo Url::to('@web/'.$line->line_image); ?>" class="img-responsive">
+                                </a>
                             </td>
                             <td>
                                 <?php if(!empty($line->stations)) : ?>
