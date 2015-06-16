@@ -6,13 +6,12 @@ use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
-use app\models\Line;
-use app\models\Station;
+use app\models\Company;
 use yii\web\UploadedFile;
 
 use callmehuyv\helpers\Input;
 
-class LineController extends Controller
+class CompanyController extends Controller
 {
 
     public function behaviors()
@@ -52,40 +51,40 @@ class LineController extends Controller
 
     public function actionIndex()
     {
-        $lines = Line::find()
+        $companies = Company::find()
             ->where(['record_status' => 4])
                 ->all();
-        return $this->render('index', ['lines' => $lines]);
+        return $this->render('index', ['companies' => $companies]);
     }
 
     public function actionDelete()
     {
-        $selected_line = (int)Input::get('line');
-        $model = Line::findOne($selected_line);
+        $selected_company = (int)Input::get('company');
+        $model = Company::findOne($selected_company);
         $model->record_status = 3;
         $model->save();
-        Yii::$app->getSession()->setFlash('message', 'Delete Line success!');
-        return $this->redirect(['line/index']);
+        Yii::$app->getSession()->setFlash('message', 'Delete Company success!');
+        return $this->redirect(['company/index']);
     }
 
     public function actionEdit() {
-        $selected_line = (int)Input::get('line');
-        $model = Line::findOne($selected_line);
-        $oldImage = $model->line_image;
+        $selected_company = (int)Input::get('company');
+        $model = Company::findOne($selected_company);
+        $oldImage = $model->company_image;
 
         if ( $model->load(Yii::$app->request->post()) ) {
-            $file = UploadedFile::getInstance($model, 'line_image');
+            $file = UploadedFile::getInstance($model, 'company_image');
 
             if ($file) {
-                $file->saveAs('uploads/line_' . $model->line_id . '.' . $file->extension);
-                $model->line_image = 'uploads/line_' . $model->line_id . '.' . $file->extension;
+                $file->saveAs('uploads/company_' . $model->company_id . '.' . $file->extension);
+                $model->company_image = 'uploads/company_' . $model->company_id . '.' . $file->extension;
             } else {
-                $model->line_image = $oldImage;
+                $model->company_image = $oldImage;
             }
 
             $model->save();
-            Yii::$app->getSession()->setFlash('message', 'Update Line success!');
-            return $this->redirect(['line/edit', 'line' => $model->line_id]);
+            Yii::$app->getSession()->setFlash('message', 'Update Company success!');
+            return $this->redirect(['company/edit', 'company' => $model->company_id]);
         } else {
             return $this->render('edit', [
                 'model' => $model,
@@ -98,22 +97,22 @@ class LineController extends Controller
 
     public function actionCreate()
     {
-        $model = new Line();
+        $model = new Company();
         if ($model->load(Yii::$app->request->post())) {
-            $file = UploadedFile::getInstance($model, 'line_image');
+            $file = UploadedFile::getInstance($model, 'company_image');
             if ($file) {
-                $model->line_image = '';
+                $model->company_image = '';
                 $model->save();
-                $file->saveAs('uploads/line_' . $model->line_id . '.' . $file->extension);
-                $model->line_image = 'uploads/line_' . $model->line_id . '.' . $file->extension;
+                $file->saveAs('uploads/company_' . $model->company_id . '.' . $file->extension);
+                $model->company_image = 'uploads/company_' . $model->company_id . '.' . $file->extension;
                 $model->save();
             } else {
-                $model->line_image = 'uploads/no-thumbnail.png';
+                $model->company_image = 'uploads/no-thumbnail.png';
                 $model->save();
             }
 
-            Yii::$app->getSession()->setFlash('message', 'Created new Line success!');
-            return $this->redirect(['/line/index']);
+            Yii::$app->getSession()->setFlash('message', 'Created new Company success!');
+            return $this->redirect(['/company/index']);
         }
         return $this->render('create', ['model' => $model]);
     }

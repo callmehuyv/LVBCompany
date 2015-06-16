@@ -4,14 +4,14 @@
     use yii\helpers\Url;
     use kartik\time\TimePicker;
 
-    $this->title = 'Edit Station';
-    $this->params['breadcrumbs'][] = ['label' => 'Station', 'url' => ['station/index']];
+    $this->title = 'Edit Company';
+    $this->params['breadcrumbs'][] = ['label' => 'Company', 'url' => ['company/index']];
     $this->params['breadcrumbs'][] = $this->title;
     
 ?>
 <div class="site-create">
     
-        <a class="btn btn-success" href="<?php echo Url::toRoute('station/index') ?>">View all Lines</a>
+        <a class="btn btn-success" href="<?php echo Url::toRoute('line/index') ?>">View all Lines</a>
 
         <?php if(Yii::$app->session->get('message') != null) : ?>
             <p class="bg-success"> <?php echo htmlentities(Yii::$app->session->getFlash('message')); ?></p>
@@ -21,12 +21,11 @@
     
         <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
 
-        <?= $form->field($model, 'station_name') ?>
-        <?= $form->field($model, 'station_description') ?>
-        <?= $form->field($model, 'line_id')->dropDownList($array_list_lines); ?>
-        <?= $form->field($model, 'station_image')->fileInput() ?>
+        <?= $form->field($model, 'company_name') ?>
+        <?= $form->field($model, 'company_description') ?>
+        <?= $form->field($model, 'company_image')->fileInput(); ?>
         
-        <?= Html::img('@web/'.$model->station_image, ['alt' => 'Station Image', 'width' => '200px']) ?>
+        <?= Html::img('@web/'.$model->company_image, ['alt' => 'Company Image', 'width' => '200px']) ?>
         <br><br>
 
         <div class="form-group">

@@ -10,6 +10,7 @@ use app\models\Station;
 use app\models\Line;
 use app\models\CreateUser;
 use yii\web\UploadedFile;
+use callmehuyv\helpers\Input;
 
 class StationController extends Controller
 {
@@ -23,9 +24,14 @@ class StationController extends Controller
                 'rules' => [
                     [
                         'actions' => ['delete', 'edit', 'create'],
+                        'allow' => false,
+                        'roles' => ['?'],
+                    ],
+                    [
+                        'actions' => ['delete', 'edit', 'create', 'index'],
                         'allow' => true,
                         'roles' => ['@'],
-                    ],
+                    ]
                 ],
             ],
         ];
@@ -44,8 +50,9 @@ class StationController extends Controller
         ];
     }
 
-    public function actionIndex($selected_line = null)
+    public function actionIndex()
     {
+        $selected_line = (int)Input::get('line');
         if($selected_line != null){
             $stations = Station::find()
                 ->where(['record_status' => 4, 'line_id'=>$selected_line])
@@ -62,17 +69,17 @@ class StationController extends Controller
 
     public function actionDelete()
     {
-        $id = (int)$_GET['id'];
-        $model = User::findOne($id);
+        $selected_station = (int)Input::get('station');
+        $model = Station::findOne($selected_station);
         $model->record_status = 3;
         $model->save();
-        Yii::$app->getSession()->setFlash('message', 'Delete User success!');
-        return $this->redirect(['user/index']);
+        Yii::$app->getSession()->setFlash('message', 'Delete Station success!');
+        return $this->redirect(['station/index']);
     }
 
     public function actionEdit() {
-        $id = (int)$_GET['id'];
-        $model = Station::findOne($id);
+        $selected_station = (int)Input::get('station');
+        $model = Station::findOne($selected_station);
         $oldImage = $model->station_image;
 
         if ( $model->load(Yii::$app->request->post()) ) {
@@ -87,7 +94,7 @@ class StationController extends Controller
 
             $model->save();
             Yii::$app->getSession()->setFlash('message', 'Update Station success!');
-            return $this->redirect(['edit', 'id' => $model->station_id]);
+            return $this->redirect(['station/edit/'.$model->station_id]);
         }
 
         $object_list_lines = Line::find()
@@ -101,9 +108,11 @@ class StationController extends Controller
     }
 
 
-    public function actionCreate($selected_line = null)
+    public function actionCreate()
     {
+        $selected_line = (int)Input::get('line');
         $model = new Station();
+        $model->line_id = $selected_line;
         if ($model->load(Yii::$app->request->post())) {
             $file = UploadedFile::getInstance($model, 'station_image');
             if ($file) {

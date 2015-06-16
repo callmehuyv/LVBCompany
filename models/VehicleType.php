@@ -5,24 +5,25 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "vehicle_type".
+ * This is the model class for table "vehicletype".
  *
- * @property integer $id
- * @property string $name
- * @property string $description
- * @property string $image
+ * @property integer $vehicletype_id
+ * @property string $vehicletype_name
+ * @property string $vehicletype_description
+ * @property string $vehicletype_image
  * @property integer $record_status
  *
+ * @property Drivers[] $drivers
  * @property Vehicles[] $vehicles
  */
-class VehicleType extends \yii\db\ActiveRecord
+class Vehicletype extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'vehicle_type';
+        return 'vehicletypes';
     }
 
     /**
@@ -31,9 +32,10 @@ class VehicleType extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['description'], 'string'],
+            [['vehicletype_description'], 'string'],
             [['record_status'], 'integer'],
-            [['name', 'image'], 'string', 'max' => 255]
+            [['vehicletype_name', 'vehicletype_image'], 'string', 'max' => 255],
+            [['vehicletype_image'], 'file']
         ];
     }
 
@@ -43,10 +45,10 @@ class VehicleType extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'name' => 'Name',
-            'description' => 'Description',
-            'image' => 'Image',
+            'vehicletype_id' => 'Vehicletype ID',
+            'vehicletype_name' => 'Vehicletype Name',
+            'vehicletype_description' => 'Vehicletype Description',
+            'vehicletype_image' => 'Vehicletype Image',
             'record_status' => 'Record Status',
         ];
     }
@@ -54,8 +56,16 @@ class VehicleType extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getDrivers()
+    {
+        return $this->hasMany(Drivers::className(), ['vehicle_type_id' => 'vehicletype_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getVehicles()
     {
-        return $this->hasMany(Vehicle::className(), ['vehicle_type_id' => 'id']);
+        return $this->hasMany(Vehicles::className(), ['vehicle_type_id' => 'vehicletype_id']);
     }
 }

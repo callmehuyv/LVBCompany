@@ -8,6 +8,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\User;
 use app\models\CreateUser;
+use callmehuyv\helpers\Input;
 
 class UserController extends Controller
 {
@@ -17,10 +18,15 @@ class UserController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index' ,'delete', 'edit', 'create'],
+                'only' => ['delete', 'edit', 'create'],
                 'rules' => [
                     [
-                        'actions' => ['index' ,'delete', 'edit', 'create'],
+                        'actions' => ['create', 'delete', 'edit'],
+                        'allow' => false,
+                        'roles' => ['?'],
+                    ],
+                    [
+                        'actions' => ['delete', 'edit', 'create', 'index'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -52,17 +58,17 @@ class UserController extends Controller
 
     public function actionDelete()
     {
-        $id = (int)$_GET['id'];
-        $model = User::findOne($id);
+        $selected_user = (int)Input::get('user');
+        $model = User::findOne($selected_user);
         $model->record_status = 3;
         $model->save();
-        Yii::$app->getSession()->setFlash('message', 'Xóa User thành công!');
+        Yii::$app->getSession()->setFlash('message', 'Delete User success!');
         return $this->redirect(['user/index']);
     }
 
-    public function actionEdit() {
-        $id = (int)$_GET['id'];
-        $model = User::findOne($id);
+    public function actionEdit($selected_user = null) {
+        $selected_user = (int)Input::get('user');
+        $model = User::findOne($selected_user);
         $oldPassword = $model->user_password;
 
         if ( $model->load(Yii::$app->request->post()) ) {
@@ -70,8 +76,8 @@ class UserController extends Controller
                 $model->user_password = Yii::$app->security->generatePasswordHash($model->user_password);
             }
             $model->save();
-            Yii::$app->getSession()->setFlash('message', 'Update User thành công!');
-            return $this->redirect(['edit', 'id' => $model->user_id]);
+            Yii::$app->getSession()->setFlash('message', 'Update User success!');
+            return $this->redirect(['user/edit/'.$model->user_id]);
         } else {
             return $this->render('edit', [
                 'model' => $model,
@@ -86,7 +92,7 @@ class UserController extends Controller
     {
         $model = new CreateUser();
         if ($model->load(Yii::$app->request->post()) && $model->register() ) {
-            Yii::$app->getSession()->setFlash('message', 'Tạo tài khoản mới thành công!');
+            Yii::$app->getSession()->setFlash('message', 'Create new account success!');
             return $this->redirect(['/user/index']);
         }
         return $this->render('create', ['model' => $model]);

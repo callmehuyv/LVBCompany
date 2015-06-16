@@ -12,13 +12,16 @@
     
         <a class="btn btn-success" href="<?php echo Url::toRoute('station/create') ?>">Create new Station</a>
         <?php
-            // var_dump($selected_line);
             if ($selected_line != null) {
                 ?>
                     <a class="btn btn-primary" href="<?php echo Url::toRoute('station/index') ?>">View all Station</a>
                     <script type="text/javascript">
                         $(document).ready(function() {
                             $('#selectLineOnStation').val(<?= $selected_line ?>);
+                            $('#selectLineOnStation').change(function(){
+                                var id = $('#selectLineOnStation').val()
+                                window.location.replace($('#linkLineOnStation').val()+ '?line=' + id);
+                            });
                         });
                     </script>
                 <?php
@@ -26,7 +29,7 @@
         ?>
         <div class="form-group" style="float: right; width: 300px;">
             <div class="input-group">
-                <div class="input-group-addon">Lọc theo Line</div>
+                <div class="input-group-addon">Filter by Line</div>
                 <input id="linkLineOnStation" type="hidden" value="<?php echo Url::toRoute('station/index') ?>">
                 <select id="selectLineOnStation" class="form-control">
                     <?php
@@ -88,10 +91,10 @@
                                 </a>
                             </td>
                             <td>
-                                <a title="Edit" class="btn btn-warning" href="<?php echo Url::toRoute('station/edit') ?>?id=<?php echo $station->station_id ?>">
+                                <a title="Edit" class="btn btn-warning" href="<?php echo Url::toRoute('station/edit').'?station='.$station->station_id ?>">
                                     <i class="glyphicon glyphicon-refresh"></i>
                                 </a>
-                                <a data-confirm="Are you sure you want to delete?" title="Remove" class="btn btn-danger" href="<?php echo Url::toRoute('station/delete') ?>?id=<?php echo $station->station_id ?>">
+                                <a data-confirm="Are you sure you want to delete?" title="Remove" class="btn btn-danger" href="<?php echo Url::toRoute('station/delete').'?station='.$station->station_id ?> ">
                                     <i class="glyphicon glyphicon-remove"></i>
                                 </a>
                             </td>

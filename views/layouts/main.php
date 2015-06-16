@@ -43,6 +43,9 @@ AppAsset::register($this);
                         ['label' => 'User', 'url' => ['/user/index']],
                         ['label' => 'Line', 'url' => ['/line/index']],
                         ['label' => 'Station', 'url' => ['/station/index']],
+                        ['label' => 'Vehicle Type', 'url' => ['/vehicletype/index']],
+                        ['label' => 'Vehicle', 'url' => ['/vehicle/index']],
+                        ['label' => 'Company', 'url' => ['/company/index']],
                         ['label' => 'Login', 'url' => ['/site/login']]
                     ],
                 ]);
@@ -54,6 +57,9 @@ AppAsset::register($this);
                         ['label' => 'User', 'url' => ['/user/index']],
                         ['label' => 'Line', 'url' => ['/line/index']],
                         ['label' => 'Station', 'url' => ['/station/index']],
+                        ['label' => 'Vehicle Type', 'url' => ['/vehicletype/index']],
+                        ['label' => 'Vehicle', 'url' => ['/vehicle/index']],
+                        ['label' => 'Company', 'url' => ['/company/index']],
                         ['label' => 'Logout (' . Yii::$app->user->identity->user_email . ')',
                                 'url' => ['/site/logout'],
                                 'linkOptions' => ['data-method' => 'post']],

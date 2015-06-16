@@ -6,13 +6,10 @@ use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
-use app\models\Line;
-use app\models\Station;
+use app\models\Vehicletype;
 use yii\web\UploadedFile;
 
-use callmehuyv\helpers\Input;
-
-class LineController extends Controller
+class VehicletypeController extends Controller
 {
 
     public function behaviors()
@@ -52,40 +49,38 @@ class LineController extends Controller
 
     public function actionIndex()
     {
-        $lines = Line::find()
+        $vehicletypes = Vehicletype::find()
             ->where(['record_status' => 4])
                 ->all();
-        return $this->render('index', ['lines' => $lines]);
+        return $this->render('index', ['vehicletypes' => $vehicletypes]);
     }
 
-    public function actionDelete()
+    public function actionDelete($selected_vehicletype = null)
     {
-        $selected_line = (int)Input::get('line');
-        $model = Line::findOne($selected_line);
+        $model = Vehicletype::findOne($selected_vehicletype);
         $model->record_status = 3;
         $model->save();
-        Yii::$app->getSession()->setFlash('message', 'Delete Line success!');
-        return $this->redirect(['line/index']);
+        Yii::$app->getSession()->setFlash('message', 'Delete Vehicle Type success!');
+        return $this->redirect(['vehicletype/index']);
     }
 
-    public function actionEdit() {
-        $selected_line = (int)Input::get('line');
-        $model = Line::findOne($selected_line);
-        $oldImage = $model->line_image;
+    public function actionEdit($selected_vehicletype = null) {
+        $model = Vehicletype::findOne($selected_vehicletype);
+        $oldImage = $model->vehicletype_image;
 
         if ( $model->load(Yii::$app->request->post()) ) {
-            $file = UploadedFile::getInstance($model, 'line_image');
+            $file = UploadedFile::getInstance($model, 'vehicletype_image');
 
             if ($file) {
-                $file->saveAs('uploads/line_' . $model->line_id . '.' . $file->extension);
-                $model->line_image = 'uploads/line_' . $model->line_id . '.' . $file->extension;
+                $file->saveAs('uploads/vehicletype_' . $model->vehicletype_id . '.' . $file->extension);
+                $model->vehicletype_image = 'uploads/vehicletype_' . $model->vehicletype_id . '.' . $file->extension;
             } else {
-                $model->line_image = $oldImage;
+                $model->vehicletype_image = $oldImage;
             }
 
             $model->save();
-            Yii::$app->getSession()->setFlash('message', 'Update Line success!');
-            return $this->redirect(['line/edit', 'line' => $model->line_id]);
+            Yii::$app->getSession()->setFlash('message', 'Update Vehicle Type success!');
+            return $this->redirect(['vehicletype/edit/'.$model->vehicletype_id]);
         } else {
             return $this->render('edit', [
                 'model' => $model,
@@ -98,22 +93,22 @@ class LineController extends Controller
 
     public function actionCreate()
     {
-        $model = new Line();
+        $model = new Vehicletype();
         if ($model->load(Yii::$app->request->post())) {
-            $file = UploadedFile::getInstance($model, 'line_image');
+            $file = UploadedFile::getInstance($model, 'vehicletype_image');
             if ($file) {
-                $model->line_image = '';
+                $model->vehicletype_image = '';
                 $model->save();
-                $file->saveAs('uploads/line_' . $model->line_id . '.' . $file->extension);
-                $model->line_image = 'uploads/line_' . $model->line_id . '.' . $file->extension;
+                $file->saveAs('uploads/vehicletype_' . $model->vehicletype_id . '.' . $file->extension);
+                $model->vehicletype_image = 'uploads/vehicletype_' . $model->vehicletype_id . '.' . $file->extension;
                 $model->save();
             } else {
-                $model->line_image = 'uploads/no-thumbnail.png';
+                $model->vehicletype_image = 'uploads/no-thumbnail.png';
                 $model->save();
             }
 
-            Yii::$app->getSession()->setFlash('message', 'Created new Line success!');
-            return $this->redirect(['/line/index']);
+            Yii::$app->getSession()->setFlash('message', 'Created new Vehicle Type success!');
+            return $this->redirect(['/vehicletype/index']);
         }
         return $this->render('create', ['model' => $model]);
     }

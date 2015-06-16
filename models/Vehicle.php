@@ -7,19 +7,18 @@ use Yii;
 /**
  * This is the model class for table "vehicles".
  *
- * @property integer $id
+ * @property integer $vehicle_id
  * @property integer $company_id
  * @property integer $line_id
- * @property integer $user_id
- * @property integer $vehicle_type_id
- * @property string $license_plate
- * @property string $image
+ * @property integer $vehicletype_id
+ * @property string $driver_id
+ * @property string $vehicle_image
  * @property integer $record_status
  *
  * @property Companies $company
  * @property Lines $line
- * @property Users $user
- * @property VehicleType $vehicleType
+ * @property Drivers $driver
+ * @property Vehicletypes $vehicletype
  */
 class Vehicle extends \yii\db\ActiveRecord
 {
@@ -37,8 +36,11 @@ class Vehicle extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['company_id', 'line_id', 'user_id', 'vehicle_type_id', 'record_status'], 'integer'],
-            [['license_plate', 'image'], 'string', 'max' => 255]
+            [['company_id', 'line_id', 'vehicletype_id', 'driver_id', 'record_status'], 'integer'],
+            [['driver_id', 'vehicle_number'], 'required'],
+            [['vehicle_image'], 'string', 'max' => 255],
+            [['vehicle_number'], 'string', 'max' => 64],
+            ['vehicle_image', 'image'],
         ];
     }
 
@@ -48,13 +50,12 @@ class Vehicle extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
+            'vehicle_id' => 'Vehicle ID',
             'company_id' => 'Company ID',
             'line_id' => 'Line ID',
-            'user_id' => 'User ID',
-            'vehicle_type_id' => 'Vehicle Type ID',
-            'license_plate' => 'License Plate',
-            'image' => 'Image',
+            'vehicletype_id' => 'Vehicletype ID',
+            'driver_id' => 'Driver ID',
+            'vehicle_image' => 'Vehicle Image',
             'record_status' => 'Record Status',
         ];
     }
@@ -72,22 +73,22 @@ class Vehicle extends \yii\db\ActiveRecord
      */
     public function getLine()
     {
-        return $this->hasOne(Lines::className(), ['id' => 'line_id']);
+        return $this->hasOne(Lines::className(), ['line_id' => 'line_id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUser()
+    public function getDriver()
     {
-        return $this->hasOne(Users::className(), ['id' => 'user_id']);
+        return $this->hasOne(Drivers::className(), ['driver_id' => 'driver_id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getVehicleType()
+    public function getVehicletype()
     {
-        return $this->hasOne(VehicleType::className(), ['id' => 'vehicle_type_id']);
+        return $this->hasOne(Vehicletypes::className(), ['vehicletype_id' => 'vehicletype_id']);
     }
 }

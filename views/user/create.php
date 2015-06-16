@@ -6,10 +6,14 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model app\models\Users */
 /* @var $form ActiveForm */
+
+    $this->title = 'Create User';
+    $this->params['breadcrumbs'][] = ['label' => 'User', 'url' => ['user/index']];
+    $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-create">
 
-    <h1>TẠO TÀI KHOẢN ADMIN MỚI</h1>
+    <h1>CREATE NEW ACCOUNT</h1>
     <?php $form = ActiveForm::begin(); ?>
 
         <?= $form->field($model, 'user_email') ?>

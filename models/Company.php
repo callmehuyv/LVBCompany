@@ -7,14 +7,12 @@ use Yii;
 /**
  * This is the model class for table "companies".
  *
- * @property integer $id
- * @property integer $user_id
- * @property string $name
- * @property string $description
- * @property string $image
+ * @property integer $company_id
+ * @property string $company_name
+ * @property string $company_description
+ * @property string $company_image
  * @property integer $record_status
  *
- * @property Users $user
  * @property Vehicles[] $vehicles
  */
 class Company extends \yii\db\ActiveRecord
@@ -33,9 +31,9 @@ class Company extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'record_status'], 'integer'],
-            [['description'], 'string'],
-            [['name', 'image'], 'string', 'max' => 255]
+            [['company_description'], 'string'],
+            [['record_status'], 'integer'],
+            [['company_name', 'company_image'], 'string', 'max' => 255]
         ];
     }
 
@@ -45,11 +43,10 @@ class Company extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'user_id' => 'User ID',
-            'name' => 'Name',
-            'description' => 'Description',
-            'image' => 'Image',
+            'company_id' => 'Company ID',
+            'company_name' => 'Company Name',
+            'company_description' => 'Company Description',
+            'company_image' => 'Company Image',
             'record_status' => 'Record Status',
         ];
     }
@@ -57,16 +54,8 @@ class Company extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUser()
-    {
-        return $this->hasOne(Users::className(), ['id' => 'user_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getVehicles()
     {
-        return $this->hasMany(Vehicles::className(), ['company_id' => 'id']);
+        return $this->hasMany(Vehicles::className(), ['company_id' => 'company_id']);
     }
 }

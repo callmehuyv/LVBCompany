@@ -10,15 +10,8 @@ $(document).ready(function() {
 		return false;
 	});
 
-
-
 	$(document).delegate('*[data-toggle="lightbox"]', 'click', function(event) {
 	    event.preventDefault();
 	    $(this).ekkoLightbox();
 	}); 
-
-	$('#selectLineOnStation').change(function(){
-		var id = $('#selectLineOnStation').val()
-		window.location.replace($('#linkLineOnStation').val()+ '/' + id);
-	})
 });
