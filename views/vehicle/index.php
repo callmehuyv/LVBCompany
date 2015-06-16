@@ -3,14 +3,91 @@
     use yii\widgets\ActiveForm;
     use yii\helpers\Url;
 
-    $this->title = 'List Line';
-    $this->params['breadcrumbs'][] = ['label' => 'Line', 'url' => ['line/index']];
+    $this->title = 'List Vehicle';
+    $this->params['breadcrumbs'][] = ['label' => 'Vehicle', 'url' => ['vehicle/index']];
     $this->params['breadcrumbs'][] = $this->title;
     
 ?>
 <div class="site-create">
     
-        <a class="btn btn-success" href="<?php echo Url::toRoute('line/create') ?>">Create new Line</a>
+        <a class="btn btn-success" href="<?php echo Url::toRoute('vehicle/create') ?>">Create new Vehicle</a>
+        <input id="currentUrl" type="hidden" value="<?php echo Url::toRoute('vehicle/index') ?>">
+
+        <?php
+            if ($selected_line != null) {
+                ?>
+                    <a class="btn btn-primary" href="<?php echo Url::toRoute('vehicle/index') ?>">View all Station</a>
+                    <script type="text/javascript">
+                        $(document).ready(function() {
+                            $('#selectLine').val(<?= $selected_line ?>);
+                        });
+                    </script>
+                <?php
+            }
+             if ($selected_company != null) {
+                ?>
+                    <a class="btn btn-primary" href="<?php echo Url::toRoute('station/index') ?>">View all Station</a>
+                    <script type="text/javascript">
+                        $(document).ready(function() {
+                            $('#selectCompany').val(<?= $selected_company ?>);
+                        });
+                    </script>
+                <?php
+            }
+             if ($selected_vehicletype != null) {
+                ?>
+                    <a class="btn btn-primary" href="<?php echo Url::toRoute('station/index') ?>">View all Station</a>
+                    <script type="text/javascript">
+                        $(document).ready(function() {
+                            $('#selectVehicletype').val(<?= $selected_vehicletype ?>);
+                        });
+                    </script>
+                <?php
+            }
+        ?>
+        <div class="form-group" style="float: right; width: 300px; margin-left: 10px;">
+            <div class="input-group">
+                <div class="input-group-addon">Line</div>
+                <select id="selectLine" class="form-control">
+                    <?php
+                        foreach($list_lines as $line) {
+                            ?>
+                                <option value="<?php echo $line->line_id ?>"><?php echo $line->line_name ?></option>
+                            <?php
+                        }
+                    ?>
+                </select>
+            </div>
+        </div>
+        <div class="form-group" style="float: right; width: 300px; margin-left: 10px;">
+            <div class="input-group">
+                <div class="input-group-addon">Company</div>
+                <select id="selectCompany" class="form-control">
+                    <?php
+                        foreach($list_companies as $company) {
+                            ?>
+                                <option value="<?php echo $company->company_id ?>"><?php echo $company->company_name ?></option>
+                            <?php
+                        }
+                    ?>
+                </select>
+            </div>
+        </div>
+        <div class="form-group" style="float: right; width: 300px; margin-left: 10px;">
+            <div class="input-group">
+                <div class="input-group-addon">Vehicle Type</div>
+                <select id="selectVehicletype" class="form-control">
+                    <?php
+                        foreach($list_vehicletypes as $vehicletype) {
+                            ?>
+                                <option value="<?php echo $vehicletype->vehicletype_id ?>"><?php echo $vehicletype->vehicletype_name ?></option>
+                            <?php
+                        }
+                    ?>
+                </select>
+            </div>
+        </div>
+
 
         <?php if(Yii::$app->session->get('message') != null) : ?>
             <p class="bg-success"> <?php echo htmlentities(Yii::$app->session->getFlash('message')); ?></p>
@@ -32,77 +109,48 @@
         <table class="table table-hover">
             <tr>
                 <th>ID</th>
-                <th>Line Name</th>
-                <th>Start Time</th>
-                <th>End Time</th>
-                <th>Line Image</th>
+                <th>Vehicle Number</th>
+                <th>Company</th>
+                <th>Line</th>
+                <th>Vehicle Type</th>
+                <th>Driver</th>
+                <th>Vehicle Image</th>
                 <th>Action</th>
             </tr>
             <?php
-                foreach ($lines as $line) {
+                foreach ($vehicles as $vehicle) {
                     ?>
                         <tr>
                             <td>
-                                <?php echo $line->line_id ?>
+                                <?php echo $vehicle->vehicle_id ?>
                             </td>
                             <td>
-                                <?php echo $line->line_name ?>
+                                <?php echo $vehicle->vehicle_number ?>
                             </td>
                             <td>
-                                <?php echo date('H:i',strtotime($line->line_start_time)) ?>
+                                <?php echo $vehicle->company->company_name ?>
                             </td>
                             <td>
-                                <?php echo date('H:i' ,strtotime($line->line_end_time)) ?>
+                                <?php echo $vehicle->line->line_name ?>
                             </td>
                             <td>
-                                <a href="<?php echo Url::to('@web/'.$line->line_image); ?>" data-toggle="lightbox" data-title="View Full Size">
-                                    <img width="100px" src="<?php echo Url::to('@web/'.$line->line_image); ?>" class="img-responsive">
+                                <?php echo $vehicle->vehicletype->vehicletype_name ?>
+                            </td>
+                            <td>
+                                <?php echo $vehicle->driver->driver_name ?>
+                            </td>
+                            <td>
+                                <a href="<?php echo Url::to('@web/'.$vehicle->vehicle_image); ?>" data-toggle="lightbox" data-title="View Full Size">
+                                    <img width="100px" src="<?php echo Url::to('@web/'.$vehicle->vehicle_image); ?>" class="img-responsive">
                                 </a>
                             </td>
                             <td>
-                                <a data-toggle="modal" data-target="#modal_line_<?php echo $line->line_id ?>" title="Edit" class="btn btn-primary" href="#">
-                                    View Station
-                                </a>
-                                <a title="Edit" class="btn btn-warning" href="<?php echo Url::toRoute('line/edit').'?line='.$line->line_id ?>">
+                                <a title="Edit" class="btn btn-warning" href="<?php echo Url::toRoute('vehicle/edit').'?vehicle='.$vehicle->vehicle_id ?>">
                                     <i class="glyphicon glyphicon-refresh"></i>
                                 </a>
-                                <a data-confirm="Are you sure you want to delete?" title="Remove" class="btn btn-danger" href="<?php echo Url::toRoute('line/delete').'?line='.$line->line_id ?>">
+                                <a data-confirm="Are you sure you want to delete?" title="Remove" class="btn btn-danger" href="<?php echo Url::toRoute('vehicle/delete').'?vehicle='.$vehicle->vehicle_id ?>">
                                     <i class="glyphicon glyphicon-remove"></i>
                                 </a>
-                                
-                                <!-- Start Modal Station -->
-                                <div class="modal fade" id="modal_line_<?php echo $line->line_id ?>">
-                                  <div class="modal-dialog">
-                                    <div class="modal-content">
-                                      <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                        <h4 class="modal-title">List Stations On Line <?php echo $line->line_name ?></h4>
-                                      </div>
-                                      <div class="modal-body">
-                                        <?php if(!empty($line->stations)) : ?>
-                                            <ul>
-                                                <?php
-                                                    foreach ($line->stations as $station) {
-                                                        ?>
-                                                            <li><?php echo $station->station_name ?></li>
-                                                        <?php
-                                                    }
-                                                ?>
-                                            </ul>
-                                        <?php else : ?>
-                                            <ul>
-                                                <li>This Line don't have any Station</li>
-                                            </ul>
-                                        <?php endif; ?>
-                                      </div>
-                                      <div class="modal-footer">
-                                        <a class="btn btn-success" href="<?php echo Url::toRoute('station/create').'?line='.$line->line_id ?>">Create new Station</a>
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                                <!-- End Modal Station -->
                             </td>
                         </tr>
                     <?php

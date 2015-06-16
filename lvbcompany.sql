@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 16, 2015 at 10:30 PM
+-- Generation Time: Jun 17, 2015 at 12:10 AM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -57,15 +57,17 @@ CREATE TABLE IF NOT EXISTS `drivers` (
   `driver_image` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `driver_phone` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `record_status` int(11) NOT NULL DEFAULT '4'
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `drivers`
 --
 
 INSERT INTO `drivers` (`driver_id`, `company_id`, `driver_name`, `driver_address`, `driver_image`, `driver_phone`, `record_status`) VALUES
-(1, 3, 'Huy Tran', 'Nam Dinh', 'uploads/driver_.jpg', '0962623143', 4),
-(2, 3, 'Lê Tùng', 'Hà Nội', 'uploads/driver_.jpg', '0962623133', 4);
+(1, 3, 'Huy Tran', 'Nam Dinh', 'uploads/driver_1.jpg', '0962623143', 4),
+(2, 3, 'Lê Tùng', 'Hà Nội', 'uploads/driver_2.jpg', '0962623133', 4),
+(3, 2, 'Vũ Thịnh', 'Quảng Ninh', 'uploads/driver_3.jpg', '0962623111', 4),
+(4, 2, 'Trần Duy', 'Hồ Chí Minh', 'uploads/driver_4.jpg', '0962623458', 4);
 
 -- --------------------------------------------------------
 
@@ -89,7 +91,7 @@ CREATE TABLE IF NOT EXISTS `lines` (
 
 INSERT INTO `lines` (`line_id`, `line_name`, `line_description`, `line_start_time`, `line_end_time`, `line_image`, `record_status`) VALUES
 (1, 'Hà Nội - Nam Định', 'Hà Nội - Nam Định Description', '00:45:00', '03:15:00', 'uploads/line_1.jpg', 4),
-(2, 'Nam Định - Huế', 'Nam Định - Huế', '03:00:00', '04:00:00', 'uploads/no-thumbnail.png', 4),
+(2, 'Nam Định - Huế', 'Nam Định - Huế', '03:00:00', '04:00:00', 'uploads/line_2.jpg', 4),
 (3, 'Nam Định - Huế', 'Nam Định - Huế', '03:00:00', '04:00:00', 'uploads/line_3.jpg', 4),
 (4, 'Nam Định - Huế', 'Nam Định - Huế', '03:00:00', '04:00:00', 'uploads/line_4.jpg', 4),
 (5, 'Hải Phòng - Huế', 'Hải Phòng - Huế', '03:15:00', '07:15:00', 'uploads/no-thumbnail.png', 4);
@@ -181,7 +183,14 @@ CREATE TABLE IF NOT EXISTS `vehicles` (
   `driver_id` int(10) unsigned NOT NULL,
   `vehicle_image` varchar(255) DEFAULT NULL,
   `record_status` int(11) NOT NULL DEFAULT '4'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `vehicles`
+--
+
+INSERT INTO `vehicles` (`vehicle_id`, `vehicle_number`, `company_id`, `line_id`, `vehicletype_id`, `driver_id`, `vehicle_image`, `record_status`) VALUES
+(2, '18N - 1536', 2, 1, 1, 1, 'uploads/vehicle_2.jpg', 4);
 
 -- --------------------------------------------------------
 
@@ -273,7 +282,7 @@ MODIFY `company_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 -- AUTO_INCREMENT for table `drivers`
 --
 ALTER TABLE `drivers`
-MODIFY `driver_id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+MODIFY `driver_id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `lines`
 --
@@ -298,7 +307,7 @@ MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 -- AUTO_INCREMENT for table `vehicles`
 --
 ALTER TABLE `vehicles`
-MODIFY `vehicle_id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `vehicle_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `vehicletypes`
 --

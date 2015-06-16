@@ -34,9 +34,10 @@ class Driver extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['company_id', 'driver_name', 'driver_address', 'driver_image', 'driver_phone'], 'required'],
+            [['company_id', 'driver_name', 'driver_address', 'driver_phone'], 'required'],
             [['company_id', 'record_status'], 'integer'],
-            [['driver_name', 'driver_address', 'driver_image', 'driver_phone'], 'string', 'max' => 255]
+            [['driver_name', 'driver_address', 'driver_image', 'driver_phone'], 'string', 'max' => 255],
+            ['driver_image', 'file']
         ];
     }
 

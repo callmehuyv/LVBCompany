@@ -9,7 +9,7 @@ use kartik\time\TimePicker;
 /* @var $form ActiveForm */
 
     $this->title = 'Create Vehicle';
-    $this->params['breadcrumbs'][] = ['label' => 'Line', 'url' => ['line/index']];
+    $this->params['breadcrumbs'][] = ['label' => 'Vehicle', 'url' => ['vehicle/index']];
     $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-create">
@@ -18,6 +18,10 @@ use kartik\time\TimePicker;
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
 
         <?= $form->field($model, 'vehicle_number') ?>
+        <?= $form->field($model, 'driver_id')->dropDownList($list_drivers); ?>
+        <?= $form->field($model, 'company_id')->dropDownList($list_companies); ?>
+        <?= $form->field($model, 'line_id')->dropDownList($list_lines); ?>
+        <?= $form->field($model, 'vehicletype_id')->dropDownList($list_vehicletypes); ?>
         <?= $form->field($model, 'vehicle_image')->fileInput(); ?>
 
         <div class="form-group">

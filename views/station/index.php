@@ -18,10 +18,6 @@
                     <script type="text/javascript">
                         $(document).ready(function() {
                             $('#selectLineOnStation').val(<?= $selected_line ?>);
-                            $('#selectLineOnStation').change(function(){
-                                var id = $('#selectLineOnStation').val()
-                                window.location.replace($('#linkLineOnStation').val()+ '?line=' + id);
-                            });
                         });
                     </script>
                 <?php

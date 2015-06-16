@@ -18,11 +18,7 @@
                     <a class="btn btn-primary" href="<?php echo Url::toRoute('driver/index') ?>">View all Driver</a>
                     <script type="text/javascript">
                         $(document).ready(function() {
-                            $('#selectCompanyOnDriver').val(<?= $selected_company ?>);
-                            $('#selectCompanyOnDriver').change(function(){
-                                var id = $('#selectCompanyOnDriver').val()
-                                window.location.replace($('#linkCompanyOnDriver').val()+ '?company=' + id);
-                            });
+                            $('#selectCompanyOnDriver').val(<?php echo $selected_company ?>);
                         });
                     </script>
                 <?php

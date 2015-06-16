@@ -31,8 +31,9 @@ AppAsset::register($this);
                 'brandLabel' => 'LVB Company',
                 'brandUrl' => Yii::$app->homeUrl,
                 'options' => [
-                    'class' => 'navbar-inverse navbar-fixed-top',
+                    'class' => 'navbar-inverse',
                 ],
+                'renderInnerContainer' => false
             ]);
 
             if (Yii::$app->user->isGuest) {
@@ -46,6 +47,7 @@ AppAsset::register($this);
                         ['label' => 'Vehicle Type', 'url' => ['/vehicletype/index']],
                         ['label' => 'Vehicle', 'url' => ['/vehicle/index']],
                         ['label' => 'Company', 'url' => ['/company/index']],
+                        ['label' => 'Driver', 'url' => ['/driver/index']],
                         ['label' => 'Login', 'url' => ['/site/login']]
                     ],
                 ]);
@@ -60,7 +62,8 @@ AppAsset::register($this);
                         ['label' => 'Vehicle Type', 'url' => ['/vehicletype/index']],
                         ['label' => 'Vehicle', 'url' => ['/vehicle/index']],
                         ['label' => 'Company', 'url' => ['/company/index']],
-                        ['label' => 'Logout (' . Yii::$app->user->identity->user_email . ')',
+                        ['label' => 'Driver', 'url' => ['/driver/index']],
+                        ['label' => 'Logout (' . Yii::$app->user->identity->user_first_name . ')',
                                 'url' => ['/site/logout'],
                                 'linkOptions' => ['data-method' => 'post']],
                     ],
@@ -69,7 +72,7 @@ AppAsset::register($this);
             NavBar::end();
         ?>
 
-        <div class="container">
+        <div class="fluid-container">
             <?= Breadcrumbs::widget([
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
             ]) ?>

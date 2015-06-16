@@ -60,12 +60,13 @@ class DriverController extends Controller
         $drivers = Driver::find()
             ->where($params)
                 ->all();
-
-        
         $list_companies = Company::find()
             ->where(['record_status' => 4])
                 ->all();
-        return $this->render('index', ['drivers' => $drivers, 'list_companies' => $list_companies, 'selected_company' => $selected_company]);
+        $data['drivers'] = $drivers;
+        $data['list_companies'] = $list_companies;
+        $data['selected_company'] = $selected_company;
+        return $this->render('index', $data);
     }
 
     public function actionDelete()
@@ -92,17 +93,21 @@ class DriverController extends Controller
             } else {
                 $model->driver_image = $oldImage;
             }
-
             $model->save();
             Yii::$app->getSession()->setFlash('message', 'Update Driver success!');
             return $this->redirect(['driver/edit', 'driver' => $model->driver_id]);
-        } else {
-            return $this->render('edit', [
-                'model' => $model,
-            ]);
         }
 
-        return $this->render('edit', ['model' => $model]);
+        $prepare_list_companies = Company::find()
+            ->where(['record_status' => 4])
+                ->asArray()
+                    ->all();
+        $list_companies = ArrayHelper::map($prepare_list_companies, 'company_id', 'company_name');
+
+        $data['model'] = $model;
+        $data['list_companies'] = $list_companies;
+
+        return $this->render('edit', $data);
     }
 
 
@@ -125,14 +130,15 @@ class DriverController extends Controller
             Yii::$app->getSession()->setFlash('message', 'Created new Driver success!');
             return $this->redirect(['/driver/index']);
         }
-        $prepare_list_companies = Company::find()
-            ->where(['record_status' => 4])
-                ->asArray()
-                    ->all();
 
         if (Input::has('company')) {
             $model->company_id = (int)Input::get('company');
         }
+
+        $prepare_list_companies = Company::find()
+            ->where(['record_status' => 4])
+                ->asArray()
+                    ->all();
         $list_companies = ArrayHelper::map($prepare_list_companies, 'company_id', 'company_name');
         return $this->render('create', ['model' => $model, 'list_companies' => $list_companies]);
     }

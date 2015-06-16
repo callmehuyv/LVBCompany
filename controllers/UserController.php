@@ -66,7 +66,7 @@ class UserController extends Controller
         return $this->redirect(['user/index']);
     }
 
-    public function actionEdit($selected_user = null) {
+    public function actionEdit() {
         $selected_user = (int)Input::get('user');
         $model = User::findOne($selected_user);
         $oldPassword = $model->user_password;
@@ -77,7 +77,7 @@ class UserController extends Controller
             }
             $model->save();
             Yii::$app->getSession()->setFlash('message', 'Update User success!');
-            return $this->redirect(['user/edit/'.$model->user_id]);
+            return $this->redirect(['user/edit', 'user' => $model->user_id]);
         } else {
             return $this->render('edit', [
                 'model' => $model,

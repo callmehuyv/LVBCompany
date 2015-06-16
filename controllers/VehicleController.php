@@ -9,7 +9,10 @@ use yii\filters\VerbFilter;
 use app\models\Vehicle;
 use app\models\Vehicletype;
 use app\models\Company;
+use app\models\Driver;
+use app\models\Line;
 use yii\web\UploadedFile;
+use yii\helpers\ArrayHelper;
 use callmehuyv\helpers\Input;
 
 class VehicleController extends Controller
@@ -51,10 +54,31 @@ class VehicleController extends Controller
 
     public function actionIndex()
     {
-        $vehicles = Vehicletype::find()
-            ->where(['record_status' => 4])
+        $params['record_status'] = 4;
+        if (Input::has('company')) {
+            $params['company_id'] = Input::get('company');
+        }
+        if (Input::has('line')) {
+            $params['line_id'] = Input::get('line');
+        }
+        if (Input::has('vehicletype')) {
+            $params['vehicletype_id'] = Input::get('vehicletype');
+        }
+
+        $vehicles = Vehicle::find()
+            ->where($params)
                 ->all();
-        return $this->render('index', ['vehicles' => $vehicles]);
+
+        $data['vehicles'] = $vehicles;
+        $data['selected_company'] = (int)Input::get('company');
+        $data['list_companies'] = Company::find()->where(['record_status' => 4])->all();
+
+        $data['selected_line'] = (int)Input::get('line');
+        $data['list_lines'] = Line::find()->where(['record_status' => 4])->all();
+
+        $data['selected_vehicletype'] = (int)Input::get('vehicletype');
+        $data['list_vehicletypes'] = Vehicletype::find()->where(['record_status' => 4])->all();
+        return $this->render('index', $data);
     }
 
     public function actionDelete($selected_vehicletype = null)
@@ -102,7 +126,7 @@ class VehicleController extends Controller
                 $model->vehicle_image = '';
                 $model->save();
                 $file->saveAs('uploads/vehicle_' . $model->vehicle_id . '.' . $file->extension);
-                $model->vehicle_image = 'uploads/vehicle_' . $model->vehiclee_id . '.' . $file->extension;
+                $model->vehicle_image = 'uploads/vehicle_' . $model->vehicle_id . '.' . $file->extension;
                 $model->save();
             } else {
                 $model->vehicle_image = 'uploads/no-thumbnail.png';
@@ -112,19 +136,39 @@ class VehicleController extends Controller
             Yii::$app->getSession()->setFlash('message', 'Created new Vehicle success!');
             return $this->redirect(['/vehicle/index']);
         }
+
         if (Input::has('company')) {
             $model->company_id = (int)Input::get('company');
         }
         if (Input::has('vehicletype')) {
             $model->vehicletype_id = (int)Input::get('vehicletype');
         }
-        $list_companies = Company::find()
-            ->where('record_status', 4)->all();
-        $list_vehicletypes = Vehicletype::find()
-            ->where('record_status', 4)->all();
-            $list_drivers = Driver
+        if (Input::has('driver')) {
+            $model->driver_id = (int)Input::get('driver');
+        }
+        if (Input::has('line')) {
+            $model->line_id = (int)Input::get('line');
+        }
 
-        return $this->render('create', ['model' => $model]);
+        $prepare_list_companies = Company::find()
+            ->where(['record_status' => 4])
+                ->all();
+        $prepare_list_vehicletypes = Vehicletype::find()
+            ->where(['record_status' => 4])
+                ->all();
+        $prepare_list_drivers = Driver::find()
+            ->where(['record_status' => 4])
+                ->all();
+        $prepare_list_lines = Line::find()
+            ->where(['record_status' => 4])
+                ->all();
+
+        $data['list_companies'] = ArrayHelper::map($prepare_list_companies, 'company_id', 'company_name');
+        $data['list_vehicletypes'] = ArrayHelper::map($prepare_list_vehicletypes, 'vehicletype_id', 'vehicletype_name');
+        $data['list_drivers'] = ArrayHelper::map($prepare_list_drivers, 'driver_id', 'driver_name');
+        $data['list_lines'] = ArrayHelper::map($prepare_list_lines, 'line_id', 'line_name');
+        $data['model'] = $model;
+        return $this->render('create', $data);
     }
 
 }

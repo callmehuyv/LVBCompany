@@ -10,6 +10,19 @@ $(document).ready(function() {
 		return false;
 	});
 
+    $('#selectLine').change(function(){
+        var id = $('#selectLine').val()
+        window.location.replace($('#currentUrl').val()+ '?line=' + id);
+    });
+    $('#selectCompany').change(function(){
+        var id = $('#selectCompany').val()
+        window.location.replace($('#currentUrl').val()+ '?company=' + id);
+    });
+    $('#selectVehicletype').change(function(){
+        var id = $('#selectVehicletype').val()
+        window.location.replace($('#currentUrl').val()+ '?vehicletype=' + id);
+    });
+
 	$(document).delegate('*[data-toggle="lightbox"]', 'click', function(event) {
 	    event.preventDefault();
 	    $(this).ekkoLightbox();

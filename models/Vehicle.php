@@ -65,7 +65,7 @@ class Vehicle extends \yii\db\ActiveRecord
      */
     public function getCompany()
     {
-        return $this->hasOne(Companies::className(), ['id' => 'company_id']);
+        return $this->hasOne(Company::className(), ['company_id' => 'company_id']);
     }
 
     /**
@@ -73,7 +73,7 @@ class Vehicle extends \yii\db\ActiveRecord
      */
     public function getLine()
     {
-        return $this->hasOne(Lines::className(), ['line_id' => 'line_id']);
+        return $this->hasOne(Line::className(), ['line_id' => 'line_id']);
     }
 
     /**
@@ -81,7 +81,7 @@ class Vehicle extends \yii\db\ActiveRecord
      */
     public function getDriver()
     {
-        return $this->hasOne(Drivers::className(), ['driver_id' => 'driver_id']);
+        return $this->hasOne(Driver::className(), ['driver_id' => 'driver_id']);
     }
 
     /**
@@ -89,6 +89,6 @@ class Vehicle extends \yii\db\ActiveRecord
      */
     public function getVehicletype()
     {
-        return $this->hasOne(Vehicletypes::className(), ['vehicletype_id' => 'vehicletype_id']);
+        return $this->hasOne(Vehicletype::className(), ['vehicletype_id' => 'vehicletype_id']);
     }
 }
