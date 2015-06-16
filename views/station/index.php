@@ -11,6 +11,34 @@
 <div class="site-create">
     
         <a class="btn btn-success" href="<?php echo Url::toRoute('station/create') ?>">Create new Station</a>
+        <?php
+            // var_dump($selected_line);
+            if ($selected_line != null) {
+                ?>
+                    <a class="btn btn-primary" href="<?php echo Url::toRoute('station/index') ?>">View all Station</a>
+                    <script type="text/javascript">
+                        $(document).ready(function() {
+                            $('#selectLineOnStation').val('4');
+                        });
+                    </script>
+                <?php
+            }
+        ?>
+        <div class="form-group" style="float: right; width: 300px;">
+            <div class="input-group">
+                <div class="input-group-addon">Lọc theo Line</div>
+                <input id="linkLineOnStation" type="hidden" value="<?php echo Url::toRoute('station/index') ?>">
+                <select id="selectLineOnStation" class="form-control">
+                    <?php
+                        foreach($list_lines as $line) {
+                            ?>
+                                <option value="<?php echo $line->line_id ?>"><?php echo $line->line_name ?></option>
+                            <?php
+                        }
+                    ?>
+                </select>
+            </div>
+        </div>
 
         <?php if(Yii::$app->session->get('message') != null) : ?>
             <p class="bg-success"> <?php echo htmlentities(Yii::$app->session->getFlash('message')); ?></p>
@@ -52,7 +80,7 @@
                                 <?php echo $station->station_description ?>
                             </td>
                             <td>
-                                 <?php echo $station->line->line_name; ?>
+                                <a href="<?php echo Url::toRoute('station/index').'/'.$station->line->line_id; ?>"><?php echo $station->line->line_name; ?></a>
                             </td>
                             <td>
                                 <a href="<?php echo Url::to('@web/'.$station->station_image); ?>" data-toggle="lightbox" data-title="View Full Size">

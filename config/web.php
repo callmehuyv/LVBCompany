@@ -23,7 +23,7 @@ $config = [
         'urlManager' => [
             'enablePrettyUrl' => true,
             'rules' => [
-            
+                'station/index/<selected_line:\d+>' => 'station/index',
             ],
             'showScriptName'=>false,
         ],

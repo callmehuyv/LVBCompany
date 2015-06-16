@@ -44,12 +44,20 @@ class StationController extends Controller
         ];
     }
 
-    public function actionIndex()
+    public function actionIndex($selected_line = null)
     {
-        $stations = Station::find()
-            ->where(['record_status' => 4])
-                ->all();
-        return $this->render('index', ['stations' => $stations]);
+        if($selected_line != null){
+            $stations = Station::find()
+                ->where(['record_status' => 4, 'line_id'=>$selected_line])
+                    ->all();
+        } else {
+            $stations = Station::find()
+                ->where(['record_status' => 4])
+                    ->all();
+        }
+        $list_lines = Line::find()
+            ->all();
+        return $this->render('index', ['stations' => $stations, 'list_lines' => $list_lines, 'selected_line' => $selected_line]);
     }
 
     public function actionDelete()

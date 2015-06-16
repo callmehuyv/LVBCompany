@@ -17,4 +17,8 @@ $(document).ready(function() {
 	    $(this).ekkoLightbox();
 	}); 
 
+	$('#selectLineOnStation').change(function(){
+		var id = $('#selectLineOnStation').val()
+		window.location.replace($('#linkLineOnStation').val()+ '/' + id);
+	})
 });
