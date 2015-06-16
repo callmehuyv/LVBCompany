@@ -23,7 +23,7 @@
 
         <?= $form->field($model, 'station_name') ?>
         <?= $form->field($model, 'station_description') ?>
-        <?= $form->field($model, 'line_id')->dropDownList($array_list_lines, ['option' => [$model->line_id => ['selected ' => true]]]); ?>
+        <?= $form->field($model, 'line_id')->dropDownList($array_list_lines, ['option' => [$model->line_id => ['selected' => true]]]); ?>
         <?= $form->field($model, 'station_image')->fileInput() ?>
         
         <?= Html::img('@web/'.$model->station_image, ['alt' => 'Station Image', 'width' => '200px']) ?>

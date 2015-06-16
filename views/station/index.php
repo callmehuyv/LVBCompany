@@ -18,7 +18,7 @@
                     <a class="btn btn-primary" href="<?php echo Url::toRoute('station/index') ?>">View all Station</a>
                     <script type="text/javascript">
                         $(document).ready(function() {
-                            $('#selectLineOnStation').val('4');
+                            $('#selectLineOnStation').val(<?= $selected_line ?>);
                         });
                     </script>
                 <?php

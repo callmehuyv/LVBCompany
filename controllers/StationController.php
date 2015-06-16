@@ -101,7 +101,7 @@ class StationController extends Controller
     }
 
 
-    public function actionCreate()
+    public function actionCreate($selected_line = null)
     {
         $model = new Station();
         if ($model->load(Yii::$app->request->post())) {
@@ -130,7 +130,7 @@ class StationController extends Controller
         foreach ($object_list_lines as $line) {
             $array_list_lines[$line->line_id] = $line->line_name;
         }
-        return $this->render('create', ['model' => $model, 'array_list_lines' => $array_list_lines]);
+        return $this->render('create', ['model' => $model, 'array_list_lines' => $array_list_lines, 'selected_line' => $selected_line]);
     }
 
 }

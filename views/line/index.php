@@ -36,7 +36,6 @@
                 <th>Start Time</th>
                 <th>End Time</th>
                 <th>Line Image</th>
-                <th>Stations on this Line</th>
                 <th>Action</th>
             </tr>
             <?php
@@ -61,29 +60,49 @@
                                 </a>
                             </td>
                             <td>
-                                <?php if(!empty($line->stations)) : ?>
-                                    <ul>
-                                        <?php
-                                            foreach ($line->stations as $station) {
-                                                ?>
-                                                    <li><?php echo $station->station_name ?></li>
-                                                <?php
-                                            }
-                                        ?>
-                                    </ul>
-                                <?php else : ?>
-                                    <ul>
-                                        <li>This Line don't have any Station</li>
-                                    </ul>
-                                <?php endif; ?>
-                            </td>
-                            <td>
+                                <a data-toggle="modal" data-target="#modal_line_<?php echo $line->line_id ?>" title="Edit" class="btn btn-primary" href="#">
+                                    View Station
+                                </a>
                                 <a title="Edit" class="btn btn-warning" href="<?php echo Url::toRoute('line/edit') ?>?id=<?php echo $line->line_id ?>">
                                     <i class="glyphicon glyphicon-refresh"></i>
                                 </a>
                                 <a data-confirm="Are you sure you want to delete?" title="Remove" class="btn btn-danger" href="<?php echo Url::toRoute('line/delete') ?>?id=<?php echo $line->line_id ?>">
                                     <i class="glyphicon glyphicon-remove"></i>
                                 </a>
+                                
+                                <!-- Start Modal Station -->
+                                <div class="modal fade" id="modal_line_<?php echo $line->line_id ?>">
+                                  <div class="modal-dialog">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title">List Stations On Line <?php echo $line->line_name ?></h4>
+                                      </div>
+                                      <div class="modal-body">
+                                        <?php if(!empty($line->stations)) : ?>
+                                            <ul>
+                                                <?php
+                                                    foreach ($line->stations as $station) {
+                                                        ?>
+                                                            <li><?php echo $station->station_name ?></li>
+                                                        <?php
+                                                    }
+                                                ?>
+                                            </ul>
+                                        <?php else : ?>
+                                            <ul>
+                                                <li>This Line don't have any Station</li>
+                                            </ul>
+                                        <?php endif; ?>
+                                      </div>
+                                      <div class="modal-footer">
+                                        <a class="btn btn-success" href="<?php echo Url::toRoute('station/create').'/'.$line->line_id ?>">Create new Station</a>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <!-- End Modal Station -->
                             </td>
                         </tr>
                     <?php
