@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 15, 2015 at 12:58 PM
+-- Generation Time: Jun 16, 2015 at 10:30 PM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -27,20 +27,21 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `companies` (
-`id` int(11) NOT NULL,
-  `user_id` int(255) DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `description` text,
-  `image` varchar(255) DEFAULT NULL,
+`company_id` int(11) NOT NULL,
+  `company_name` varchar(255) DEFAULT NULL,
+  `company_description` text,
+  `company_image` varchar(255) DEFAULT NULL,
   `record_status` int(11) NOT NULL DEFAULT '4'
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `companies`
 --
 
-INSERT INTO `companies` (`id`, `user_id`, `name`, `description`, `image`, `record_status`) VALUES
-(1, 4, 'Duc Duong', 'Duc Duong Description', 'images/logo.png', 4);
+INSERT INTO `companies` (`company_id`, `company_name`, `company_description`, `company_image`, `record_status`) VALUES
+(2, 'Bus 10/10', 'Bus 10/10 Description', 'uploads/company_2.jpg', 4),
+(3, 'Thăng Long', 'Thăng Long Description', 'uploads/company_3.jpg', 4),
+(4, 'Demo', 'Demo', 'uploads/no-thumbnail.png', 3);
 
 -- --------------------------------------------------------
 
@@ -50,12 +51,21 @@ INSERT INTO `companies` (`id`, `user_id`, `name`, `description`, `image`, `recor
 
 CREATE TABLE IF NOT EXISTS `drivers` (
 `driver_id` int(10) unsigned NOT NULL,
+  `company_id` int(11) NOT NULL,
   `driver_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `driver_address` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `driver_image` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `driver_phone` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `vehicle_type_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `record_status` int(11) NOT NULL DEFAULT '4'
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `drivers`
+--
+
+INSERT INTO `drivers` (`driver_id`, `company_id`, `driver_name`, `driver_address`, `driver_image`, `driver_phone`, `record_status`) VALUES
+(1, 3, 'Huy Tran', 'Nam Dinh', 'uploads/driver_.jpg', '0962623143', 4),
+(2, 3, 'Lê Tùng', 'Hà Nội', 'uploads/driver_.jpg', '0962623133', 4);
 
 -- --------------------------------------------------------
 
@@ -117,7 +127,7 @@ CREATE TABLE IF NOT EXISTS `stations` (
   `station_description` text,
   `station_image` varchar(255) DEFAULT NULL,
   `record_status` int(11) NOT NULL DEFAULT '4'
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `stations`
@@ -125,7 +135,8 @@ CREATE TABLE IF NOT EXISTS `stations` (
 
 INSERT INTO `stations` (`station_id`, `line_id`, `station_name`, `station_description`, `station_image`, `record_status`) VALUES
 (1, 4, 'Tên station', 'Mô tả station', 'uploads/station_1.jpg', 4),
-(2, 4, 'Gà Sài Gòn', 'Gà Sài Gòn', 'uploads/line_2.jpg', 4);
+(2, 4, 'Gà Sài Gòn', 'Gà Sài Gòn', 'uploads/line_2.jpg', 4),
+(3, 1, 'Demo', 'Demo', 'uploads/no-thumbnail.png', 3);
 
 -- --------------------------------------------------------
 
@@ -162,29 +173,40 @@ INSERT INTO `users` (`user_id`, `user_email`, `user_first_name`, `user_last_name
 --
 
 CREATE TABLE IF NOT EXISTS `vehicles` (
-`id` int(11) NOT NULL,
+`vehicle_id` int(11) NOT NULL,
+  `vehicle_number` varchar(64) NOT NULL,
   `company_id` int(11) DEFAULT NULL,
   `line_id` int(11) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `vehicle_type_id` int(255) DEFAULT NULL,
-  `license_plate` varchar(255) DEFAULT NULL,
-  `image` varchar(255) DEFAULT NULL,
+  `vehicletype_id` int(255) DEFAULT NULL,
+  `driver_id` int(10) unsigned NOT NULL,
+  `vehicle_image` varchar(255) DEFAULT NULL,
   `record_status` int(11) NOT NULL DEFAULT '4'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vehicle_type`
+-- Table structure for table `vehicletypes`
 --
 
-CREATE TABLE IF NOT EXISTS `vehicle_type` (
-`id` int(11) NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `description` text,
-  `image` varchar(255) DEFAULT NULL,
+CREATE TABLE IF NOT EXISTS `vehicletypes` (
+`vehicletype_id` int(11) NOT NULL,
+  `vehicletype_name` varchar(255) DEFAULT NULL,
+  `vehicletype_description` text,
+  `vehicletype_image` varchar(255) DEFAULT NULL,
   `record_status` int(11) NOT NULL DEFAULT '4'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `vehicletypes`
+--
+
+INSERT INTO `vehicletypes` (`vehicletype_id`, `vehicletype_name`, `vehicletype_description`, `vehicletype_image`, `record_status`) VALUES
+(1, 'Trams', 'Trams Description', 'uploads/vehicletype_1.jpg', 4),
+(2, 'Autobuses', 'Autobuses Description', 'uploads/vehicletype_2.jpg', 4),
+(3, 'Nightliner', 'Nightliner Description', 'uploads/vehicletype_3.jpg', 4),
+(4, 'Regional Bus', 'Regional Bus Description', 'uploads/vehicletype_4.jpg', 4),
+(5, 'Demo', 'Demo', 'uploads/vehicletype_5.jpg', 3);
 
 --
 -- Indexes for dumped tables
@@ -194,13 +216,13 @@ CREATE TABLE IF NOT EXISTS `vehicle_type` (
 -- Indexes for table `companies`
 --
 ALTER TABLE `companies`
- ADD PRIMARY KEY (`id`), ADD KEY `user_id` (`user_id`);
+ ADD PRIMARY KEY (`company_id`);
 
 --
 -- Indexes for table `drivers`
 --
 ALTER TABLE `drivers`
- ADD PRIMARY KEY (`driver_id`), ADD KEY `vehicle_type_id` (`vehicle_type_id`);
+ ADD PRIMARY KEY (`driver_id`), ADD KEY `company_id` (`company_id`);
 
 --
 -- Indexes for table `lines`
@@ -230,13 +252,13 @@ ALTER TABLE `users`
 -- Indexes for table `vehicles`
 --
 ALTER TABLE `vehicles`
- ADD PRIMARY KEY (`id`), ADD KEY `company_id` (`company_id`), ADD KEY `line_id` (`line_id`), ADD KEY `user_id` (`user_id`), ADD KEY `vehicle_type_id` (`vehicle_type_id`);
+ ADD PRIMARY KEY (`vehicle_id`), ADD KEY `company_id` (`company_id`), ADD KEY `line_id` (`line_id`), ADD KEY `vehicle_type_id` (`vehicletype_id`), ADD KEY `driver_id` (`driver_id`);
 
 --
--- Indexes for table `vehicle_type`
+-- Indexes for table `vehicletypes`
 --
-ALTER TABLE `vehicle_type`
- ADD PRIMARY KEY (`id`);
+ALTER TABLE `vehicletypes`
+ ADD PRIMARY KEY (`vehicletype_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -246,12 +268,12 @@ ALTER TABLE `vehicle_type`
 -- AUTO_INCREMENT for table `companies`
 --
 ALTER TABLE `companies`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `company_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `drivers`
 --
 ALTER TABLE `drivers`
-MODIFY `driver_id` int(10) unsigned NOT NULL AUTO_INCREMENT;
+MODIFY `driver_id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `lines`
 --
@@ -266,7 +288,7 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 -- AUTO_INCREMENT for table `stations`
 --
 ALTER TABLE `stations`
-MODIFY `station_id` int(255) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+MODIFY `station_id` int(255) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `users`
 --
@@ -276,27 +298,21 @@ MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 -- AUTO_INCREMENT for table `vehicles`
 --
 ALTER TABLE `vehicles`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `vehicle_id` int(11) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `vehicle_type`
+-- AUTO_INCREMENT for table `vehicletypes`
 --
-ALTER TABLE `vehicle_type`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `vehicletypes`
+MODIFY `vehicletype_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- Constraints for dumped tables
 --
 
 --
--- Constraints for table `companies`
---
-ALTER TABLE `companies`
-ADD CONSTRAINT `companies_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
 -- Constraints for table `drivers`
 --
 ALTER TABLE `drivers`
-ADD CONSTRAINT `drivers_ibfk_1` FOREIGN KEY (`vehicle_type_id`) REFERENCES `vehicle_type` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `drivers_ibfk_1` FOREIGN KEY (`company_id`) REFERENCES `companies` (`company_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `stations`
@@ -308,10 +324,10 @@ ADD CONSTRAINT `stations_ibfk_1` FOREIGN KEY (`line_id`) REFERENCES `lines` (`li
 -- Constraints for table `vehicles`
 --
 ALTER TABLE `vehicles`
-ADD CONSTRAINT `vehicles_ibfk_1` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `vehicles_ibfk_1` FOREIGN KEY (`company_id`) REFERENCES `companies` (`company_id`) ON DELETE CASCADE ON UPDATE CASCADE,
 ADD CONSTRAINT `vehicles_ibfk_2` FOREIGN KEY (`line_id`) REFERENCES `lines` (`line_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-ADD CONSTRAINT `vehicles_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-ADD CONSTRAINT `vehicles_ibfk_4` FOREIGN KEY (`vehicle_type_id`) REFERENCES `vehicle_type` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `vehicles_ibfk_3` FOREIGN KEY (`driver_id`) REFERENCES `drivers` (`driver_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `vehicles_ibfk_4` FOREIGN KEY (`vehicletype_id`) REFERENCES `vehicletypes` (`vehicletype_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
