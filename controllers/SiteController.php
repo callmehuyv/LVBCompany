@@ -63,9 +63,8 @@ class SiteController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             return $this->redirect(['/admin/index']);
         }
-        return $this->render('login', [
-            'model' => $model,
-        ]);
+        $data['model'] = $model;
+        return $this->render('login', $data);
     }
 
     public function actionLogout()

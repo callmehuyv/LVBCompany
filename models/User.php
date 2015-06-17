@@ -37,7 +37,7 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            [['user_email', 'user_password', 'user_first_name', 'user_last_name'], 'required'],
+            [['user_email', 'user_password', 'user_first_name', 'user_last_name', 'user_phone'], 'required'],
             [['record_status', 'user_phone'], 'integer'],
             [['user_email', 'user_password', 'user_auth_key'], 'string', 'max' => 255],
             [['user_first_name', 'user_last_name'], 'string', 'max' => 32]
@@ -59,47 +59,6 @@ class User extends ActiveRecord implements IdentityInterface
             'user_phone'         => 'Phone',
             'record_status'      => 'Record Status',
         ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getCompanies()
-    {
-        return $this->hasMany(Company::className(), ['user_id' => 'user_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getUserInfo()
-    {
-        return $this->hasOne(UserInfo::className(), ['user_id' => 'user_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getUserRole()
-    {
-        return $this->hasOne(UserRole::className(), ['user_id' => 'user_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getRole()
-    {
-
-        return $this->hasOne(Role::className(), ['user_id' => 'role_id'])->viaTable('user_role', ['user_id' => 'user_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getVehicles()
-    {
-        return $this->hasOne(Vehicle::className(), ['user_id' => 'user_id']);
     }
 
     public static function findIdentity($user_id)

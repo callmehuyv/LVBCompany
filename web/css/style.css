@@ -20,7 +20,7 @@ ul {
 	.wrap .fluid-container {
 		padding: 20px 80px;
 	}
-	#w0 {
+	.navbar-inverse.navbar {
 		padding: 0 65px;
 	}
 }

@@ -20,7 +20,7 @@ class LineController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['delete', 'edit', 'create', 'index'],
+                'only' => ['delete', 'edit', 'create'],
                 'rules' => [
                     [
                         'actions' => ['delete', 'edit', 'create'],
