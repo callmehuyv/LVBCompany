@@ -94,7 +94,7 @@ class StationController extends Controller
 
             $model->save();
             Yii::$app->getSession()->setFlash('message', 'Update Station success!');
-            return $this->redirect(['station/edit/'.$model->station_id]);
+            return $this->redirect(['station/edit', 'station' => $model->station_id]);
         }
 
         $object_list_lines = Line::find()

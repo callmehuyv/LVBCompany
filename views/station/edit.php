@@ -11,7 +11,7 @@
 ?>
 <div class="site-create">
     
-        <a class="btn btn-success" href="<?php echo Url::toRoute('station/index') ?>">View all Lines</a>
+        <a class="btn btn-success" href="<?php echo Url::toRoute('station/index') ?>">View all Station</a>
 
         <?php if(Yii::$app->session->get('message') != null) : ?>
             <p class="bg-success"> <?php echo htmlentities(Yii::$app->session->getFlash('message')); ?></p>
@@ -22,7 +22,7 @@
         <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
 
         <?= $form->field($model, 'station_name') ?>
-        <?= $form->field($model, 'station_description') ?>
+        <?= $form->field($model, 'station_description')->textArea() ?>
         <?= $form->field($model, 'line_id')->dropDownList($array_list_lines); ?>
         <?= $form->field($model, 'station_image')->fileInput() ?>
         

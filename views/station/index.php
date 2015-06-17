@@ -59,8 +59,8 @@
         <table class="table table-hover">
             <tr>
                 <th>ID</th>
-                <th>Line Name</th>
-                <th>Description</th>
+                <th>Station Name</th>
+                <th>Station Description</th>
                 <th>Belong Line</th>
                 <th>Station Image</th>
                 <th>Action</th>

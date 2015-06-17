@@ -122,6 +122,7 @@
                                       </div>
                                       <div class="modal-footer">
                                         <a class="btn btn-success" href="<?php echo Url::toRoute('station/create').'?line='.$line->line_id ?>">Create new Station</a>
+                                        <a class="btn btn-warning" href="<?php echo Url::toRoute('station/index').'?line='.$line->line_id ?>">View detail Station on This Line</a>
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                       </div>
                                     </div>
@@ -155,7 +156,8 @@
                                         <?php endif; ?>
                                       </div>
                                       <div class="modal-footer">
-                                        <a class="btn btn-success" href="<?php echo Url::toRoute('vehicle/create').'?line='.$line->line_id ?>">Create new Vehicle</a>
+                                        <a class="btn btn-success" href="<?php echo Url::toRoute('vehicle/create').'?line='.$line->line_id ?>">Create Vehicle on this Line</a>
+                                        <a class="btn btn-warning" href="<?php echo Url::toRoute('vehicle/index').'?line='.$line->line_id ?>">Detail Vehicle on this Line</a>
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                       </div>
                                     </div>
