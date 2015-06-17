@@ -53,17 +53,6 @@ class Vehicletype extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getDrivers()
-    {
-        return $this->hasMany(Drivers::className(), ['vehicle_type_id' => 'vehicletype_id','record_status' => '4']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getVehicles()
     {
         return Vehicle::find()

@@ -19,6 +19,7 @@ use kartik\time\TimePicker;
 
         <?= $form->field($model, 'line_name') ?>
         <?= $form->field($model, 'line_description') ?>
+        <?= $form->field($model, 'vehicletype_id')->dropDownList($list_vehicletypes); ?>
         <?= $form->field($model, 'line_start_time')->widget(TimePicker::classname(), ['pluginOptions' => ['showMeridian' => false]]) ?>
         <?= $form->field($model, 'line_end_time')->widget(TimePicker::classname(), ['pluginOptions' => ['showMeridian' => false]]) ?>
         <?= $form->field($model, 'line_image')->fileInput(); ?>

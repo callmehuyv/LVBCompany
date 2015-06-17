@@ -33,13 +33,14 @@
             <tr>
                 <th>ID</th>
                 <th>Line Name</th>
+                <th>Vehicle Type</th>
                 <th>Start Time</th>
                 <th>End Time</th>
                 <th>Line Image</th>
                 <th>Action</th>
             </tr>
             <?php
-                foreach ($lines as $line) {
+                foreach ($list_lines as $line) {
                     ?>
                         <tr>
                             <td>
@@ -47,6 +48,11 @@
                             </td>
                             <td>
                                 <?php echo $line->line_name ?>
+                            </td>
+                            <td>
+                                <a href="<?php echo Url::toRoute('line/index').'?vehicletype='.$line->vehicletype->vehicletype_id ?>">
+                                    <?php echo $line->vehicletype->vehicletype_name ?>
+                                </a>
                             </td>
                             <td>
                                 <?php echo date('H:i',strtotime($line->line_start_time)) ?>
@@ -63,12 +69,14 @@
                                 <a data-toggle="modal" data-target="#modal_line_<?php echo $line->line_id ?>" title="View" class="btn btn-primary" href="#">
                                     View Station
                                 </a>
-                                <a title="Edit" class="btn btn-warning" href="<?php echo Url::toRoute('line/edit').'?line='.$line->line_id ?>">
-                                    <i class="glyphicon glyphicon-edit"></i>
-                                </a>
-                                <a data-confirm="Are you sure you want to delete?" title="Remove" class="btn btn-danger" href="<?php echo Url::toRoute('line/delete').'?line='.$line->line_id ?>">
-                                    <i class="glyphicon glyphicon-remove"></i>
-                                </a>
+                                <?php if(!Yii::$app->user->isGuest) : ?>
+                                    <a title="Edit" class="btn btn-warning" href="<?php echo Url::toRoute('line/edit').'?line='.$line->line_id ?>">
+                                        <i class="glyphicon glyphicon-edit"></i>
+                                    </a>
+                                    <a data-confirm="Are you sure you want to delete?" title="Remove" class="btn btn-danger" href="<?php echo Url::toRoute('line/delete').'?line='.$line->line_id ?>">
+                                        <i class="glyphicon glyphicon-remove"></i>
+                                    </a>
+                                <?php endif; ?>
                                 
                                 <!-- Start Modal Station -->
                                 <div class="modal fade" id="modal_line_<?php echo $line->line_id ?>">

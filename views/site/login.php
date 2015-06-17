@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'template' => "<div class=\"col-lg-offset-1 col-lg-3\">{input}</div>\n<div class=\"col-lg-8\">{error}</div>",
     ])->checkbox() ?>
 
-    <p>This is a test, so you can use <strong>admin@admin.com/admin</strong> to login.</p>
+    <p>This is test version, so you can use <strong>admin@admin.com/admin</strong> to login.</p>
 
     <div class="form-group">
         <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>

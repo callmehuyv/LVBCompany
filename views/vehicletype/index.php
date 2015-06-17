@@ -55,12 +55,15 @@
                                 <a data-toggle="modal" data-target="#modal_vehicletype_<?php echo $vehicletype->vehicletype_id ?>" title="View" class="btn btn-primary" href="#">
                                     View Vehicle
                                 </a>
+
+                                <?php if(!Yii::$app->user->isGuest) : ?>
                                 <a title="Edit" class="btn btn-warning" href="<?php echo Url::toRoute('vehicletype/edit') ?>/<?php echo $vehicletype->vehicletype_id ?>">
                                     <i class="glyphicon glyphicon-edit"></i>
                                 </a>
                                 <a data-confirm="Are you sure you want to delete?" title="Remove" class="btn btn-danger" href="<?php echo Url::toRoute('vehicletype/delete') ?>/<?php echo $vehicletype->vehicletype_id ?>">
                                     <i class="glyphicon glyphicon-remove"></i>
                                 </a>
+                                <?php endif; ?>
 
 
                                 <!-- Start Modal Station -->

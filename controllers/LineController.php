@@ -8,7 +8,9 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\Line;
 use app\models\Station;
+use app\models\Vehicletype;
 use yii\web\UploadedFile;
+use yii\helpers\ArrayHelper;
 
 use callmehuyv\helpers\Input;
 
@@ -52,10 +54,17 @@ class LineController extends Controller
 
     public function actionIndex()
     {
-        $lines = Line::find()
-            ->where(['record_status' => 4])
+        $params['record_status'] = 4;
+        if (Input::has('vehicletype')) {
+            $selected_vehicletype = Input::get('vehicletype');
+            $params['vehicletype_id'] = $selected_vehicletype;
+        }
+        $data['list_lines'] = Line::find()
+            ->where($params)
                 ->all();
-        return $this->render('index', ['lines' => $lines]);
+        $data['list_vehicletypes'] = Vehicletype::find()
+            ->where(['record_status' => 4]);
+        return $this->render('index', $data);
     }
 
     public function actionDelete()
@@ -115,7 +124,17 @@ class LineController extends Controller
             Yii::$app->getSession()->setFlash('message', 'Created new Line success!');
             return $this->redirect(['/line/index']);
         }
-        return $this->render('create', ['model' => $model]);
+
+        if (Input::has('vehicletype')) {
+            $model->vehicletype_id = Input::get('vehicletype');
+        }
+        $prepare_vehicletypes = Vehicletype::find()
+            ->where(['record_status' => 4])
+                ->all();
+        $data['list_vehicletypes'] = ArrayHelper::map($prepare_vehicletypes, 'vehicletype_id', 'vehicletype_name');
+        $data['model'] = $model;
+
+        return $this->render('create', $data);
     }
 
 }

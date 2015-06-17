@@ -17,7 +17,7 @@
                     <a class="btn btn-primary" href="<?php echo Url::toRoute('station/index') ?>">View all Station</a>
                     <script type="text/javascript">
                         $(document).ready(function() {
-                            $('#selectLineOnStation').val(<?= $selected_line ?>);
+                            $('#selectLine').val(<?= $selected_line ?>);
                         });
                     </script>
                 <?php
@@ -26,8 +26,8 @@
         <div class="form-group" style="float: right; width: 300px;">
             <div class="input-group">
                 <div class="input-group-addon">Filter by Line</div>
-                <input id="linkLineOnStation" type="hidden" value="<?php echo Url::toRoute('station/index') ?>">
-                <select id="selectLineOnStation" class="form-control">
+                <input id="currentUrl" type="hidden" value="<?php echo Url::toRoute('station/index') ?>">
+                <select id="selectLine" class="form-control">
                     <?php
                         foreach($list_lines as $line) {
                             ?>
@@ -79,7 +79,7 @@
                                 <?php echo $station->station_description ?>
                             </td>
                             <td>
-                                <a href="<?php echo Url::toRoute('station/index').'/'.$station->line->line_id; ?>"><?php echo $station->line->line_name; ?></a>
+                                <a href="<?php echo Url::toRoute('station/index').'?line='.$station->line->line_id; ?>"><?php echo $station->line->line_name; ?></a>
                             </td>
                             <td>
                                 <a href="<?php echo Url::to('@web/'.$station->station_image); ?>" data-toggle="lightbox" data-title="View Full Size">
@@ -87,12 +87,14 @@
                                 </a>
                             </td>
                             <td>
-                                <a title="Edit" class="btn btn-warning" href="<?php echo Url::toRoute('station/edit').'?station='.$station->station_id ?>">
-                                    <i class="glyphicon glyphicon-edit"></i>
-                                </a>
-                                <a data-confirm="Are you sure you want to delete?" title="Remove" class="btn btn-danger" href="<?php echo Url::toRoute('station/delete').'?station='.$station->station_id ?> ">
-                                    <i class="glyphicon glyphicon-remove"></i>
-                                </a>
+                                <?php if(!Yii::$app->user->isGuest) : ?>
+                                    <a title="Edit" class="btn btn-warning" href="<?php echo Url::toRoute('station/edit').'?station='.$station->station_id ?>">
+                                        <i class="glyphicon glyphicon-edit"></i>
+                                    </a>
+                                    <a data-confirm="Are you sure you want to delete?" title="Remove" class="btn btn-danger" href="<?php echo Url::toRoute('station/delete').'?station='.$station->station_id ?> ">
+                                        <i class="glyphicon glyphicon-remove"></i>
+                                    </a>
+                                <?php endif; ?>
                             </td>
                         </tr>
                     <?php

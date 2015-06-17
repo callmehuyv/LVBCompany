@@ -94,13 +94,14 @@
                                 </a>
                             </td>
                             <td>
-                                <a title="Edit" class="btn btn-warning" href="<?php echo Url::toRoute('driver/edit').'?driver='.$driver->driver_id ?>">
-                                    <i class="glyphicon glyphicon-edit"></i>
-                                </a>
-                                <a data-confirm="Are you sure you want to delete?" title="Remove" class="btn btn-danger" href="<?php echo Url::toRoute('driver/delete').'?driver='.$driver->driver_id ?>">
-                                    <i class="glyphicon glyphicon-remove"></i>
-                                </a>
-                               
+                                <?php if(!Yii::$app->user->isGuest) : ?>
+                                    <a title="Edit" class="btn btn-warning" href="<?php echo Url::toRoute('driver/edit').'?driver='.$driver->driver_id ?>">
+                                        <i class="glyphicon glyphicon-edit"></i>
+                                    </a>
+                                    <a data-confirm="Are you sure you want to delete?" title="Remove" class="btn btn-danger" href="<?php echo Url::toRoute('driver/delete').'?driver='.$driver->driver_id ?>">
+                                        <i class="glyphicon glyphicon-remove"></i>
+                                    </a>
+                                <?php endif; ?>
                             </td>
                         </tr>
                     <?php

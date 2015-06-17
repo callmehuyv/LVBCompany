@@ -57,19 +57,17 @@ class Driver extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getCompany()
     {
-        return $this->hasOne(Company::className(), ['company_id' => 'company_id', 'record_status' => 4]);
+        return Company::find()
+            ->where(['company_id' => $this->company_id, 'record_status' => 4])
+                ->one();
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getVehicles()
     {
-        return $this->hasMany(Vehicle::className(), ['driver_id' => 'driver_id', 'record_status' => 4]);
+        return Vehicle::find()
+            ->where(['driver_id' => $this->driver_id, 'record_status' => 4])
+                ->one();
     }
 }

@@ -36,7 +36,7 @@ class Line extends \yii\db\ActiveRecord
         return [
             [['line_description'], 'string'],
             [['line_start_time', 'line_end_time'], 'safe'],
-            [['record_status'], 'integer'],
+            [['record_status', 'vehicletype_id'], 'integer'],
             [['line_name', 'line_image'], 'string', 'max' => 255],
             [['line_image'], 'file']
         ];
@@ -53,24 +53,30 @@ class Line extends \yii\db\ActiveRecord
             'line_description' => 'Description',
             'line_start_time' => 'Start Time',
             'line_end_time' => 'End Time',
+            'vehicletype_id' => 'Vehicle Type',
             'line_image' => 'Upload New Line Image',
             'record_status' => 'Record Status',
         ];
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getStations()
     {
-        return $this->hasMany(Station::className(), ['line_id' => 'line_id', 'record_status' => 4]);
+        return Station::find()
+            ->where(['line_id' => $this->line_id, 'record_status' => 4])
+                ->all();
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getVehicles()
     {
-        return $this->hasMany(Vehicle::className(), ['line_id' => 'line_id', 'record_status' => 4]);
+        return Vehicle::find()
+            ->where(['line_id' => $this->line_id, 'record_status' => 4])
+                ->all();
+    }
+
+    public function getVehicletype()
+    {
+        return Vehicletype::find()
+            ->where(['vehicletype_id' => $this->vehicletype_id, 'record_status' => 4])
+                ->one();
     }
 }

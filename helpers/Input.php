@@ -1,5 +1,5 @@
 <?php
-// namespace callmehuyv\helpers;
+namespace callmehuyv\helpers;
 
 class Input {
 	static function get($key) {

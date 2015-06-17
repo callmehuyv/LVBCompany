@@ -18,10 +18,10 @@ class UserController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['delete', 'edit', 'create'],
+                'only' => ['delete', 'edit', 'create', 'index'],
                 'rules' => [
                     [
-                        'actions' => ['create', 'delete', 'edit'],
+                        'actions' => ['create', 'delete', 'edit', 'index'],
                         'allow' => false,
                         'roles' => ['?'],
                     ],
