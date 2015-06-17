@@ -12,9 +12,7 @@
     
         <a class="btn btn-success" href="<?php echo Url::toRoute('user/index') ?>">View all User</a>
 
-        <?php if(Yii::$app->session->get('message') != null) : ?>
-            <p class="bg-success"> <?php echo htmlentities(Yii::$app->session->getFlash('message')); ?></p>
-        <?php endif; ?>
+        <?php messageSystem(); ?>
 
         <br><br>
     

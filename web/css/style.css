@@ -32,3 +32,10 @@ ul {
 .navbar {
   border-radius: 0px;
 }
+.message-summary {
+	color: #569820;
+	background: rgba(58, 255, 73, 0.1);
+	border-left: 3px solid #569820;
+	padding: 10px 20px;
+	margin: 20px 0;
+}

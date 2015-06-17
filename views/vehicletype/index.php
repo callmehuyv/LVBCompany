@@ -57,10 +57,10 @@
                                 </a>
 
                                 <?php if(!Yii::$app->user->isGuest) : ?>
-                                <a title="Edit" class="btn btn-warning" href="<?php echo Url::toRoute('vehicletype/edit') ?>/<?php echo $vehicletype->vehicletype_id ?>">
+                                <a title="Edit" class="btn btn-warning" href="<?php echo Url::toRoute('vehicletype/edit').'?vehicletype='.$vehicletype->vehicletype_id ?>">
                                     <i class="glyphicon glyphicon-edit"></i>
                                 </a>
-                                <a data-confirm="Are you sure you want to delete?" title="Remove" class="btn btn-danger" href="<?php echo Url::toRoute('vehicletype/delete') ?>/<?php echo $vehicletype->vehicletype_id ?>">
+                                <a data-confirm="Are you sure you want to delete?" title="Remove" class="btn btn-danger" href="<?php echo Url::toRoute('vehicletype/delete').'?vehicletype='.$vehicletype->vehicletype_id ?>">
                                     <i class="glyphicon glyphicon-remove"></i>
                                 </a>
                                 <?php endif; ?>

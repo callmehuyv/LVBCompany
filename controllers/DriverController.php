@@ -115,32 +115,35 @@ class DriverController extends Controller
     {
         $model = new Driver();
         if ($model->load(Yii::$app->request->post())) {
-            $file = UploadedFile::getInstance($model, 'driver_image');
-            if ($file) {
-                $model->driver_image = '';
-                $model->save();
-                $file->saveAs('uploads/driver_' . $model->driver_id . '.' . $file->extension);
-                $model->driver_image = 'uploads/driver_' . $model->driver_id . '.' . $file->extension;
-                $model->save();
+            // If request is post and validate
+            if ($model->validate()) {
+                $file = UploadedFile::getInstance($model, 'driver_image');
+                if ($file) {
+                    $model->driver_image = '';
+                    $model->save();
+                    $file->saveAs('uploads/driver_' . $model->driver_id . '.' . $file->extension);
+                    $model->driver_image = 'uploads/driver_' . $model->driver_id . '.' . $file->extension;
+                } else {
+                    $model->driver_image = 'uploads/no-thumbnail.png';
+                }
+                Yii::$app->getSession()->setFlash('message', 'Created new Driver success!');
+                return $this->redirect(['/driver/index']);
             } else {
-                $model->driver_image = 'uploads/no-thumbnail.png';
-                $model->save();
+                // If False Validate : Goback with Error (Dont forget pass listcompany to model)
+                $prepare_list_companies = Company::find()->where(['record_status' => 4])->asArray()->all();
+                $list_companies = ArrayHelper::map($prepare_list_companies, 'company_id', 'company_name');
+                return $this->render('create', ['model' => $model, 'list_companies' => $list_companies]);
             }
-
-            Yii::$app->getSession()->setFlash('message', 'Created new Driver success!');
-            return $this->redirect(['/driver/index']);
         }
 
         if (Input::has('company')) {
             $model->company_id = (int)Input::get('company');
         }
 
-        $prepare_list_companies = Company::find()
-            ->where(['record_status' => 4])
-                ->asArray()
-                    ->all();
-        $list_companies = ArrayHelper::map($prepare_list_companies, 'company_id', 'company_name');
-        return $this->render('create', ['model' => $model, 'list_companies' => $list_companies]);
+        $prepare_list_companies = Company::find()->where(['record_status' => 4])->asArray()->all();
+        $data['list_companies'] = ArrayHelper::map($prepare_list_companies, 'company_id', 'company_name');
+        $data['model'] = $model;
+        return $this->render('create', $data);
     }
 
 }

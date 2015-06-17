@@ -9,6 +9,7 @@ use yii\filters\VerbFilter;
 use app\models\User;
 use app\models\CreateUser;
 use callmehuyv\helpers\Input;
+use yii\data\Pagination;
 
 class UserController extends Controller
 {
@@ -50,10 +51,15 @@ class UserController extends Controller
 
     public function actionIndex()
     {
-        $users = User::find()
-            ->where(['record_status' => 4])
-                ->all();
-        return $this->render('index', ['users' => $users]);
+        $query = User::find()->where(['record_status' => 4]);
+        $count = $query->count();
+        $users = User::find()->where(['record_status' => 4])->all();
+        
+        $pagination = new Pagination(['totalCount' => $count]);
+        $pagination->defaultPageSize = 2;
+        $users = $query->offset($pagination->offset)->limit($pagination->limit)->all();
+        $data['users'] = $users;
+        return $this->render('index', ['users' => $users, 'pagination' => $pagination]);
     }
 
     public function actionDelete()

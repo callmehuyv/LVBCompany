@@ -28,6 +28,7 @@
                 <div class="input-group-addon">Filter by Line</div>
                 <input id="currentUrl" type="hidden" value="<?php echo Url::toRoute('station/index') ?>">
                 <select id="selectLine" class="form-control">
+                    <option value="null">View All</option>
                     <?php
                         foreach($list_lines as $line) {
                             ?>

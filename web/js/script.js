@@ -12,7 +12,11 @@ $(document).ready(function() {
 
     $('#selectLine').change(function(){
         var id = $('#selectLine').val();
-        window.location.replace($('#currentUrl').val()+ '?line=' + id);
+        if (id != 'null') {
+        	window.location.replace($('#currentUrl').val()+ '?line=' + id);
+        } else {
+        	window.location.replace($('#currentUrl').val());
+    	}
     });
     $('#selectCompany').change(function(){
         var id = $('#selectCompany').val();

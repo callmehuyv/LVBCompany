@@ -16,7 +16,7 @@ use kartik\time\TimePicker;
 
     <h1>CREATE NEW DRIVER</h1>
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
-
+        <?= $form->errorSummary($model); ?>
         <?= $form->field($model, 'driver_name') ?>
         <?= $form->field($model, 'driver_address') ?>
         <?= $form->field($model, 'driver_phone') ?>

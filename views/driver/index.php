@@ -40,9 +40,7 @@
             </div>
         </div>
 
-        <?php if(Yii::$app->session->get('message') != null) : ?>
-            <p class="bg-success"> <?php echo htmlentities(Yii::$app->session->getFlash('message')); ?></p>
-        <?php endif; ?>
+        <?php messageSystem(); ?>
 
         <br><br>
         <?php

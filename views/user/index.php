@@ -2,6 +2,7 @@
     use yii\helpers\Html;
     use yii\widgets\ActiveForm;
     use yii\helpers\Url;
+    use yii\widgets\LinkPager;
 
     $this->title = 'List User';
     $this->params['breadcrumbs'][] = ['label' => 'User', 'url' => ['user/index']];
@@ -12,9 +13,7 @@
     
         <a class="btn btn-success" href="<?php echo Url::toRoute('user/create') ?>">Create new User</a>
 
-        <?php if(Yii::$app->session->get('message') != null) : ?>
-            <p class="bg-success"> <?php echo htmlentities(Yii::$app->session->getFlash('message')); ?></p>
-        <?php endif; ?>
+        <?php messageSystem(); ?>
 
         <br><br>
         <?php
@@ -70,5 +69,10 @@
                 }
             ?>
         </table>
+        <?php
+            echo LinkPager::widget([
+                'pagination' => $pagination,
+            ]);
+        ?>
 
 </div>

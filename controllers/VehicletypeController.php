@@ -8,6 +8,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\Vehicletype;
 use yii\web\UploadedFile;
+use callmehuyv\helpers\Input;
 
 class VehicletypeController extends Controller
 {
@@ -55,8 +56,9 @@ class VehicletypeController extends Controller
         return $this->render('index', ['vehicletypes' => $vehicletypes]);
     }
 
-    public function actionDelete($selected_vehicletype = null)
+    public function actionDelete()
     {
+        $selected_vehicletype = Input::get('vehicletype');
         $model = Vehicletype::findOne($selected_vehicletype);
         $model->record_status = 3;
         $model->save();
@@ -64,7 +66,8 @@ class VehicletypeController extends Controller
         return $this->redirect(['vehicletype/index']);
     }
 
-    public function actionEdit($selected_vehicletype = null) {
+    public function actionEdit() {
+        $selected_vehicletype = Input::get('vehicletype');
         $model = Vehicletype::findOne($selected_vehicletype);
         $oldImage = $model->vehicletype_image;
 
