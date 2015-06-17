@@ -14,7 +14,7 @@
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
 
         <?= $form->field($model, 'station_name') ?>
-        <?= $form->field($model, 'station_description') ?>
+        <?= $form->field($model, 'station_description')->textArea() ?>
         <?= $form->field($model, 'line_id')->dropDownList($array_list_lines); ?>
         <?= $form->field($model, 'station_image')->fileInput(); ?>
 

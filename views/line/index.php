@@ -12,6 +12,20 @@
     
         <a class="btn btn-success" href="<?php echo Url::toRoute('line/create') ?>">Create new Line</a>
 
+
+        <?php
+            if ($selected_vehicletype != null) {
+                ?>
+                    <a class="btn btn-primary" href="<?php echo Url::toRoute('line/index') ?>">View all Lines</a>
+                    <script type="text/javascript">
+                        $(document).ready(function() {
+                            $('#selectVehicletype').val(<?php echo $selected_vehicletype ?>);
+                        });
+                    </script>
+                <?php
+            }
+        ?>
+
         <?php if(Yii::$app->session->get('message') != null) : ?>
             <p class="bg-success"> <?php echo htmlentities(Yii::$app->session->getFlash('message')); ?></p>
         <?php endif; ?>
@@ -69,6 +83,9 @@
                                 <a data-toggle="modal" data-target="#modal_line_<?php echo $line->line_id ?>" title="View" class="btn btn-primary" href="#">
                                     View Station
                                 </a>
+                                <a data-toggle="modal" data-target="#modal_vehicle_<?php echo $line->line_id ?>" title="View" class="btn btn-primary" href="#">
+                                    View Vehicle
+                                </a>
                                 <?php if(!Yii::$app->user->isGuest) : ?>
                                     <a title="Edit" class="btn btn-warning" href="<?php echo Url::toRoute('line/edit').'?line='.$line->line_id ?>">
                                         <i class="glyphicon glyphicon-edit"></i>
@@ -111,6 +128,40 @@
                                   </div>
                                 </div>
                                 <!-- End Modal Station -->
+
+                                <!-- Start Modal Vehicle -->
+                                <div class="modal fade" id="modal_vehicle_<?php echo $line->line_id ?>">
+                                  <div class="modal-dialog">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title">List Vehicle On Line <?php echo $line->line_name ?></h4>
+                                      </div>
+                                      <div class="modal-body">
+                                        <?php if(!empty($line->vehicles)) : ?>
+                                            <ul>
+                                                <?php
+                                                    foreach ($line->vehicles as $vehicle) {
+                                                        ?>
+                                                            <li><?php echo $vehicle->vehicle_number ?></li>
+                                                        <?php
+                                                    }
+                                                ?>
+                                            </ul>
+                                        <?php else : ?>
+                                            <ul>
+                                                <li>This Line don't have any Vehicle</li>
+                                            </ul>
+                                        <?php endif; ?>
+                                      </div>
+                                      <div class="modal-footer">
+                                        <a class="btn btn-success" href="<?php echo Url::toRoute('vehicle/create').'?line='.$line->line_id ?>">Create new Vehicle</a>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <!-- End Modal Vehicle -->
                             </td>
                         </tr>
                     <?php

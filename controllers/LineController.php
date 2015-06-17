@@ -55,9 +55,9 @@ class LineController extends Controller
     public function actionIndex()
     {
         $params['record_status'] = 4;
+        $data['selected_vehicletype'] = Input::get('vehicletype');
         if (Input::has('vehicletype')) {
-            $selected_vehicletype = Input::get('vehicletype');
-            $params['vehicletype_id'] = $selected_vehicletype;
+            $params['vehicletype_id'] = $data['selected_vehicletype'];
         }
         $data['list_lines'] = Line::find()
             ->where($params)
