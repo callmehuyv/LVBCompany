@@ -16,7 +16,7 @@
         <?php
             if ($selected_line != null) {
                 ?>
-                    <a class="btn btn-primary" href="<?php echo Url::toRoute('vehicle/index') ?>">View all Station</a>
+                    <a class="btn btn-primary" href="<?php echo Url::toRoute('vehicle/index') ?>">View all Vehicle</a>
                     <script type="text/javascript">
                         $(document).ready(function() {
                             $('#selectLine').val(<?= $selected_line ?>);
@@ -26,7 +26,7 @@
             }
              if ($selected_company != null) {
                 ?>
-                    <a class="btn btn-primary" href="<?php echo Url::toRoute('station/index') ?>">View all Station</a>
+                    <a class="btn btn-primary" href="<?php echo Url::toRoute('vehicle/index') ?>">View all Vehicle</a>
                     <script type="text/javascript">
                         $(document).ready(function() {
                             $('#selectCompany').val(<?= $selected_company ?>);
@@ -36,7 +36,7 @@
             }
              if ($selected_vehicletype != null) {
                 ?>
-                    <a class="btn btn-primary" href="<?php echo Url::toRoute('station/index') ?>">View all Station</a>
+                    <a class="btn btn-primary" href="<?php echo Url::toRoute('vehicle/index') ?>">View all Vehicle</a>
                     <script type="text/javascript">
                         $(document).ready(function() {
                             $('#selectVehicletype').val(<?= $selected_vehicletype ?>);
@@ -45,7 +45,7 @@
                 <?php
             }
         ?>
-        <div class="form-group" style="float: right; width: 300px; margin-left: 10px;">
+        <div class="form-group" style="float: right; width: 280px; margin-left: 10px;">
             <div class="input-group">
                 <div class="input-group-addon">Line</div>
                 <select id="selectLine" class="form-control">
@@ -59,7 +59,7 @@
                 </select>
             </div>
         </div>
-        <div class="form-group" style="float: right; width: 300px; margin-left: 10px;">
+        <div class="form-group" style="float: right; width: 280px; margin-left: 10px;">
             <div class="input-group">
                 <div class="input-group-addon">Company</div>
                 <select id="selectCompany" class="form-control">
@@ -73,7 +73,7 @@
                 </select>
             </div>
         </div>
-        <div class="form-group" style="float: right; width: 300px; margin-left: 10px;">
+        <div class="form-group" style="float: right; width: 280px; margin-left: 10px;">
             <div class="input-group">
                 <div class="input-group-addon">Vehicle Type</div>
                 <select id="selectVehicletype" class="form-control">
@@ -146,7 +146,7 @@
                             </td>
                             <td>
                                 <a title="Edit" class="btn btn-warning" href="<?php echo Url::toRoute('vehicle/edit').'?vehicle='.$vehicle->vehicle_id ?>">
-                                    <i class="glyphicon glyphicon-refresh"></i>
+                                    <i class="glyphicon glyphicon-edit"></i>
                                 </a>
                                 <a data-confirm="Are you sure you want to delete?" title="Remove" class="btn btn-danger" href="<?php echo Url::toRoute('vehicle/delete').'?vehicle='.$vehicle->vehicle_id ?>">
                                     <i class="glyphicon glyphicon-remove"></i>

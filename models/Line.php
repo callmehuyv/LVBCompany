@@ -63,7 +63,7 @@ class Line extends \yii\db\ActiveRecord
      */
     public function getStations()
     {
-        return $this->hasMany(Station::className(), ['line_id' => 'line_id']);
+        return $this->hasMany(Station::className(), ['line_id' => 'line_id', 'record_status' => 4]);
     }
 
     /**
@@ -71,6 +71,6 @@ class Line extends \yii\db\ActiveRecord
      */
     public function getVehicles()
     {
-        return $this->hasMany(Vehicle::className(), ['line_id' => 'line_id']);
+        return $this->hasMany(Vehicle::className(), ['line_id' => 'line_id', 'record_status' => 4]);
     }
 }

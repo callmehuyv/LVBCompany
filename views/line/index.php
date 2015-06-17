@@ -60,11 +60,11 @@
                                 </a>
                             </td>
                             <td>
-                                <a data-toggle="modal" data-target="#modal_line_<?php echo $line->line_id ?>" title="Edit" class="btn btn-primary" href="#">
+                                <a data-toggle="modal" data-target="#modal_line_<?php echo $line->line_id ?>" title="View" class="btn btn-primary" href="#">
                                     View Station
                                 </a>
                                 <a title="Edit" class="btn btn-warning" href="<?php echo Url::toRoute('line/edit').'?line='.$line->line_id ?>">
-                                    <i class="glyphicon glyphicon-refresh"></i>
+                                    <i class="glyphicon glyphicon-edit"></i>
                                 </a>
                                 <a data-confirm="Are you sure you want to delete?" title="Remove" class="btn btn-danger" href="<?php echo Url::toRoute('line/delete').'?line='.$line->line_id ?>">
                                     <i class="glyphicon glyphicon-remove"></i>

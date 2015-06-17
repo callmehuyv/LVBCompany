@@ -56,6 +56,6 @@ class Company extends \yii\db\ActiveRecord
      */
     public function getVehicles()
     {
-        return $this->hasMany(Vehicles::className(), ['company_id' => 'company_id']);
+        return $this->hasMany(Vehicles::className(), ['company_id' => 'company_id', 'record_status' => 4]);
     }
 }

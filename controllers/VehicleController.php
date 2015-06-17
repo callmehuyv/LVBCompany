@@ -81,39 +81,56 @@ class VehicleController extends Controller
         return $this->render('index', $data);
     }
 
-    public function actionDelete($selected_vehicletype = null)
+    public function actionDelete()
     {
-        $model = Vehicletype::findOne($selected_vehicletype);
+        $selected_vehicle = (int)Input::get('vehicle');
+        $model = Vehicle::findOne($selected_vehicle);
         $model->record_status = 3;
         $model->save();
-        Yii::$app->getSession()->setFlash('message', 'Delete Vehicle Type success!');
-        return $this->redirect(['vehicletype/index']);
+        Yii::$app->getSession()->setFlash('message', 'Delete Vehicle success!');
+        return $this->redirect(['vehicle/index']);
     }
 
-    public function actionEdit($selected_vehicletype = null) {
-        $model = Vehicletype::findOne($selected_vehicletype);
-        $oldImage = $model->vehicletype_image;
+    public function actionEdit() {
+        $selected_vehicle = (int)Input::get('vehicle');
+        $model = Vehicle::findOne($selected_vehicle);
+        $oldImage = $model->vehicle_image;
 
         if ( $model->load(Yii::$app->request->post()) ) {
-            $file = UploadedFile::getInstance($model, 'vehicletype_image');
+            $file = UploadedFile::getInstance($model, 'vehicle_image');
 
             if ($file) {
-                $file->saveAs('uploads/vehicletype_' . $model->vehicletype_id . '.' . $file->extension);
-                $model->vehicletype_image = 'uploads/vehicletype_' . $model->vehicletype_id . '.' . $file->extension;
+                $file->saveAs('uploads/vehicle_' . $model->vehicle_id . '.' . $file->extension);
+                $model->vehicle_image = 'uploads/vehicle_' . $model->vehicle_id . '.' . $file->extension;
             } else {
-                $model->vehicletype_image = $oldImage;
+                $model->vehicle_image = $oldImage;
             }
 
             $model->save();
             Yii::$app->getSession()->setFlash('message', 'Update Vehicle Type success!');
-            return $this->redirect(['vehicletype/edit/'.$model->vehicletype_id]);
-        } else {
-            return $this->render('edit', [
-                'model' => $model,
-            ]);
+            return $this->redirect(['vehicle/edit', 'vehicle' => $model->vehicle_id]);
         }
 
-        return $this->render('edit', ['model' => $model]);
+        $prepare_list_companies = Company::find()
+            ->where(['record_status' => 4])
+                ->all();
+        $prepare_list_vehicletypes = Vehicletype::find()
+            ->where(['record_status' => 4])
+                ->all();
+        $prepare_list_drivers = Driver::find()
+            ->where(['record_status' => 4])
+                ->all();
+        $prepare_list_lines = Line::find()
+            ->where(['record_status' => 4])
+                ->all();
+
+        $data['list_companies'] = ArrayHelper::map($prepare_list_companies, 'company_id', 'company_name');
+        $data['list_vehicletypes'] = ArrayHelper::map($prepare_list_vehicletypes, 'vehicletype_id', 'vehicletype_name');
+        $data['list_drivers'] = ArrayHelper::map($prepare_list_drivers, 'driver_id', 'driver_name');
+        $data['list_lines'] = ArrayHelper::map($prepare_list_lines, 'line_id', 'line_name');
+
+        $data['model'] = $model;
+        return $this->render('edit', $data);
     }
 
 

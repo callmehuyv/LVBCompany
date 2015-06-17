@@ -60,35 +60,31 @@ class Vehicle extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getCompany()
     {
-        return $this->hasOne(Company::className(), ['company_id' => 'company_id']);
+        return Company::find()
+            ->where(['record_status' => 4, 'company_id' => $this->company_id])
+                ->one();
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getLine()
     {
-        return $this->hasOne(Line::className(), ['line_id' => 'line_id']);
+        return Line::find()
+            ->where(['record_status' => 4, 'line_id' => $this->line_id])
+                ->one();
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getDriver()
     {
-        return $this->hasOne(Driver::className(), ['driver_id' => 'driver_id']);
+        return Driver::find()
+                    ->where(['record_status' => 4, 'driver_id' => $this->driver_id])
+                        ->one();
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getVehicletype()
     {
-        return $this->hasOne(Vehicletype::className(), ['vehicletype_id' => 'vehicletype_id']);
+        return Vehicletype::find()
+                    ->where(['record_status' => 4, 'vehicletype_id' => $this->vehicletype_id])
+                        ->one();
     }
 }

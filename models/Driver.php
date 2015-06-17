@@ -62,7 +62,7 @@ class Driver extends \yii\db\ActiveRecord
      */
     public function getCompany()
     {
-        return $this->hasOne(Company::className(), ['company_id' => 'company_id']);
+        return $this->hasOne(Company::className(), ['company_id' => 'company_id', 'record_status' => 4]);
     }
 
     /**
@@ -70,6 +70,6 @@ class Driver extends \yii\db\ActiveRecord
      */
     public function getVehicles()
     {
-        return $this->hasMany(Vehicle::className(), ['driver_id' => 'driver_id']);
+        return $this->hasMany(Vehicle::className(), ['driver_id' => 'driver_id', 'record_status' => 4]);
     }
 }

@@ -60,6 +60,6 @@ class Station extends \yii\db\ActiveRecord
      */
     public function getLine()
     {
-        return $this->hasOne(Line::className(), ['line_id' => 'line_id']);
+        return $this->hasOne(Line::className(), ['line_id' => 'line_id', 'record_status' => 4]);
     }
 }

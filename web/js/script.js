@@ -11,15 +11,15 @@ $(document).ready(function() {
 	});
 
     $('#selectLine').change(function(){
-        var id = $('#selectLine').val()
+        var id = $('#selectLine').val();
         window.location.replace($('#currentUrl').val()+ '?line=' + id);
     });
     $('#selectCompany').change(function(){
-        var id = $('#selectCompany').val()
+        var id = $('#selectCompany').val();
         window.location.replace($('#currentUrl').val()+ '?company=' + id);
     });
     $('#selectVehicletype').change(function(){
-        var id = $('#selectVehicletype').val()
+        var id = $('#selectVehicletype').val();
         window.location.replace($('#currentUrl').val()+ '?vehicletype=' + id);
     });
 

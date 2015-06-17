@@ -52,12 +52,50 @@
                                 </a>
                             </td>
                             <td>
+                                <a data-toggle="modal" data-target="#modal_vehicletype_<?php echo $vehicletype->vehicletype_id ?>" title="View" class="btn btn-primary" href="#">
+                                    View Vehicle
+                                </a>
                                 <a title="Edit" class="btn btn-warning" href="<?php echo Url::toRoute('vehicletype/edit') ?>/<?php echo $vehicletype->vehicletype_id ?>">
-                                    <i class="glyphicon glyphicon-refresh"></i>
+                                    <i class="glyphicon glyphicon-edit"></i>
                                 </a>
                                 <a data-confirm="Are you sure you want to delete?" title="Remove" class="btn btn-danger" href="<?php echo Url::toRoute('vehicletype/delete') ?>/<?php echo $vehicletype->vehicletype_id ?>">
                                     <i class="glyphicon glyphicon-remove"></i>
                                 </a>
+
+
+                                <!-- Start Modal Station -->
+                                <div class="modal fade" id="modal_vehicletype_<?php echo $vehicletype->vehicletype_id ?>">
+                                  <div class="modal-dialog">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title">List Vehicles have type <?php echo $vehicletype->vehicletype_name ?></h4>
+                                      </div>
+                                      <div class="modal-body">
+                                        <?php if(!empty($vehicletype->vehicles)) : ?>
+                                            <ul>
+                                                <?php
+                                                    foreach ($vehicletype->vehicles as $vehicle) {
+                                                        ?>
+                                                            <li><?php echo $vehicle->vehicle_number ?></li>
+                                                        <?php
+                                                    }
+                                                ?>
+                                            </ul>
+                                        <?php else : ?>
+                                            <ul>
+                                                <li>This Line don't have any Vehicle</li>
+                                            </ul>
+                                        <?php endif; ?>
+                                      </div>
+                                      <div class="modal-footer">
+                                        <a class="btn btn-success" href="<?php echo Url::toRoute('vehicle/create').'?vehicletype='.$vehicletype->vehicletype_id ?>">Create new Vehicle</a>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <!-- End Modal Station -->
                             </td>
                         </tr>
                     <?php
