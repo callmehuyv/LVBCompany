@@ -14,16 +14,12 @@ use kartik\time\TimePicker;
 ?>
 <div class="site-create">
 
-    <h1>CREATE NEW LINE</h1>
+    <h1>CREATE NEW COMPANY</h1>
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
 
         <?= $form->field($model, 'company_name') ?>
         <?= $form->field($model, 'company_description') ?>
         <?= $form->field($model, 'company_image')->fileInput(); ?>
-
-
-        list_companies
-
         <div class="form-group">
             <?= Html::submitButton('Create', ['class' => 'btn btn-primary']) ?>
         </div>

@@ -2,6 +2,7 @@
     use yii\helpers\Html;
     use yii\widgets\ActiveForm;
     use yii\helpers\Url;
+    use yii\widgets\LinkPager;
 
     $this->title = 'List Vehicle';
     $this->params['breadcrumbs'][] = ['label' => 'Vehicle', 'url' => ['vehicle/index']];
@@ -92,23 +93,8 @@
         </div>
 
 
-        <?php if(Yii::$app->session->get('message') != null) : ?>
-            <p class="bg-success"> <?php echo htmlentities(Yii::$app->session->getFlash('message')); ?></p>
-        <?php endif; ?>
+        <?php messageSystems() ?>
 
-        <br><br>
-        <?php
-            if (isset($_GET['message'])) {
-                ?>
-                    <style type="text/css">
-                        .bg-primary {
-                            padding: 15px;
-                        }
-                    </style>
-                    <p class="bg-primary"> <?php echo htmlentities($_GET['message']); ?></p>
-                <?php
-            }
-        ?>
         <table class="table table-hover">
             <tr>
                 <th>ID</th>
@@ -164,4 +150,9 @@
                 }
             ?>
         </table>
+        <?php
+            echo LinkPager::widget([
+                'pagination' => $pagination,
+            ]);
+        ?>
 </div>

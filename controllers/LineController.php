@@ -11,8 +11,8 @@ use app\models\Station;
 use app\models\Vehicletype;
 use yii\web\UploadedFile;
 use yii\helpers\ArrayHelper;
-
 use callmehuyv\helpers\Input;
+use yii\data\Pagination;
 
 class LineController extends Controller
 {
@@ -59,7 +59,13 @@ class LineController extends Controller
         if (Input::has('vehicletype')) {
             $params['vehicletype_id'] = $data['selected_vehicletype'];
         }
-        $data['list_lines'] = Line::find()->where($params)->all();
+
+        $query = Line::find()->where($params);
+        $count = $query->count();
+        $pagination = new Pagination(['totalCount' => $count]);
+        $pagination->defaultPageSize = 5;
+        $data['list_lines'] = $query->offset($pagination->offset)->limit($pagination->limit)->all();
+        $data['pagination'] = $pagination;
         $data['list_vehicletypes'] = Vehicletype::find()->where(['record_status' => 4])->all();
         $data['selected_vehicletype']= (int)Input::get('vehicletype');
         return $this->render('index', $data);
@@ -82,7 +88,7 @@ class LineController extends Controller
         $model = Line::findOne($selected_line);
         $oldImage = $model->line_image;
 
-        if ( $model->load(Yii::$app->request->post()) ) {
+        if ( $model->load(Yii::$app->request->post()) && $model->validate() ) {
             $file = UploadedFile::getInstance($model, 'line_image');
 
             if ($file) {
@@ -95,10 +101,6 @@ class LineController extends Controller
             $model->save();
             Yii::$app->getSession()->setFlash('message', 'Update Line success!');
             return $this->redirect(['line/edit', 'line' => $model->line_id]);
-        } else {
-            return $this->render('edit', [
-                'model' => $model,
-            ]);
         }
 
         return $this->render('edit', ['model' => $model]);
@@ -108,22 +110,20 @@ class LineController extends Controller
     public function actionCreate()
     {
         $model = new Line();
-        if ($model->load(Yii::$app->request->post())) {
-            if ($model->validate()) {
-                $file = UploadedFile::getInstance($model, 'line_image');
-                if ($file) {
-                    $model->line_image = '';
-                    $model->save();
-                    $file->saveAs('uploads/line_' . $model->line_id . '.' . $file->extension);
-                    $model->line_image = 'uploads/line_' . $model->line_id . '.' . $file->extension;
-                    $model->save();
-                } else {
-                    $model->line_image = 'uploads/no-thumbnail.png';
-                    $model->save();
-                }
-                Yii::$app->getSession()->setFlash('message', 'Created new Line success!');
-                return $this->redirect(['/line/index']);
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            $file = UploadedFile::getInstance($model, 'line_image');
+            if ($file) {
+                $model->line_image = '';
+                $model->save();
+                $file->saveAs('uploads/line_' . $model->line_id . '.' . $file->extension);
+                $model->line_image = 'uploads/line_' . $model->line_id . '.' . $file->extension;
+                $model->save();
+            } else {
+                $model->line_image = 'uploads/no-thumbnail.png';
+                $model->save();
             }
+            Yii::$app->getSession()->setFlash('message', 'Created new Line success!');
+            return $this->redirect(['/line/index']);
         }
 
         if (Input::has('vehicletype')) {

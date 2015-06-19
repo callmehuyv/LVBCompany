@@ -15,6 +15,7 @@ use yii\web\UploadedFile;
 use yii\helpers\ArrayHelper;
 use callmehuyv\helpers\Input;
 use yii\db\Query;
+use yii\data\Pagination;
 
 class VehicleController extends Controller
 {
@@ -66,10 +67,13 @@ class VehicleController extends Controller
             $params['vehicletype_id'] = Input::get('vehicletype');
         }
 
-        $vehicles = Vehicle::find()
-            ->where($params)
-                ->all();
-
+        $query = Vehicle::find()->where($params);
+        $count = $query->count();
+        $pagination = new Pagination(['totalCount' => $count]);
+        $pagination->defaultPageSize = 5;
+        $vehicles = $query->offset($pagination->offset)->limit($pagination->limit)->all();
+        $data['pagination'] = $pagination;
+        
         $data['vehicles'] = $vehicles;
         $data['selected_company'] = (int)Input::get('company');
         $data['list_companies'] = Company::find()->where(['record_status' => 4])->all();
@@ -100,18 +104,25 @@ class VehicleController extends Controller
         $oldImage = $model->vehicle_image;
 
         if ( $model->load(Yii::$app->request->post()) ) {
-            $file = UploadedFile::getInstance($model, 'vehicle_image');
+            if ($model->validate()) {
+                $count = Vehicle::find()->where(['line_id' => $model->line_id, 'record_status' => 4])->where(['not', ['vehicle_id' => $model->vehicle_id]])->count();
+                if ($count >= 10) {
+                    $model->addError('line_id', 'This Line has max 10 station. Please choose other line');
+                } else {
+                    $file = UploadedFile::getInstance($model, 'vehicle_image');
 
-            if ($file) {
-                $file->saveAs('uploads/vehicle_' . $model->vehicle_id . '.' . $file->extension);
-                $model->vehicle_image = 'uploads/vehicle_' . $model->vehicle_id . '.' . $file->extension;
-            } else {
-                $model->vehicle_image = $oldImage;
+                    if ($file) {
+                        $file->saveAs('uploads/vehicle_' . $model->vehicle_id . '.' . $file->extension);
+                        $model->vehicle_image = 'uploads/vehicle_' . $model->vehicle_id . '.' . $file->extension;
+                    } else {
+                        $model->vehicle_image = $oldImage;
+                    }
+
+                    $model->save();
+                    Yii::$app->getSession()->setFlash('message', 'Update Vehicle success!');
+                    return $this->redirect(['vehicle/edit', 'vehicle' => $model->vehicle_id]);
+                }
             }
-
-            $model->save();
-            Yii::$app->getSession()->setFlash('message', 'Update Vehicle success!');
-            return $this->redirect(['vehicle/edit', 'vehicle' => $model->vehicle_id]);
         }
 
         $prepare_list_companies = Company::find()
@@ -131,6 +142,13 @@ class VehicleController extends Controller
         $data['list_vehicletypes'] = ArrayHelper::map($prepare_list_vehicletypes, 'vehicletype_id', 'vehicletype_name');
         $data['list_drivers'] = ArrayHelper::map($prepare_list_drivers, 'driver_id', 'driver_name');
         $data['list_lines'] = ArrayHelper::map($prepare_list_lines, 'line_id', 'line_name');
+        // Foreach list line and check, if it has max 7 station, unset it
+        foreach ($data['list_lines'] as $line_id => $line_name ) {
+            $count = Vehicle::find()->where(['line_id' => $line_id, 'record_status' => 4])->count();
+            if ($count >= 7 && $line_id != $model->line_id) {
+                unset($data['list_lines'][$line_id]);
+            }
+        }
 
         $data['model'] = $model;
         return $this->render('edit', $data);
@@ -142,19 +160,24 @@ class VehicleController extends Controller
         $model = new Vehicle();
         if ($model->load(Yii::$app->request->post())) {
             if ($model->validate()) {
-            $file = UploadedFile::getInstance($model, 'vehicle_image');
-                if ($file) {
-                    $model->vehicle_image = '';
-                    $model->save();
-                    $file->saveAs('uploads/vehicle_' . $model->vehicle_id . '.' . $file->extension);
-                    $model->vehicle_image = 'uploads/vehicle_' . $model->vehicle_id . '.' . $file->extension;
-                    $model->save();
+                $count = Vehicle::find()->where(['line_id' => $model->line_id, 'record_status' => 4])->count();
+                if ($count >= 10) {
+                    $model->addError('line_id', 'This Line has max 10 station. Please choose other line');
                 } else {
-                    $model->vehicle_image = 'uploads/no-thumbnail.png';
-                    $model->save();
+                    $file = UploadedFile::getInstance($model, 'vehicle_image');
+                    if ($file) {
+                        $model->vehicle_image = '';
+                        $model->save();
+                        $file->saveAs('uploads/vehicle_' . $model->vehicle_id . '.' . $file->extension);
+                        $model->vehicle_image = 'uploads/vehicle_' . $model->vehicle_id . '.' . $file->extension;
+                        $model->save();
+                    } else {
+                        $model->vehicle_image = 'uploads/no-thumbnail.png';
+                        $model->save();
+                    }
+                    Yii::$app->getSession()->setFlash('message', 'Created new Vehicle success!');
+                    return $this->redirect(['/vehicle/index']);
                 }
-                Yii::$app->getSession()->setFlash('message', 'Created new Vehicle success!');
-                return $this->redirect(['/vehicle/index']);
             }
         }
 
@@ -178,13 +201,10 @@ class VehicleController extends Controller
             ->where(['record_status' => 4])
                 ->all();
 
-        // Get list validate drivers
-
         $prepare_list_drivers = Driver::find()
-                ->where(['drivers.record_status' => 4])
+                ->where(['record_status' => 4])
                     ->where(['not in', 'driver_id', (new Query())->select('driver_id')->from('vehicles')->where(['record_status' => 4])])
                             ->all();
-        print_r($prepare_list_drivers);die;
         $prepare_list_lines = Line::find()
             ->where(['record_status' => 4])
                 ->all();
@@ -193,6 +213,14 @@ class VehicleController extends Controller
         $data['list_vehicletypes'] = ArrayHelper::map($prepare_list_vehicletypes, 'vehicletype_id', 'vehicletype_name');
         $data['list_drivers'] = ArrayHelper::map($prepare_list_drivers, 'driver_id', 'driver_name');
         $data['list_lines'] = ArrayHelper::map($prepare_list_lines, 'line_id', 'line_name');
+        // Foreach list line and check, if it has max 7 station, we will unset it
+        foreach ($data['list_lines'] as $line_id => $line_name ) {
+            $count = Vehicle::find()->where(['line_id' => $line_id, 'record_status' => 4])->count();
+            if ($count >= 10) {
+                unset($data['list_lines'][$line_id]);
+            }
+        }
+
         $data['model'] = $model;
         return $this->render('create', $data);
     }

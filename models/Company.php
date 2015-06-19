@@ -17,29 +17,22 @@ use Yii;
  */
 class Company extends \yii\db\ActiveRecord
 {
-    /**
-     * @inheritdoc
-     */
+
     public static function tableName()
     {
         return 'companies';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
             [['company_description'], 'string'],
             [['record_status'], 'integer'],
-            [['company_name', 'company_image'], 'string', 'max' => 255]
+            [['company_name', 'company_image'], 'string', 'max' => 255],
+            ['company_name', 'unique']
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function attributeLabels()
     {
         return [
@@ -51,12 +44,16 @@ class Company extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getVehicles()
     {
         return Vehicle::find()
+            ->where(['record_status' => 4, 'company_id' => $this->company_id])
+                ->all();
+    }
+
+    public function getDrivers()
+    {
+        return Driver::find()
             ->where(['record_status' => 4, 'company_id' => $this->company_id])
                 ->all();
     }

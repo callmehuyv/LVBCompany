@@ -13,7 +13,6 @@ use yii\web\UploadedFile;
 
 class AdminController extends Controller
 {
-
     public function behaviors()
     {
         return [

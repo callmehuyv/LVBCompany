@@ -28,9 +28,6 @@ class Line extends \yii\db\ActiveRecord
         return 'lines';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
@@ -39,13 +36,11 @@ class Line extends \yii\db\ActiveRecord
             [['record_status', 'vehicletype_id'], 'integer'],
             [['line_name', 'line_image'], 'string', 'max' => 255],
             [['line_image'], 'file'],
-            ['line_name', 'unique']
+            ['line_name', 'unique'],
+            ['vehicletype_id', 'exist', 'targetClass' => '\app\models\Vehicletype', 'targetAttribute' => 'vehicletype_id']
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function attributeLabels()
     {
         return [
@@ -77,7 +72,7 @@ class Line extends \yii\db\ActiveRecord
     public function getVehicletype()
     {
         return Vehicletype::find()
-            ->where(['vehicletype_id' => $this->vehicletype_id, 'record_status' => 4])
+            ->where(['vehicletype_id' => $this->vehicletype_id])
                 ->one();
     }
 }

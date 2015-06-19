@@ -2,6 +2,7 @@
     use yii\helpers\Html;
     use yii\widgets\ActiveForm;
     use yii\helpers\Url;
+    use yii\widgets\LinkPager;
 
     $this->title = 'List Line';
     $this->params['breadcrumbs'][] = ['label' => 'Line', 'url' => ['line/index']];
@@ -267,5 +268,9 @@
                 }
             ?>
         </table>
-
+        <?php
+            echo LinkPager::widget([
+                'pagination' => $pagination,
+            ]);
+        ?>
 </div>

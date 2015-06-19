@@ -13,9 +13,7 @@
     
         <a class="btn btn-success" href="<?php echo Url::toRoute('station/index') ?>">View all Station</a>
 
-        <?php if(Yii::$app->session->get('message') != null) : ?>
-            <p class="bg-success"> <?php echo htmlentities(Yii::$app->session->getFlash('message')); ?></p>
-        <?php endif; ?>
+        <?php messageSystems() ?>
 
         <br><br>
     
@@ -23,7 +21,7 @@
 
         <?= $form->field($model, 'station_name') ?>
         <?= $form->field($model, 'station_description')->textArea() ?>
-        <?= $form->field($model, 'line_id')->dropDownList($array_list_lines); ?>
+        <?= $form->field($model, 'line_id')->dropDownList($list_lines); ?>
         <?= $form->field($model, 'station_image')->fileInput() ?>
         
         <?= Html::img('@web/'.$model->station_image, ['alt' => 'Station Image', 'width' => '200px']) ?>

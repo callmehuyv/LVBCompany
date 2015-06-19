@@ -9,6 +9,7 @@ use yii\filters\VerbFilter;
 use app\models\Vehicletype;
 use yii\web\UploadedFile;
 use callmehuyv\helpers\Input;
+use yii\data\Pagination;
 
 class VehicletypeController extends Controller
 {
@@ -50,10 +51,14 @@ class VehicletypeController extends Controller
 
     public function actionIndex()
     {
-        $vehicletypes = Vehicletype::find()
-            ->where(['record_status' => 4])
-                ->all();
-        return $this->render('index', ['vehicletypes' => $vehicletypes]);
+        $query = Vehicletype::find()->where(['record_status' => 4]);
+        $count = $query->count();
+        $pagination = new Pagination(['totalCount' => $count]);
+        $pagination->defaultPageSize = 5;
+        $vehicletypes = $query->offset($pagination->offset)->limit($pagination->limit)->all();
+        $data['vehicletypes'] = $vehicletypes;
+        $data['pagination'] = $pagination;
+        return $this->render('index', $data);
     }
 
     public function actionDelete()
@@ -73,23 +78,17 @@ class VehicletypeController extends Controller
         $model = Vehicletype::findOne($selected_vehicletype);
         $oldImage = $model->vehicletype_image;
 
-        if ( $model->load(Yii::$app->request->post()) ) {
+        if ( $model->load(Yii::$app->request->post()) && $model->validate) {
             $file = UploadedFile::getInstance($model, 'vehicletype_image');
-
             if ($file) {
                 $file->saveAs('uploads/vehicletype_' . $model->vehicletype_id . '.' . $file->extension);
                 $model->vehicletype_image = 'uploads/vehicletype_' . $model->vehicletype_id . '.' . $file->extension;
             } else {
                 $model->vehicletype_image = $oldImage;
             }
-
             $model->save();
             Yii::$app->getSession()->setFlash('message', 'Update Vehicle Type success!');
             return $this->redirect(['vehicletype/edit/'.$model->vehicletype_id]);
-        } else {
-            return $this->render('edit', [
-                'model' => $model,
-            ]);
         }
 
         return $this->render('edit', ['model' => $model]);
@@ -99,23 +98,21 @@ class VehicletypeController extends Controller
     public function actionCreate()
     {
         $model = new Vehicletype();
-        if ($model->load(Yii::$app->request->post())) {
-            if ($model->validate()) {
-                $file = UploadedFile::getInstance($model, 'vehicletype_image');
-                if ($file) {
-                    $model->vehicletype_image = '';
-                    $model->save();
-                    $file->saveAs('uploads/vehicletype_' . $model->vehicletype_id . '.' . $file->extension);
-                    $model->vehicletype_image = 'uploads/vehicletype_' . $model->vehicletype_id . '.' . $file->extension;
-                    $model->save();
-                } else {
-                    $model->vehicletype_image = 'uploads/no-thumbnail.png';
-                    $model->save();
-                }
-
-                Yii::$app->getSession()->setFlash('message', 'Created new Vehicle Type success!');
-                return $this->redirect(['/vehicletype/index']);
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            $file = UploadedFile::getInstance($model, 'vehicletype_image');
+            if ($file) {
+                $model->vehicletype_image = '';
+                $model->save();
+                $file->saveAs('uploads/vehicletype_' . $model->vehicletype_id . '.' . $file->extension);
+                $model->vehicletype_image = 'uploads/vehicletype_' . $model->vehicletype_id . '.' . $file->extension;
+                $model->save();
+            } else {
+                $model->vehicletype_image = 'uploads/no-thumbnail.png';
+                $model->save();
             }
+
+            Yii::$app->getSession()->setFlash('message', 'Created new Vehicle Type success!');
+            return $this->redirect(['/vehicletype/index']);
         }
         return $this->render('create', ['model' => $model]);
     }

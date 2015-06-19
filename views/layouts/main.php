@@ -17,6 +17,7 @@ AppAsset::register($this);
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex nofollow">
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
@@ -52,7 +53,7 @@ AppAsset::register($this);
                         url: url,
                         data: data,
                         success: function(data) {
-                            if (data['status'] === true) {
+                            if (data['status'] == true) {
                                 $(data['element']).fadeOut(1000, function() { $(this).remove(); });
                             } else {
                                 messageSystems('Something Wrong! Please try again later');

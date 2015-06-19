@@ -12,7 +12,7 @@
     
         <a class="btn btn-success" href="<?php echo Url::toRoute('user/index') ?>">View all User</a>
 
-        <?php messageSystem(); ?>
+        <?php messageSystems(); ?>
 
         <br><br>
     

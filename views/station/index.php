@@ -2,6 +2,8 @@
     use yii\helpers\Html;
     use yii\widgets\ActiveForm;
     use yii\helpers\Url;
+    use yii\widgets\LinkPager;
+    
     $this->title = 'List Stations';
     $this->params['breadcrumbs'][] = ['label' => 'Station', 'url' => ['station/index']];
     $this->params['breadcrumbs'][] = $this->title;
@@ -101,5 +103,9 @@
                 }
             ?>
         </table>
-
+        <?php
+            echo LinkPager::widget([
+                'pagination' => $pagination,
+            ]);
+        ?>
 </div>

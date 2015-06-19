@@ -2,6 +2,7 @@
     use yii\helpers\Html;
     use yii\widgets\ActiveForm;
     use yii\helpers\Url;
+    use yii\widgets\LinkPager;
 
     $this->title = 'List Company';
     $this->params['breadcrumbs'][] = ['label' => 'Company', 'url' => ['company/index']];
@@ -12,23 +13,10 @@
     
         <a class="btn btn-success" href="<?php echo Url::toRoute('company/create') ?>">Create new Company</a>
 
-        <?php if(Yii::$app->session->get('message') != null) : ?>
-            <p class="bg-success"> <?php echo htmlentities(Yii::$app->session->getFlash('message')); ?></p>
-        <?php endif; ?>
+        <?php messageSystems() ?>
 
         <br><br>
-        <?php
-            if (isset($_GET['message'])) {
-                ?>
-                    <style type="text/css">
-                        .bg-primary {
-                            padding: 15px;
-                        }
-                    </style>
-                    <p class="bg-primary"> <?php echo htmlentities($_GET['message']); ?></p>
-                <?php
-            }
-        ?>
+        
         <table class="table table-hover">
             <tr>
                 <th>ID</th>
@@ -66,7 +54,7 @@
                                     <a title="Edit" class="btn btn-warning" href="<?php echo Url::toRoute('company/edit').'?company='.$company->company_id ?>">
                                         <i class="glyphicon glyphicon-edit"></i>
                                     </a>
-                                    <a data-confirm="Are you sure you want to delete?" title="Remove" class="btn btn-danger" href="<?php echo Url::toRoute('company/delete').'?company='.$company->company_id ?>">
+                                    <a title="Remove" class="btn btn-danger deleteConfirm" data-type="company" data-id="<?php echo $company->company_id ?>" data-url="<?php echo Url::toRoute('company/delete') ?>" href="#">
                                         <i class="glyphicon glyphicon-remove"></i>
                                     </a>
                                 <?php endif; ?>
@@ -157,11 +145,107 @@
                                   </div>
                                 </div>
                                 <!-- End Modal Vehicle -->
+
+
+                                <!-- Start Modal Driver -->
+                                <div class="modal fade" id="modal_driver_<?php echo $company->company_id ?>">
+                                  <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title">List Driver belong Company <?php echo $company->company_name ?></h4>
+                                      </div>
+                                      <div class="modal-body">
+                                        <?php
+                                            if (empty($company->drivers)) {
+                                                ?>
+                                                    <strong>This Company don't have any Driver</strong>
+                                                <?php
+                                            } else {
+                                                ?>
+                                                    <table class="table table-hover">
+                                                        <tr>
+                                                            <th>ID</th>
+                                                            <th>Driver Name</th>
+                                                            <th>Driver Address</th>
+                                                            <th>Driver Phone</th>
+                                                            <th>Driver Image</th>
+                                                            <th>Driver Company</th>
+                                                            <th>Vehicle</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                        <?php
+                                                            foreach ($company->drivers as $driver) {
+                                                                ?>
+                                                                    <tr id="driver_<?php echo $driver->driver_id ?>">
+                                                                        <td>
+                                                                            <?php echo $driver->driver_id ?>
+                                                                        </td>
+                                                                        <td>
+                                                                            <?php echo $driver->driver_name ?>
+                                                                        </td>
+                                                                        <td>
+                                                                            <?php echo $driver->driver_address ?>
+                                                                        </td>
+                                                                        <td>
+                                                                            <?php echo $driver->driver_phone ?>
+                                                                        </td>
+                                                                        <td>
+                                                                            <a href="<?php echo Url::to('@web/'.$driver->driver_image); ?>" data-toggle="lightbox" data-title="View Full Size">
+                                                                                <img width="100px" src="<?php echo Url::to('@web/'.$driver->driver_image); ?>" class="img-responsive">
+                                                                            </a>
+                                                                        </td>
+                                                                        <td>
+                                                                            <?php echo $driver->company->company_name ?>
+                                                                        </td>
+                                                                        <td>
+                                                                            <?php
+                                                                                if (isset($driver->vehicle->vehicle_number)) {
+                                                                                    echo $driver->vehicle->vehicle_number;
+                                                                                } else {
+                                                                                    echo 'Waiting for layout';
+                                                                                }
+                                                                            ?>
+                                                                        </td>
+                                                                        <td>
+                                                                            <?php if(!Yii::$app->user->isGuest) : ?>
+                                                                                <a title="Edit" class="btn btn-warning" href="<?php echo Url::toRoute('driver/edit').'?driver='.$driver->driver_id ?>">
+                                                                                    <i class="glyphicon glyphicon-edit"></i>
+                                                                                </a>
+                                                                                <a title="Remove" class="btn btn-danger deleteConfirm" data-type="driver" data-id="<?php echo $driver->driver_id ?>" data-url="<?php echo Url::toRoute('driver/delete') ?>" href="#">
+                                                                                    <i class="glyphicon glyphicon-remove"></i>
+                                                                                </a>
+                                                                            <?php endif; ?>
+                                                                        </td>
+                                                                    </tr>
+                                                                <?php
+                                                            }
+                                                        ?>
+                                                    </table>
+                                                <?php
+                                            }
+                                        ?>
+                                      </div>
+                                      <div class="modal-footer">
+                                        <?php if(!Yii::$app->user->isGuest) : ?>
+                                            <a class="btn btn-success" href="<?php echo Url::toRoute('driver/create').'?company='.$company->company_id ?>">Create new Vehicle</a>
+                                        <?php endif; ?>
+                                        <a class="btn btn-warning" href="<?php echo Url::toRoute('driver/index').'?company='.$company->company_id ?>">View on Vehicle screen</a>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <!-- End Modal Driver -->
                             </td>
                         </tr>
                     <?php
                 }
             ?>
         </table>
-
+        <?php
+            echo LinkPager::widget([
+                'pagination' => $pagination,
+            ]);
+        ?>
 </div>

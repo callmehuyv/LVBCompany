@@ -15,7 +15,7 @@
 
         <?= $form->field($model, 'station_name') ?>
         <?= $form->field($model, 'station_description')->textArea() ?>
-        <?= $form->field($model, 'line_id')->dropDownList($array_list_lines); ?>
+        <?= $form->field($model, 'line_id')->dropDownList($list_lines); ?>
         <?= $form->field($model, 'station_image')->fileInput(); ?>
 
         <div class="form-group">

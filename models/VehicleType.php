@@ -26,9 +26,6 @@ class Vehicletype extends \yii\db\ActiveRecord
         return 'vehicletypes';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
@@ -40,9 +37,6 @@ class Vehicletype extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function attributeLabels()
     {
         return [

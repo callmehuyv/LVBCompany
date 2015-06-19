@@ -8,7 +8,7 @@
         <h1>Congratulations!</h1>
 
         <p class="lead">
-            Bạn có thể sử dụng tài khoản <strong>admin@admin.com/admin</strong> để đăng nhập.
+            Đây là bản Project chỉ mang tính chất Demo. Bạn có thể sử dụng tài khoản <strong>admin@admin.com/admin</strong> để đăng nhập.
             Sau khi đăng nhập có thể tạo tài khoản admin mới <a href="<?php echo Url::toRoute('user/create') ?>">tại đây</a>!
         </p>
 

@@ -30,9 +30,6 @@ class Vehicle extends \yii\db\ActiveRecord
         return 'vehicles';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
@@ -41,13 +38,13 @@ class Vehicle extends \yii\db\ActiveRecord
             [['vehicle_image'], 'string', 'max' => 255],
             [['vehicle_number'], 'string', 'max' => 64],
             ['vehicle_image', 'image'],
-            ['driver_id', 'unique']
+            ['driver_id', 'unique'],
+            ['driver_id', 'exist', 'targetClass' => '\app\models\Driver', 'targetAttribute' => 'driver_id'],
+            ['line_id', 'exist', 'targetClass' => '\app\models\Line', 'targetAttribute' => 'line_id'],
+            ['vehicletype_id', 'exist', 'targetClass' => '\app\models\Vehicletype', 'targetAttribute' => 'vehicletype_id']
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function attributeLabels()
     {
         return [
@@ -71,21 +68,21 @@ class Vehicle extends \yii\db\ActiveRecord
     public function getLine()
     {
         return Line::find()
-            ->where(['record_status' => 4, 'line_id' => $this->line_id])
+            ->where(['line_id' => $this->line_id])
                 ->one();
     }
 
     public function getDriver()
     {
         return Driver::find()
-                    ->where(['record_status' => 4, 'driver_id' => $this->driver_id])
+                    ->where(['driver_id' => $this->driver_id])
                         ->one();
     }
 
     public function getVehicletype()
     {
         return Vehicletype::find()
-                    ->where(['record_status' => 4, 'vehicletype_id' => $this->vehicletype_id])
+                    ->where(['vehicletype_id' => $this->vehicletype_id])
                         ->one();
     }
 }

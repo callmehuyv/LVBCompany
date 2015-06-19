@@ -17,8 +17,7 @@ class CreateUser extends Model {
         return [
             [['user_email', 'user_password', 'user_first_name', 'user_last_name', 'user_phone'], 'required'],
             ['user_email', 'email'],
-            ['user_email', 'unique', 'targetClass' => '\app\models\User'],
-            ['user_phone', 'unique', 'targetClass' => '\app\models\User'],
+            [['user_email', 'user_phone'], 'unique', 'targetClass' => '\app\models\User'],
             ['user_password', 'string', 'max' => 128],
             [['confirmPassword'], 'compare', 'compareAttribute'=>'user_password', 'operator'=>'==']
         ];

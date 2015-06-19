@@ -2,6 +2,7 @@
     use yii\helpers\Html;
     use yii\widgets\ActiveForm;
     use yii\helpers\Url;
+    use yii\widgets\LinkPager;
 
     $this->title = 'List Driver';
     $this->params['breadcrumbs'][] = ['label' => 'Driver', 'url' => ['driver/index']];
@@ -64,7 +65,9 @@
                 <th>Driver Image</th>
                 <th>Driver Company</th>
                 <th>Vehicle</th>
-                <th>Action</th>
+                <?php if(!Yii::$app->user->isGuest) : ?>
+                    <th>Action</th>
+                <?php endif; ?>
             </tr>
             <?php
                 foreach ($drivers as $driver) {
@@ -99,20 +102,24 @@
                                     }
                                 ?>
                             </td>
-                            <td>
-                                <?php if(!Yii::$app->user->isGuest) : ?>
+                            <?php if(!Yii::$app->user->isGuest) : ?>
+                                <td>
                                     <a title="Edit" class="btn btn-warning" href="<?php echo Url::toRoute('driver/edit').'?driver='.$driver->driver_id ?>">
                                         <i class="glyphicon glyphicon-edit"></i>
                                     </a>
                                     <a title="Remove" class="btn btn-danger deleteConfirm" data-type="driver" data-id="<?php echo $driver->driver_id ?>" data-url="<?php echo Url::toRoute('driver/delete') ?>" href="#">
                                         <i class="glyphicon glyphicon-remove"></i>
                                     </a>
-                                <?php endif; ?>
-                            </td>
+                                </td>
+                            <?php endif; ?>
                         </tr>
                     <?php
                 }
             ?>
         </table>
-
+        <?php
+            echo LinkPager::widget([
+                'pagination' => $pagination,
+            ]);
+        ?>
 </div>

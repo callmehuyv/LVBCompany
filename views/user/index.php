@@ -16,18 +16,6 @@
         <?php messageSystems(); ?>
 
         <br><br>
-        <?php
-            if (isset($_GET['message'])) {
-                ?>
-                    <style type="text/css">
-                        .bg-primary {
-                            padding: 15px;
-                        }
-                    </style>
-                    <p class="bg-primary"> <?php echo htmlentities($_GET['message']); ?></p>
-                <?php
-            }
-        ?>
         <table class="table table-hover">
             <tr>
                 <th>ID</th>

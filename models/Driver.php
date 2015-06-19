@@ -20,32 +20,23 @@ use Yii;
  */
 class Driver extends \yii\db\ActiveRecord
 {
-    /**
-     * @inheritdoc
-     */
     public static function tableName()
     {
         return 'drivers';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
             [['company_id', 'driver_name', 'driver_address', 'driver_phone'], 'required'],
             [['company_id', 'record_status'], 'integer'],
             [['driver_name', 'driver_address', 'driver_image', 'driver_phone'], 'string', 'max' => 255],
-            ['driver_phone', 'unique'],
-            ['driver_name', 'unique'],
-            ['driver_image', 'file']
+            [['driver_phone', 'driver_name'], 'unique'],
+            ['driver_image', 'file'],
+            ['company_id', 'exist', 'targetClass' => '\app\models\Company', 'targetAttribute' => 'company_id']
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function attributeLabels()
     {
         return [
@@ -62,14 +53,14 @@ class Driver extends \yii\db\ActiveRecord
     public function getCompany()
     {
         return Company::find()
-            ->where(['company_id' => $this->company_id, 'record_status' => 4])
+            ->where(['company_id' => $this->company_id])
                 ->one();
     }
 
     public function getVehicle()
     {
         return Vehicle::find()
-            ->where(['driver_id' => $this->driver_id, 'record_status' => 4])
+            ->where(['driver_id' => $this->driver_id])
                 ->one();
     }
 }

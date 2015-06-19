@@ -53,13 +53,13 @@ class UserController extends Controller
     {
         $query = User::find()->where(['record_status' => 4]);
         $count = $query->count();
-        $users = User::find()->where(['record_status' => 4])->all();
-        
+                
         $pagination = new Pagination(['totalCount' => $count]);
-        $pagination->defaultPageSize = 2;
+        $pagination->defaultPageSize = 5;
         $users = $query->offset($pagination->offset)->limit($pagination->limit)->all();
         $data['users'] = $users;
-        return $this->render('index', ['users' => $users, 'pagination' => $pagination]);
+        $data['pagination'] = $pagination;
+        return $this->render('index', $data);
     }
 
     public function actionDelete()
@@ -77,7 +77,7 @@ class UserController extends Controller
         $model = User::findOne($selected_user);
         $oldPassword = $model->user_password;
 
-        if ( $model->load(Yii::$app->request->post()) ) {
+        if ( $model->load(Yii::$app->request->post())  && $model->validate()) {
             if ($model->user_password !== $oldPassword) {
                 $model->user_password = Yii::$app->security->generatePasswordHash($model->user_password);
             }
@@ -87,10 +87,6 @@ class UserController extends Controller
             $model->save();
             Yii::$app->getSession()->setFlash('message', 'Update User success!');
             return $this->redirect(['user/edit', 'user' => $model->user_id]);
-        } else {
-            return $this->render('edit', [
-                'model' => $model,
-            ]);
         }
 
         return $this->render('edit', ['model' => $model]);

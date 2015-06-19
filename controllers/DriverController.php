@@ -10,8 +10,8 @@ use app\models\Driver;
 use app\models\Company;
 use yii\web\UploadedFile;
 use yii\helpers\ArrayHelper;
-
 use callmehuyv\helpers\Input;
+use yii\data\Pagination;
 
 class DriverController extends Controller
 {
@@ -57,9 +57,13 @@ class DriverController extends Controller
         if ($selected_company != null) {
            $params['company_id'] = $selected_company;
         }
-        $drivers = Driver::find()
-            ->where($params)
-                ->all();
+        $query = Driver::find()->where($params);
+        $count = $query->count();
+        $pagination = new Pagination(['totalCount' => $count]);
+        $pagination->defaultPageSize = 5;
+        $drivers = $query->offset($pagination->offset)->limit($pagination->limit)->all();
+        $data['pagination'] = $pagination;
+
         $list_companies = Company::find()
             ->where(['record_status' => 4])
                 ->all();
@@ -86,9 +90,8 @@ class DriverController extends Controller
         $model = Driver::findOne($selected_driver);
         $oldImage = $model->driver_image;
 
-        if ( $model->load(Yii::$app->request->post()) ) {
+        if ( $model->load(Yii::$app->request->post()) && $model->validate() ) {
             $file = UploadedFile::getInstance($model, 'driver_image');
-
             if ($file) {
                 $file->saveAs('uploads/driver_' . $model->driver_id . '.' . $file->extension);
                 $model->driver_image = 'uploads/driver_' . $model->driver_id . '.' . $file->extension;
@@ -116,26 +119,19 @@ class DriverController extends Controller
     public function actionCreate()
     {
         $model = new Driver();
-        if ($model->load(Yii::$app->request->post())) {
-            // If request is post and validate
-            if ($model->validate()) {
-                $file = UploadedFile::getInstance($model, 'driver_image');
-                if ($file) {
-                    $model->driver_image = '';
-                    $model->save();
-                    $file->saveAs('uploads/driver_' . $model->driver_id . '.' . $file->extension);
-                    $model->driver_image = 'uploads/driver_' . $model->driver_id . '.' . $file->extension;
-                } else {
-                    $model->driver_image = 'uploads/no-thumbnail.png';
-                }
-                Yii::$app->getSession()->setFlash('message', 'Created new Driver success!');
-                return $this->redirect(['/driver/index']);
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            $file = UploadedFile::getInstance($model, 'driver_image');
+            if ($file) {
+                $model->driver_image = '';
+                $model->save();
+                $file->saveAs('uploads/driver_' . $model->driver_id . '.' . $file->extension);
+                $model->driver_image = 'uploads/driver_' . $model->driver_id . '.' . $file->extension;
             } else {
-                // If False Validate : Goback with Error (Dont forget pass listcompany to model)
-                $prepare_list_companies = Company::find()->where(['record_status' => 4])->asArray()->all();
-                $list_companies = ArrayHelper::map($prepare_list_companies, 'company_id', 'company_name');
-                return $this->render('create', ['model' => $model, 'list_companies' => $list_companies]);
+                $model->driver_image = 'uploads/no-thumbnail.png';
             }
+            $model->save();
+            Yii::$app->getSession()->setFlash('message', 'Created new Driver success!');
+            return $this->redirect(['/driver/index']);
         }
 
         if (Input::has('company')) {
