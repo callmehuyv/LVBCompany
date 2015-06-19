@@ -61,9 +61,11 @@ class VehicletypeController extends Controller
         $selected_vehicletype = Input::get('vehicletype');
         $model = Vehicletype::findOne($selected_vehicletype);
         $model->record_status = 3;
-        $model->save();
-        Yii::$app->getSession()->setFlash('message', 'Delete Vehicle Type success!');
-        return $this->redirect(['vehicletype/index']);
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return [
+            'status' => $model->save(),
+            'element' => '#vehicletype_'.$selected_vehicletype
+        ];
     }
 
     public function actionEdit() {
@@ -98,20 +100,22 @@ class VehicletypeController extends Controller
     {
         $model = new Vehicletype();
         if ($model->load(Yii::$app->request->post())) {
-            $file = UploadedFile::getInstance($model, 'vehicletype_image');
-            if ($file) {
-                $model->vehicletype_image = '';
-                $model->save();
-                $file->saveAs('uploads/vehicletype_' . $model->vehicletype_id . '.' . $file->extension);
-                $model->vehicletype_image = 'uploads/vehicletype_' . $model->vehicletype_id . '.' . $file->extension;
-                $model->save();
-            } else {
-                $model->vehicletype_image = 'uploads/no-thumbnail.png';
-                $model->save();
-            }
+            if ($model->validate()) {
+                $file = UploadedFile::getInstance($model, 'vehicletype_image');
+                if ($file) {
+                    $model->vehicletype_image = '';
+                    $model->save();
+                    $file->saveAs('uploads/vehicletype_' . $model->vehicletype_id . '.' . $file->extension);
+                    $model->vehicletype_image = 'uploads/vehicletype_' . $model->vehicletype_id . '.' . $file->extension;
+                    $model->save();
+                } else {
+                    $model->vehicletype_image = 'uploads/no-thumbnail.png';
+                    $model->save();
+                }
 
-            Yii::$app->getSession()->setFlash('message', 'Created new Vehicle Type success!');
-            return $this->redirect(['/vehicletype/index']);
+                Yii::$app->getSession()->setFlash('message', 'Created new Vehicle Type success!');
+                return $this->redirect(['/vehicletype/index']);
+            }
         }
         return $this->render('create', ['model' => $model]);
     }

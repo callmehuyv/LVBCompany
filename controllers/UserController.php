@@ -81,6 +81,9 @@ class UserController extends Controller
             if ($model->user_password !== $oldPassword) {
                 $model->user_password = Yii::$app->security->generatePasswordHash($model->user_password);
             }
+            if ($model->user_password != '') {
+                $model->generateAuthKey();
+            }
             $model->save();
             Yii::$app->getSession()->setFlash('message', 'Update User success!');
             return $this->redirect(['user/edit', 'user' => $model->user_id]);

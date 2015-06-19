@@ -14,6 +14,7 @@ use app\models\Line;
 use yii\web\UploadedFile;
 use yii\helpers\ArrayHelper;
 use callmehuyv\helpers\Input;
+use yii\db\Query;
 
 class VehicleController extends Controller
 {
@@ -86,9 +87,11 @@ class VehicleController extends Controller
         $selected_vehicle = (int)Input::get('vehicle');
         $model = Vehicle::findOne($selected_vehicle);
         $model->record_status = 3;
-        $model->save();
-        Yii::$app->getSession()->setFlash('message', 'Delete Vehicle success!');
-        return $this->redirect(['vehicle/index']);
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return [
+            'status' => $model->save(),
+            'element' => '#vehicle_'.$selected_vehicle
+        ];
     }
 
     public function actionEdit() {
@@ -107,7 +110,7 @@ class VehicleController extends Controller
             }
 
             $model->save();
-            Yii::$app->getSession()->setFlash('message', 'Update Vehicle Type success!');
+            Yii::$app->getSession()->setFlash('message', 'Update Vehicle success!');
             return $this->redirect(['vehicle/edit', 'vehicle' => $model->vehicle_id]);
         }
 
@@ -138,20 +141,21 @@ class VehicleController extends Controller
     {
         $model = new Vehicle();
         if ($model->load(Yii::$app->request->post())) {
+            if ($model->validate()) {
             $file = UploadedFile::getInstance($model, 'vehicle_image');
-            if ($file) {
-                $model->vehicle_image = '';
-                $model->save();
-                $file->saveAs('uploads/vehicle_' . $model->vehicle_id . '.' . $file->extension);
-                $model->vehicle_image = 'uploads/vehicle_' . $model->vehicle_id . '.' . $file->extension;
-                $model->save();
-            } else {
-                $model->vehicle_image = 'uploads/no-thumbnail.png';
-                $model->save();
+                if ($file) {
+                    $model->vehicle_image = '';
+                    $model->save();
+                    $file->saveAs('uploads/vehicle_' . $model->vehicle_id . '.' . $file->extension);
+                    $model->vehicle_image = 'uploads/vehicle_' . $model->vehicle_id . '.' . $file->extension;
+                    $model->save();
+                } else {
+                    $model->vehicle_image = 'uploads/no-thumbnail.png';
+                    $model->save();
+                }
+                Yii::$app->getSession()->setFlash('message', 'Created new Vehicle success!');
+                return $this->redirect(['/vehicle/index']);
             }
-
-            Yii::$app->getSession()->setFlash('message', 'Created new Vehicle success!');
-            return $this->redirect(['/vehicle/index']);
         }
 
         if (Input::has('company')) {
@@ -173,9 +177,14 @@ class VehicleController extends Controller
         $prepare_list_vehicletypes = Vehicletype::find()
             ->where(['record_status' => 4])
                 ->all();
+
+        // Get list validate drivers
+
         $prepare_list_drivers = Driver::find()
-            ->where(['record_status' => 4])
-                ->all();
+                ->where(['drivers.record_status' => 4])
+                    ->where(['not in', 'driver_id', (new Query())->select('driver_id')->from('vehicles')->where(['record_status' => 4])])
+                            ->all();
+        print_r($prepare_list_drivers);die;
         $prepare_list_lines = Line::find()
             ->where(['record_status' => 4])
                 ->all();

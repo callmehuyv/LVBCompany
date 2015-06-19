@@ -72,9 +72,11 @@ class StationController extends Controller
         $selected_station = (int)Input::get('station');
         $model = Station::findOne($selected_station);
         $model->record_status = 3;
-        $model->save();
-        Yii::$app->getSession()->setFlash('message', 'Delete Station success!');
-        return $this->redirect(['station/index']);
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return [
+            'status' => $model->save(),
+            'element' => '#station_'.$selected_station
+        ];
     }
 
     public function actionEdit() {

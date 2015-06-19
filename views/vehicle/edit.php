@@ -12,11 +12,7 @@
 <div class="site-create">
     
         <a class="btn btn-success" href="<?php echo Url::toRoute('vehicle/index') ?>">View all Vehicle</a>
-
-        <?php if(Yii::$app->session->get('message') != null) : ?>
-            <p class="bg-success"> <?php echo htmlentities(Yii::$app->session->getFlash('message')); ?></p>
-        <?php endif; ?>
-
+        <?php messageSystems() ?>
         <br><br>
     
         <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>

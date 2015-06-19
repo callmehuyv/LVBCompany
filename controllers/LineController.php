@@ -59,11 +59,9 @@ class LineController extends Controller
         if (Input::has('vehicletype')) {
             $params['vehicletype_id'] = $data['selected_vehicletype'];
         }
-        $data['list_lines'] = Line::find()
-            ->where($params)
-                ->all();
-        $data['list_vehicletypes'] = Vehicletype::find()
-            ->where(['record_status' => 4]);
+        $data['list_lines'] = Line::find()->where($params)->all();
+        $data['list_vehicletypes'] = Vehicletype::find()->where(['record_status' => 4])->all();
+        $data['selected_vehicletype']= (int)Input::get('vehicletype');
         return $this->render('index', $data);
     }
 
@@ -72,9 +70,11 @@ class LineController extends Controller
         $selected_line = (int)Input::get('line');
         $model = Line::findOne($selected_line);
         $model->record_status = 3;
-        $model->save();
-        Yii::$app->getSession()->setFlash('message', 'Delete Line success!');
-        return $this->redirect(['line/index']);
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return [
+            'status' => $model->save(),
+            'element' => '#line_'.$selected_line
+        ];
     }
 
     public function actionEdit() {
@@ -109,20 +109,21 @@ class LineController extends Controller
     {
         $model = new Line();
         if ($model->load(Yii::$app->request->post())) {
-            $file = UploadedFile::getInstance($model, 'line_image');
-            if ($file) {
-                $model->line_image = '';
-                $model->save();
-                $file->saveAs('uploads/line_' . $model->line_id . '.' . $file->extension);
-                $model->line_image = 'uploads/line_' . $model->line_id . '.' . $file->extension;
-                $model->save();
-            } else {
-                $model->line_image = 'uploads/no-thumbnail.png';
-                $model->save();
+            if ($model->validate()) {
+                $file = UploadedFile::getInstance($model, 'line_image');
+                if ($file) {
+                    $model->line_image = '';
+                    $model->save();
+                    $file->saveAs('uploads/line_' . $model->line_id . '.' . $file->extension);
+                    $model->line_image = 'uploads/line_' . $model->line_id . '.' . $file->extension;
+                    $model->save();
+                } else {
+                    $model->line_image = 'uploads/no-thumbnail.png';
+                    $model->save();
+                }
+                Yii::$app->getSession()->setFlash('message', 'Created new Line success!');
+                return $this->redirect(['/line/index']);
             }
-
-            Yii::$app->getSession()->setFlash('message', 'Created new Line success!');
-            return $this->redirect(['/line/index']);
         }
 
         if (Input::has('vehicletype')) {

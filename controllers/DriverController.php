@@ -74,9 +74,11 @@ class DriverController extends Controller
         $selected_driver = (int)Input::get('driver');
         $model = Driver::findOne($selected_driver);
         $model->record_status = 3;
-        $model->save();
-        Yii::$app->getSession()->setFlash('message', 'Delete Driver success!');
-        return $this->redirect(['driver/index']);
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return [
+            'status' => $model->save(),
+            'element' => '#driver_'.$selected_driver
+        ];
     }
 
     public function actionEdit() {

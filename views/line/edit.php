@@ -11,29 +11,27 @@
 ?>
 <div class="site-create">
     
-        <a class="btn btn-success" href="<?php echo Url::toRoute('line/index') ?>">View all Lines</a>
+    <a class="btn btn-success" href="<?php echo Url::toRoute('line/index') ?>">View all Lines</a>
 
-        <?php if(Yii::$app->session->get('message') != null) : ?>
-            <p class="bg-success"> <?php echo htmlentities(Yii::$app->session->getFlash('message')); ?></p>
-        <?php endif; ?>
+    <?php messageSystems(); ?>
 
-        <br><br>
+    <br><br>
+
+    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
+
+    <?= $form->field($model, 'line_name') ?>
+    <?= $form->field($model, 'line_description')->textArea() ?>
+    <?= $form->field($model, 'line_start_time')->widget(TimePicker::classname(), ['pluginOptions' => ['showMeridian' => false]]) ?>
+    <?= $form->field($model, 'line_end_time')->widget(TimePicker::classname(), ['pluginOptions' => ['showMeridian' => false]]) ?>
+    <?= $form->field($model, 'line_image')->fileInput() ?>
     
-        <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
+    <?= Html::img('@web/'.$model->line_image, ['alt' => 'Line Image', 'width' => '200px']) ?>
+    <br><br>
 
-        <?= $form->field($model, 'line_name') ?>
-        <?= $form->field($model, 'line_description')->textArea() ?>
-        <?= $form->field($model, 'line_start_time')->widget(TimePicker::classname(), ['pluginOptions' => ['showMeridian' => false]]) ?>
-        <?= $form->field($model, 'line_end_time')->widget(TimePicker::classname(), ['pluginOptions' => ['showMeridian' => false]]) ?>
-        <?= $form->field($model, 'line_image')->fileInput() ?>
-        
-        <?= Html::img('@web/'.$model->line_image, ['alt' => 'Line Image', 'width' => '200px']) ?>
-        <br><br>
+    <div class="form-group">
+        <?= Html::submitButton('Update', ['class' => 'btn btn-warning']) ?>
+    </div>
 
-        <div class="form-group">
-            <?= Html::submitButton('Update', ['class' => 'btn btn-warning']) ?>
-        </div>
-
-        <?php ActiveForm::end(); ?>
+    <?php ActiveForm::end(); ?>
 
 </div>

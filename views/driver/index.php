@@ -15,10 +15,9 @@
         <?php
             if ($selected_company != null) {
                 ?>
-                    <a class="btn btn-primary" href="<?php echo Url::toRoute('driver/index') ?>">View all Driver</a>
                     <script type="text/javascript">
                         $(document).ready(function() {
-                            $('#selectCompanyOnDriver').val(<?php echo $selected_company ?>);
+                            $('#selectCompany').val(<?php echo $selected_company ?>);
                         });
                     </script>
                 <?php
@@ -27,8 +26,9 @@
         <div class="form-group" style="float: right; width: 300px;">
             <div class="input-group">
                 <div class="input-group-addon">Filter by Company</div>
-                <input id="linkCompanyOnDriver" type="hidden" value="<?php echo Url::toRoute('driver/index') ?>">
-                <select id="selectCompanyOnDriver" class="form-control">
+                <input id="currentUrl" type="hidden" value="<?php echo Url::toRoute('driver/index') ?>">
+                <select id="selectCompany" class="form-control">
+                    <option value="null">View all</option>
                     <?php
                         foreach($list_companies as $company) {
                             ?>
@@ -40,7 +40,7 @@
             </div>
         </div>
 
-        <?php messageSystem(); ?>
+        <?php messageSystems(); ?>
 
         <br><br>
         <?php
@@ -63,12 +63,13 @@
                 <th>Driver Phone</th>
                 <th>Driver Image</th>
                 <th>Driver Company</th>
+                <th>Vehicle</th>
                 <th>Action</th>
             </tr>
             <?php
                 foreach ($drivers as $driver) {
                     ?>
-                        <tr>
+                        <tr id="driver_<?php echo $driver->driver_id ?>">
                             <td>
                                 <?php echo $driver->driver_id ?>
                             </td>
@@ -87,16 +88,23 @@
                                 </a>
                             </td>
                             <td>
-                                <a href="<?php echo Url::toRoute('driver/index').'?company='.$driver->company->company_id ?>">
-                                    <?php echo $driver->company->company_name ?>
-                                </a>
+                                <?php echo $driver->company->company_name ?>
+                            </td>
+                            <td>
+                                <?php
+                                    if (isset($driver->vehicle->vehicle_number)) {
+                                        echo $driver->vehicle->vehicle_number;
+                                    } else {
+                                        echo 'Waiting for layout';
+                                    }
+                                ?>
                             </td>
                             <td>
                                 <?php if(!Yii::$app->user->isGuest) : ?>
                                     <a title="Edit" class="btn btn-warning" href="<?php echo Url::toRoute('driver/edit').'?driver='.$driver->driver_id ?>">
                                         <i class="glyphicon glyphicon-edit"></i>
                                     </a>
-                                    <a data-confirm="Are you sure you want to delete?" title="Remove" class="btn btn-danger" href="<?php echo Url::toRoute('driver/delete').'?driver='.$driver->driver_id ?>">
+                                    <a title="Remove" class="btn btn-danger deleteConfirm" data-type="driver" data-id="<?php echo $driver->driver_id ?>" data-url="<?php echo Url::toRoute('driver/delete') ?>" href="#">
                                         <i class="glyphicon glyphicon-remove"></i>
                                     </a>
                                 <?php endif; ?>

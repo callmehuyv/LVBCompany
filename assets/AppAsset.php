@@ -20,11 +20,12 @@ class AppAsset extends AssetBundle
     public $css = [
         'css/site.css',
         'css/style.css',
-        'css/ekko-lightbox.css'
+        'css/ekko-lightbox.css',
+        'css/jquery.notifyBar.css'
     ];
     public $js = [
-        'js/script.js',
         'js/ekko-lightbox.js',
+        'js/jquery.confirm.min.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

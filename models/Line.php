@@ -38,7 +38,8 @@ class Line extends \yii\db\ActiveRecord
             [['line_start_time', 'line_end_time'], 'safe'],
             [['record_status', 'vehicletype_id'], 'integer'],
             [['line_name', 'line_image'], 'string', 'max' => 255],
-            [['line_image'], 'file']
+            [['line_image'], 'file'],
+            ['line_name', 'unique']
         ];
     }
 

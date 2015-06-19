@@ -49,6 +49,7 @@
             <div class="input-group">
                 <div class="input-group-addon">Line</div>
                 <select id="selectLine" class="form-control">
+                    <option value="null">View all</option>
                     <?php
                         foreach($list_lines as $line) {
                             ?>
@@ -63,6 +64,7 @@
             <div class="input-group">
                 <div class="input-group-addon">Company</div>
                 <select id="selectCompany" class="form-control">
+                    <option value="null">View all</option>
                     <?php
                         foreach($list_companies as $company) {
                             ?>
@@ -77,6 +79,7 @@
             <div class="input-group">
                 <div class="input-group-addon">Vehicle Type</div>
                 <select id="selectVehicletype" class="form-control">
+                    <option value="null">View all</option>
                     <?php
                         foreach($list_vehicletypes as $vehicletype) {
                             ?>
@@ -115,12 +118,14 @@
                 <th>Vehicle Type</th>
                 <th>Driver</th>
                 <th>Vehicle Image</th>
-                <th>Action</th>
+                <?php if(!Yii::$app->user->isGuest) : ?>
+                    <th>Action</th>
+                <?php endif; ?>
             </tr>
             <?php
                 foreach ($vehicles as $vehicle) {
                     ?>
-                        <tr>
+                        <tr id="vehicle_<?php echo $vehicle->vehicle_id ?>">
                             <td>
                                 <?php echo $vehicle->vehicle_id ?>
                             </td>
@@ -144,20 +149,19 @@
                                     <img width="100px" src="<?php echo Url::to('@web/'.$vehicle->vehicle_image); ?>" class="img-responsive">
                                 </a>
                             </td>
-                            <td>
-                                <?php if(!Yii::$app->user->isGuest) : ?>
+                            <?php if(!Yii::$app->user->isGuest) : ?>
+                                <td>
                                     <a title="Edit" class="btn btn-warning" href="<?php echo Url::toRoute('vehicle/edit').'?vehicle='.$vehicle->vehicle_id ?>">
                                         <i class="glyphicon glyphicon-edit"></i>
                                     </a>
-                                    <a data-confirm="Are you sure you want to delete?" title="Remove" class="btn btn-danger" href="<?php echo Url::toRoute('vehicle/delete').'?vehicle='.$vehicle->vehicle_id ?>">
+                                    <a title="Remove" class="btn btn-danger deleteConfirm" data-type="vehicle" data-id="<?php echo $vehicle->vehicle_id ?>" data-url="<?php echo Url::toRoute('vehicle/delete') ?>" href="#">
                                         <i class="glyphicon glyphicon-remove"></i>
                                     </a>
-                                <?php endif; ?>
-                            </td>
+                                </td>
+                            <?php endif; ?>
                         </tr>
                     <?php
                 }
             ?>
         </table>
-
 </div>

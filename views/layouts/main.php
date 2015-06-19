@@ -21,6 +21,57 @@ AppAsset::register($this);
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
     <script type="text/javascript" src="<?php echo Url::to('@web/js/jquery.min.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo Url::to('@web/js/script.js'); ?>"></script>
+
+    <script type="text/javascript">
+        function sleep(time){
+            var dt = new Date();
+            dt.setTime(dt.getTime() + time);
+            while (new Date().getTime() < dt.getTime());
+        }
+        function messageSystems(content) {
+            $(document).ready(function(){
+                $('#messageSystems .modal-body').html(content)
+                $('#messageSystems').modal('show');
+            })
+        }
+        $(document).ready(function(){
+            $(".deleteConfirm").confirm({
+                text: "Are you sure you want to delete?",
+                title: "Please Confirm",
+                confirm: function(button) {
+                    type = $(button).attr("data-type");
+                    id = $(button).attr("data-id");
+                    url = $(button).attr("data-url");
+                    var data = {};
+                    data[type] = id;
+
+                    $.ajax({
+                        type: "POST",
+                        dataType: "json",
+                        url: url,
+                        data: data,
+                        success: function(data) {
+                            if (data['status'] === true) {
+                                $(data['element']).fadeOut(1000, function() { $(this).remove(); });
+                            } else {
+                                messageSystems('Something Wrong! Please try again later');
+                            }
+                        },
+                        error: function(data){
+                            messageSystems('Something Wrong! Please try again later');
+                        }
+                    });
+                },
+                confirmButton: "Yes I am",
+                cancelButton: "No",
+                post: true,
+                confirmButtonClass: "btn-danger",
+                cancelButtonClass: "btn-default",
+                dialogClass: "modal-dialog"
+            });
+        })
+    </script>
 </head>
 <body>
 
@@ -88,6 +139,24 @@ AppAsset::register($this);
     </footer>
 
 <?php $this->endBody() ?>
+
+<div id="messageSystems" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Message From System</h4>
+      </div>
+      <div class="modal-body">
+        <p>One fine body&hellip;</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Ok. I know</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
 <?php $this->endPage() ?>

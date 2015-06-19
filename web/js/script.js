@@ -1,15 +1,4 @@
 $(document).ready(function() {
-	$('a[data-confirm]').click(function(ev) {
-		var href = $(this).attr('href');
-		if (!$('#dataConfirmModal').length) {
-			$('body').append('<div id="dataConfirmModal" class="modal" role="dialog" aria-labelledby="dataConfirmLabel" aria-hidden="true"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button><h3 id="dataConfirmLabel">Please Confirm</h3></div><div class="modal-body"></div><div class="modal-footer"><button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button><a class="btn btn-primary" id="dataConfirmOK">OK</a></div></div>');
-		} 
-		$('#dataConfirmModal').find('.modal-body').text($(this).attr('data-confirm'));
-		$('#dataConfirmOK').attr('href', href);
-		$('#dataConfirmModal').modal({show:true});
-		return false;
-	});
-
     $('#selectLine').change(function(){
         var id = $('#selectLine').val();
         if (id != 'null') {
@@ -20,15 +9,23 @@ $(document).ready(function() {
     });
     $('#selectCompany').change(function(){
         var id = $('#selectCompany').val();
-        window.location.replace($('#currentUrl').val()+ '?company=' + id);
+        if (id != 'null') {
+            window.location.replace($('#currentUrl').val()+ '?company=' + id);
+        } else {
+            window.location.replace($('#currentUrl').val());
+        }
     });
     $('#selectVehicletype').change(function(){
         var id = $('#selectVehicletype').val();
-        window.location.replace($('#currentUrl').val()+ '?vehicletype=' + id);
+        if (id != 'null') {
+            window.location.replace($('#currentUrl').val()+ '?vehicletype=' + id);
+        } else {
+            window.location.replace($('#currentUrl').val());
+        }
     });
 
 	$(document).delegate('*[data-toggle="lightbox"]', 'click', function(event) {
 	    event.preventDefault();
 	    $(this).ekkoLightbox();
-	}); 
+	});
 });

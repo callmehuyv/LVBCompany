@@ -35,7 +35,8 @@ class Vehicletype extends \yii\db\ActiveRecord
             [['vehicletype_description'], 'string'],
             [['record_status'], 'integer'],
             [['vehicletype_name', 'vehicletype_image'], 'string', 'max' => 255],
-            [['vehicletype_image'], 'file']
+            [['vehicletype_image'], 'file'],
+            ['vehicletype_name', 'unique']
         ];
     }
 
@@ -56,6 +57,13 @@ class Vehicletype extends \yii\db\ActiveRecord
     public function getVehicles()
     {
         return Vehicle::find()
+                    ->where(['record_status' => 4, 'vehicletype_id' => $this->vehicletype_id])
+                        ->all();
+    }
+
+    public function getLines()
+    {
+        return Line::find()
                     ->where(['record_status' => 4, 'vehicletype_id' => $this->vehicletype_id])
                         ->all();
     }

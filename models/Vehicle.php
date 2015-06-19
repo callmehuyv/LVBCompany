@@ -41,6 +41,7 @@ class Vehicle extends \yii\db\ActiveRecord
             [['vehicle_image'], 'string', 'max' => 255],
             [['vehicle_number'], 'string', 'max' => 64],
             ['vehicle_image', 'image'],
+            ['driver_id', 'unique']
         ];
     }
 
