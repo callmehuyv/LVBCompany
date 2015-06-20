@@ -33,7 +33,7 @@ class Station extends \yii\db\ActiveRecord
             [['line_id', 'record_status'], 'integer'],
             [['station_description'], 'string'],
             [['station_name', 'station_image'], 'string', 'max' => 255],
-            [['station_image'], 'file'],
+            [['station_image'], 'file', 'extensions' => 'jpg, gif, png'],
             ['station_name', 'unique'],
             ['line_id', 'exist', 'targetClass' => '\app\models\Line', 'targetAttribute' => 'line_id']
         ];

@@ -10,8 +10,10 @@
     
 ?>
 <div class="site-create">
-    
-        <a class="btn btn-success" href="<?php echo Url::toRoute('vehicletype/create') ?>">Create new Vehicle Type</a>
+        
+        <?php if(!Yii::$app->user->isGuest) : ?>
+            <a class="btn btn-success" href="<?php echo Url::toRoute('vehicletype/create') ?>">Create new Vehicle Type</a>
+        <?php endif; ?>
 
         <?php messageSystems() ?>
 

@@ -10,8 +10,9 @@
     
 ?>
 <div class="site-create">
-    
-        <a class="btn btn-success" href="<?php echo Url::toRoute('driver/create') ?>">Create new Driver</a>
+        <?php if(!Yii::$app->user->isGuest) : ?>
+            <a class="btn btn-success" href="<?php echo Url::toRoute('driver/create') ?>">Create new Driver</a>
+        <?php endif; ?>
 
         <?php
             if ($selected_company != null) {

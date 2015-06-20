@@ -37,7 +37,7 @@ class Vehicle extends \yii\db\ActiveRecord
             [['driver_id', 'vehicle_number'], 'required'],
             [['vehicle_image'], 'string', 'max' => 255],
             [['vehicle_number'], 'string', 'max' => 64],
-            ['vehicle_image', 'image'],
+            [['vehicle_image'], 'file', 'extensions' => 'jpg, gif, png'],
             ['driver_id', 'unique'],
             ['driver_id', 'exist', 'targetClass' => '\app\models\Driver', 'targetAttribute' => 'driver_id'],
             ['line_id', 'exist', 'targetClass' => '\app\models\Line', 'targetAttribute' => 'line_id'],

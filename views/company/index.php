@@ -10,8 +10,10 @@
     
 ?>
 <div class="site-create">
-    
-        <a class="btn btn-success" href="<?php echo Url::toRoute('company/create') ?>">Create new Company</a>
+
+        <?php if(!Yii::$app->user->isGuest) : ?>
+            <a class="btn btn-success" href="<?php echo Url::toRoute('company/create') ?>">Create new Company</a>
+        <?php endif; ?>
 
         <?php messageSystems() ?>
 
@@ -115,16 +117,16 @@
                                                                                 <img width="100px" src="<?php echo Url::to('@web/'.$vehicle->vehicle_image); ?>" class="img-responsive">
                                                                             </a>
                                                                         </td>
-                                                                        <td>
-                                                                            <?php if(!Yii::$app->user->isGuest) : ?>
+                                                                        <?php if(!Yii::$app->user->isGuest) : ?>
+                                                                            <td>
                                                                                 <a title="Edit" class="btn btn-warning" href="<?php echo Url::toRoute('vehicle/edit').'?vehicle='.$vehicle->vehicle_id ?>">
                                                                                     <i class="glyphicon glyphicon-edit"></i>
                                                                                 </a>
                                                                                 <a title="Remove" class="btn btn-danger deleteConfirm" data-type="vehicle" data-id="<?php echo $vehicle->vehicle_id ?>" data-url="<?php echo Url::toRoute('vehicle/delete') ?>" href="#">
                                                                                     <i class="glyphicon glyphicon-remove"></i>
                                                                                 </a>
-                                                                            <?php endif; ?>
-                                                                        </td>
+                                                                            </td>
+                                                                        <?php endif; ?>
                                                                     </tr>
                                                                 <?php
                                                             }
@@ -172,7 +174,9 @@
                                                             <th>Driver Image</th>
                                                             <th>Driver Company</th>
                                                             <th>Vehicle</th>
-                                                            <th>Action</th>
+                                                            <?php if(!Yii::$app->user->isGuest) : ?>
+                                                                <th>Action</th>
+                                                            <?php endif; ?>
                                                         </tr>
                                                         <?php
                                                             foreach ($company->drivers as $driver) {
@@ -207,16 +211,16 @@
                                                                                 }
                                                                             ?>
                                                                         </td>
-                                                                        <td>
-                                                                            <?php if(!Yii::$app->user->isGuest) : ?>
+                                                                        <?php if(!Yii::$app->user->isGuest) : ?>
+                                                                            <td>
                                                                                 <a title="Edit" class="btn btn-warning" href="<?php echo Url::toRoute('driver/edit').'?driver='.$driver->driver_id ?>">
                                                                                     <i class="glyphicon glyphicon-edit"></i>
                                                                                 </a>
                                                                                 <a title="Remove" class="btn btn-danger deleteConfirm" data-type="driver" data-id="<?php echo $driver->driver_id ?>" data-url="<?php echo Url::toRoute('driver/delete') ?>" href="#">
                                                                                     <i class="glyphicon glyphicon-remove"></i>
                                                                                 </a>
-                                                                            <?php endif; ?>
-                                                                        </td>
+                                                                            </td>
+                                                                        <?php endif; ?>
                                                                     </tr>
                                                                 <?php
                                                             }

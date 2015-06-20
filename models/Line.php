@@ -35,7 +35,7 @@ class Line extends \yii\db\ActiveRecord
             [['line_start_time', 'line_end_time'], 'safe'],
             [['record_status', 'vehicletype_id'], 'integer'],
             [['line_name', 'line_image'], 'string', 'max' => 255],
-            [['line_image'], 'file'],
+            [['line_image'], 'file', 'extensions' => 'jpg, gif, png'],
             ['line_name', 'unique'],
             ['vehicletype_id', 'exist', 'targetClass' => '\app\models\Vehicletype', 'targetAttribute' => 'vehicletype_id']
         ];

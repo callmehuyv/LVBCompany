@@ -11,7 +11,10 @@
 ?>
 <div class="site-create">
     
-        <a class="btn btn-success" href="<?php echo Url::toRoute('vehicle/create') ?>">Create new Vehicle</a>
+        <?php if(!Yii::$app->user->isGuest) : ?>
+            <a class="btn btn-success" href="<?php echo Url::toRoute('vehicle/create') ?>">Create new Vehicle</a>
+        <?php endif; ?>
+
         <input id="currentUrl" type="hidden" value="<?php echo Url::toRoute('vehicle/index') ?>">
 
         <?php

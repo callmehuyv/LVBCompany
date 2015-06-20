@@ -32,7 +32,7 @@ class Vehicletype extends \yii\db\ActiveRecord
             [['vehicletype_description'], 'string'],
             [['record_status'], 'integer'],
             [['vehicletype_name', 'vehicletype_image'], 'string', 'max' => 255],
-            [['vehicletype_image'], 'file'],
+            [['vehicletype_image'], 'file', 'extensions' => 'jpg, gif, png'],
             ['vehicletype_name', 'unique']
         ];
     }

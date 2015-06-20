@@ -29,7 +29,8 @@ class Company extends \yii\db\ActiveRecord
             [['company_description'], 'string'],
             [['record_status'], 'integer'],
             [['company_name', 'company_image'], 'string', 'max' => 255],
-            ['company_name', 'unique']
+            ['company_name', 'unique'],
+            [['company_image'], 'file', 'extensions' => 'jpg, gif, png']
         ];
     }
 

@@ -19,7 +19,7 @@
         <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
 
         <?= $form->field($model, 'vehicletype_name') ?>
-        <?= $form->field($model, 'vehicletype_description') ?>
+        <?= $form->field($model, 'vehicletype_description')->textArea() ?>
         <?= $form->field($model, 'vehicletype_image')->fileInput() ?>
         
         <?= Html::img('@web/'.$model->vehicletype_image, ['alt' => 'Vehicle Type Image', 'width' => '200px']) ?>

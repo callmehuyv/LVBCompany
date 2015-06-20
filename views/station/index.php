@@ -9,8 +9,9 @@
     $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-create">
-    
-        <a class="btn btn-success" href="<?php echo Url::toRoute('station/create') ?>">Create new Station</a>
+        <?php if(!Yii::$app->user->isGuest) : ?>
+            <a class="btn btn-success" href="<?php echo Url::toRoute('station/create') ?>">Create new Station</a>
+        <?php endif; ?>
 
         <?php
             if ($selected_line != null) {

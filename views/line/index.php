@@ -66,9 +66,7 @@
                                 <?php echo $line->line_name ?>
                             </td>
                             <td>
-                                <a href="<?php echo Url::toRoute('line/index').'?vehicletype='.$line->vehicletype->vehicletype_id ?>">
-                                    <?php echo $line->vehicletype->vehicletype_name ?>
-                                </a>
+                                <?php echo $line->vehicletype->vehicletype_name ?>
                             </td>
                             <td>
                                 <?php echo date('H:i',strtotime($line->line_start_time)) ?>

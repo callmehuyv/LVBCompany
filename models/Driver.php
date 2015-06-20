@@ -32,7 +32,7 @@ class Driver extends \yii\db\ActiveRecord
             [['company_id', 'record_status'], 'integer'],
             [['driver_name', 'driver_address', 'driver_image', 'driver_phone'], 'string', 'max' => 255],
             [['driver_phone', 'driver_name'], 'unique'],
-            ['driver_image', 'file'],
+            [['driver_image'], 'file', 'extensions' => 'jpg, gif, png'],
             ['company_id', 'exist', 'targetClass' => '\app\models\Company', 'targetAttribute' => 'company_id']
         ];
     }

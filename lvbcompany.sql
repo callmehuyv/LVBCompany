@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 17, 2015 at 12:10 AM
+-- Generation Time: Jun 19, 2015 at 08:19 PM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `companies` (
   `company_description` text,
   `company_image` varchar(255) DEFAULT NULL,
   `record_status` int(11) NOT NULL DEFAULT '4'
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `companies`
@@ -41,7 +41,10 @@ CREATE TABLE IF NOT EXISTS `companies` (
 INSERT INTO `companies` (`company_id`, `company_name`, `company_description`, `company_image`, `record_status`) VALUES
 (2, 'Bus 10/10', 'Bus 10/10 Description', 'uploads/company_2.jpg', 4),
 (3, 'Thăng Long', 'Thăng Long Description', 'uploads/company_3.jpg', 4),
-(4, 'Demo', 'Demo', 'uploads/no-thumbnail.png', 3);
+(4, 'Demo', 'Demo', 'uploads/no-thumbnail.png', 4),
+(5, 'Đông Anh Company', 'Đông Anh Company Description', 'uploads/company_5.jpg', 4),
+(6, 'Hoàng Hà', 'Hoàng Hà Description', 'uploads/company_6.jpg', 4),
+(7, 'Tiến Nhật', 'Tiến Nhật Description', 'uploads/company_7.jpg', 4);
 
 -- --------------------------------------------------------
 
@@ -57,7 +60,7 @@ CREATE TABLE IF NOT EXISTS `drivers` (
   `driver_image` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `driver_phone` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `record_status` int(11) NOT NULL DEFAULT '4'
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `drivers`
@@ -67,7 +70,10 @@ INSERT INTO `drivers` (`driver_id`, `company_id`, `driver_name`, `driver_address
 (1, 3, 'Huy Tran', 'Nam Dinh', 'uploads/driver_1.jpg', '0962623143', 4),
 (2, 3, 'Lê Tùng', 'Hà Nội', 'uploads/driver_2.jpg', '0962623133', 4),
 (3, 2, 'Vũ Thịnh', 'Quảng Ninh', 'uploads/driver_3.jpg', '0962623111', 4),
-(4, 2, 'Trần Duy', 'Hồ Chí Minh', 'uploads/driver_4.jpg', '0962623458', 4);
+(4, 2, 'Trần Duy', 'Hồ Chí Minh', 'uploads/driver_4.jpg', '0962623458', 4),
+(5, 4, 'Hồ sao', 'Hồ sao Address', 'uploads/driver_5.jpg', '0962623144', 4),
+(6, 3, 'Demo Driver', 'Demo Driver Address', 'uploads/driver_6.jpg', '01526489268', 4),
+(7, 2, 'Demo Driver 2', 'Demo Driver 2 Address', 'uploads/driver_7.jpg', '1874684621412', 4);
 
 -- --------------------------------------------------------
 
@@ -77,44 +83,26 @@ INSERT INTO `drivers` (`driver_id`, `company_id`, `driver_name`, `driver_address
 
 CREATE TABLE IF NOT EXISTS `lines` (
 `line_id` int(11) NOT NULL,
+  `vehicletype_id` int(11) NOT NULL,
   `line_name` varchar(255) DEFAULT NULL,
   `line_description` text,
   `line_start_time` time DEFAULT NULL,
   `line_end_time` time DEFAULT NULL,
   `line_image` varchar(255) DEFAULT NULL,
   `record_status` int(11) DEFAULT '4'
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `lines`
 --
 
-INSERT INTO `lines` (`line_id`, `line_name`, `line_description`, `line_start_time`, `line_end_time`, `line_image`, `record_status`) VALUES
-(1, 'Hà Nội - Nam Định', 'Hà Nội - Nam Định Description', '00:45:00', '03:15:00', 'uploads/line_1.jpg', 4),
-(2, 'Nam Định - Huế', 'Nam Định - Huế', '03:00:00', '04:00:00', 'uploads/line_2.jpg', 4),
-(3, 'Nam Định - Huế', 'Nam Định - Huế', '03:00:00', '04:00:00', 'uploads/line_3.jpg', 4),
-(4, 'Nam Định - Huế', 'Nam Định - Huế', '03:00:00', '04:00:00', 'uploads/line_4.jpg', 4),
-(5, 'Hải Phòng - Huế', 'Hải Phòng - Huế', '03:15:00', '07:15:00', 'uploads/no-thumbnail.png', 4);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `roles`
---
-
-CREATE TABLE IF NOT EXISTS `roles` (
-`id` int(11) NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `prority` int(11) DEFAULT NULL,
-  `record_status` int(11) DEFAULT '4'
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `roles`
---
-
-INSERT INTO `roles` (`id`, `name`, `prority`, `record_status`) VALUES
-(1, 'Member', NULL, 4);
+INSERT INTO `lines` (`line_id`, `vehicletype_id`, `line_name`, `line_description`, `line_start_time`, `line_end_time`, `line_image`, `record_status`) VALUES
+(7, 2, 'Hà Nội - Nam Định', 'Hà Nội - Nam Định Description', '16:30:00', '19:30:00', 'uploads/line_7.jpg', 4),
+(8, 3, 'Nam Định - Hải Phòng', 'Nam Định - Hải Phòng Description', '13:30:00', '17:30:00', 'uploads/line_8.jpg', 4),
+(9, 1, 'Demo', 'Demo', '18:45:00', '18:45:00', 'uploads/no-thumbnail.png', 4),
+(10, 4, 'Huế - Đà Nẵng', 'Huế - Đà Nẵng Description', '00:15:00', '04:15:00', 'uploads/line_10.jpg', 4),
+(11, 2, 'Nha Trang - Vũng Tàu', 'Nha Trang - Vũng Tàu Description', '13:15:00', '14:15:00', 'uploads/line_11.jpg', 4),
+(12, 3, 'Ninh Bình - Hà Nội', 'Ninh Bình - Hà Nội Description', '00:15:00', '05:15:00', 'uploads/line_12.jpg', 4);
 
 -- --------------------------------------------------------
 
@@ -129,16 +117,19 @@ CREATE TABLE IF NOT EXISTS `stations` (
   `station_description` text,
   `station_image` varchar(255) DEFAULT NULL,
   `record_status` int(11) NOT NULL DEFAULT '4'
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `stations`
 --
 
 INSERT INTO `stations` (`station_id`, `line_id`, `station_name`, `station_description`, `station_image`, `record_status`) VALUES
-(1, 4, 'Tên station', 'Mô tả station', 'uploads/station_1.jpg', 4),
-(2, 4, 'Gà Sài Gòn', 'Gà Sài Gòn', 'uploads/line_2.jpg', 4),
-(3, 1, 'Demo', 'Demo', 'uploads/no-thumbnail.png', 3);
+(4, 7, 'Ga 001', 'Ga 001 Description', 'uploads/station_4.jpg', 4),
+(5, 8, 'Demo', 'Demo', 'uploads/station_5.jpg', 4),
+(6, 9, 'Ga 003', 'Ga 003 Description', 'uploads/station_6.jpg', 4),
+(7, 12, 'Ga 004', 'Ga 004 Description', 'uploads/station_7.jpg', 4),
+(8, 11, 'Ga 005', 'Ga 005 Description', 'uploads/station_8.jpg', 4),
+(9, 10, 'Ga 007', 'Ga 007 Description', 'uploads/station_9.jpg', 4);
 
 -- --------------------------------------------------------
 
@@ -163,10 +154,10 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`user_id`, `user_email`, `user_first_name`, `user_last_name`, `user_phone`, `user_password`, `user_auth_key`, `user_access_token`, `record_status`) VALUES
-(4, 'callmehuyv@gmail.com', 'Huy', 'V', '0962623143', '$2y$13$fMivyhVnsW5U6up/RqJfbedn48TC7L8c0xaKKfVdVHZtFP8JRHDqy', '123456', '', 4),
-(6, 'vbaothu@gmail.com', 'Huy', 'Tran', '0962623143', '$2y$13$Do46ehpQD4ciM7kcc2xZLeu8nt2.4CNeLu97g.k5SNS3HMPqlEXZC', '', '', 4),
-(7, 'admin@admin.com', 'Admin', 'Mr', '0962623143', '$2y$13$PDmIF1/OC21ZcjqdoXKO8.CeuFfvT17Su8pg3Uetu71avocs398vO', '', '', 4),
-(8, 'huymourinho@gmail.com', 'Huy', 'Mourinho', '0123456789', '$2y$13$gPaL1noCn9iXuUlSSRCVFORcIBzaHH5UNrN7AP/GhIpNov/eSCqPq', '', '', 4);
+(4, 'callmehuyv@gmail.com', 'Call me', 'Huy V', '0962623140', '$2y$13$fMivyhVnsW5U6up/RqJfbedn48TC7L8c0xaKKfVdVHZtFP8JRHDqy', '2LjMY2I3amL0TQp72Upj9f49nPnUecds', '', 4),
+(6, 'vbaothu@gmail.com', 'Huy', 'Tran', '0962623143', '$2y$13$Do46ehpQD4ciM7kcc2xZLeu8nt2.4CNeLu97g.k5SNS3HMPqlEXZC', 'hDv5ECDDmxNKXK3JciQfQKOCQebntEhZ', '', 4),
+(7, 'admin@admin.com', 'Admin', 'Mr', '0962623143', '$2y$13$PDmIF1/OC21ZcjqdoXKO8.CeuFfvT17Su8pg3Uetu71avocs398vO', 'UtRRb8S0j4pln4eFQccGucrqxi_eIq7G', '', 4),
+(8, 'huymourinho@gmail.com', 'Huy', 'Mourinho', '0123456789', '$2y$13$gPaL1noCn9iXuUlSSRCVFORcIBzaHH5UNrN7AP/GhIpNov/eSCqPq', 'mnP4ijUEGDWAtKafNuaZyf-qqKuPgIbD', '', 4);
 
 -- --------------------------------------------------------
 
@@ -183,14 +174,19 @@ CREATE TABLE IF NOT EXISTS `vehicles` (
   `driver_id` int(10) unsigned NOT NULL,
   `vehicle_image` varchar(255) DEFAULT NULL,
   `record_status` int(11) NOT NULL DEFAULT '4'
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `vehicles`
 --
 
 INSERT INTO `vehicles` (`vehicle_id`, `vehicle_number`, `company_id`, `line_id`, `vehicletype_id`, `driver_id`, `vehicle_image`, `record_status`) VALUES
-(2, '18N - 1536', 2, 1, 1, 1, 'uploads/vehicle_2.jpg', 4);
+(3, '18N-12374', 2, 7, 1, 3, 'uploads/vehicle_3.jpg', 4),
+(4, '28M-12345', 2, 7, 1, 1, 'uploads/vehicle_4.jpg', 4),
+(5, '30-A 12674', 5, 9, 1, 5, 'uploads/vehicle_5.jpg', 4),
+(6, '30-B 124512', 6, 12, 3, 2, 'uploads/vehicle_6.jpg', 4),
+(7, '22-A 12674', 3, 11, 4, 4, 'uploads/vehicle_7.jpg', 4),
+(8, '07-C 12674', 4, 10, 3, 7, 'uploads/vehicle_8.jpg', 4);
 
 -- --------------------------------------------------------
 
@@ -204,7 +200,7 @@ CREATE TABLE IF NOT EXISTS `vehicletypes` (
   `vehicletype_description` text,
   `vehicletype_image` varchar(255) DEFAULT NULL,
   `record_status` int(11) NOT NULL DEFAULT '4'
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `vehicletypes`
@@ -215,7 +211,9 @@ INSERT INTO `vehicletypes` (`vehicletype_id`, `vehicletype_name`, `vehicletype_d
 (2, 'Autobuses', 'Autobuses Description', 'uploads/vehicletype_2.jpg', 4),
 (3, 'Nightliner', 'Nightliner Description', 'uploads/vehicletype_3.jpg', 4),
 (4, 'Regional Bus', 'Regional Bus Description', 'uploads/vehicletype_4.jpg', 4),
-(5, 'Demo', 'Demo', 'uploads/vehicletype_5.jpg', 3);
+(5, 'Demo', 'Demo', 'uploads/vehicletype_5.jpg', 4),
+(6, 'Demo 2', 'Demo 2 Description', 'uploads/vehicletype_6.jpg', 4),
+(7, 'Demo 3', 'Demo 3 Description', 'uploads/vehicletype_7.jpg', 4);
 
 --
 -- Indexes for dumped tables
@@ -237,13 +235,7 @@ ALTER TABLE `drivers`
 -- Indexes for table `lines`
 --
 ALTER TABLE `lines`
- ADD PRIMARY KEY (`line_id`);
-
---
--- Indexes for table `roles`
---
-ALTER TABLE `roles`
- ADD PRIMARY KEY (`id`);
+ ADD PRIMARY KEY (`line_id`), ADD KEY `vehicletype_id` (`vehicletype_id`), ADD KEY `vehicletype_id_2` (`vehicletype_id`);
 
 --
 -- Indexes for table `stations`
@@ -277,27 +269,22 @@ ALTER TABLE `vehicletypes`
 -- AUTO_INCREMENT for table `companies`
 --
 ALTER TABLE `companies`
-MODIFY `company_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+MODIFY `company_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `drivers`
 --
 ALTER TABLE `drivers`
-MODIFY `driver_id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+MODIFY `driver_id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `lines`
 --
 ALTER TABLE `lines`
-MODIFY `line_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
---
--- AUTO_INCREMENT for table `roles`
---
-ALTER TABLE `roles`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `line_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT for table `stations`
 --
 ALTER TABLE `stations`
-MODIFY `station_id` int(255) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+MODIFY `station_id` int(255) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `users`
 --
@@ -307,12 +294,12 @@ MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 -- AUTO_INCREMENT for table `vehicles`
 --
 ALTER TABLE `vehicles`
-MODIFY `vehicle_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+MODIFY `vehicle_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `vehicletypes`
 --
 ALTER TABLE `vehicletypes`
-MODIFY `vehicletype_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+MODIFY `vehicletype_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 --
 -- Constraints for dumped tables
 --
@@ -322,6 +309,12 @@ MODIFY `vehicletype_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 ALTER TABLE `drivers`
 ADD CONSTRAINT `drivers_ibfk_1` FOREIGN KEY (`company_id`) REFERENCES `companies` (`company_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `lines`
+--
+ALTER TABLE `lines`
+ADD CONSTRAINT `lines_ibfk_1` FOREIGN KEY (`vehicletype_id`) REFERENCES `vehicletypes` (`vehicletype_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `stations`

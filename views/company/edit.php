@@ -20,7 +20,7 @@
         <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
 
         <?= $form->field($model, 'company_name') ?>
-        <?= $form->field($model, 'company_description') ?>
+        <?= $form->field($model, 'company_description')->textArea() ?>
         <?= $form->field($model, 'company_image')->fileInput(); ?>
         
         <?= Html::img('@web/'.$model->company_image, ['alt' => 'Company Image', 'width' => '200px']) ?>
