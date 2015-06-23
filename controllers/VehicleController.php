@@ -105,18 +105,10 @@ class VehicleController extends Controller
 
         if ( $model->load(Yii::$app->request->post()) ) {
             if ($model->validate()) {
-                // Check Line
-                $count_line = Vehicle::find()->where(['line_id' => $model->line_id, 'record_status' => 4])->andWhere(['not', ['vehicle_id' => $model->vehicle_id]])->count();
-                if ($count_line >= 10) {
+                $count = Vehicle::find()->where(['line_id' => $model->line_id, 'record_status' => 4])->where(['not', ['vehicle_id' => $model->vehicle_id]])->count();
+                if ($count >= 10) {
                     $model->addError('line_id', 'This Line has max 10 station. Please choose other line');
-                }
-                // Check Driver
-                $count_driver = Vehicle::find()->where(['driver_id' => $model->driver_id, 'record_status' => 4])->andWhere(['not', ['vehicle_id' => $model->vehicle_id]])->count();
-                if ($count_driver >= 1) {
-                    $model->addError('driver_id', 'This Driver driving other vehicle. Please choose other driver');
-                }
-
-                if ($count_line < 10 and $count_driver < 1) {
+                } else {
                     $file = UploadedFile::getInstance($model, 'vehicle_image');
 
                     if ($file) {
@@ -139,12 +131,9 @@ class VehicleController extends Controller
         $prepare_list_vehicletypes = Vehicletype::find()
             ->where(['record_status' => 4])
                 ->all();
-
         $prepare_list_drivers = Driver::find()
-                ->where(['record_status' => 4])
-                    ->andWhere(['not in', 'driver_id', (new Query())->select('driver_id')->from('vehicles')->where(['record_status' => 4])])
-                            ->all();
-
+            ->where(['record_status' => 4])
+                ->all();
         $prepare_list_lines = Line::find()
             ->where(['record_status' => 4])
                 ->all();
@@ -152,9 +141,6 @@ class VehicleController extends Controller
         $data['list_companies'] = ArrayHelper::map($prepare_list_companies, 'company_id', 'company_name');
         $data['list_vehicletypes'] = ArrayHelper::map($prepare_list_vehicletypes, 'vehicletype_id', 'vehicletype_name');
         $data['list_drivers'] = ArrayHelper::map($prepare_list_drivers, 'driver_id', 'driver_name');
-
-        $data['list_drivers'][$model->driver_id] = Driver::findOne($model->driver_id)->driver_name;
-
         $data['list_lines'] = ArrayHelper::map($prepare_list_lines, 'line_id', 'line_name');
         // Foreach list line and check, if it has max 7 station, unset it
         foreach ($data['list_lines'] as $line_id => $line_name ) {
@@ -217,7 +203,7 @@ class VehicleController extends Controller
 
         $prepare_list_drivers = Driver::find()
                 ->where(['record_status' => 4])
-                    ->andWhere(['not in', 'driver_id', (new Query())->select('driver_id')->from('vehicles')->where(['record_status' => 4])])
+                    ->where(['not in', 'driver_id', (new Query())->select('driver_id')->from('vehicles')->where(['record_status' => 4])])
                             ->all();
         $prepare_list_lines = Line::find()
             ->where(['record_status' => 4])
@@ -227,7 +213,7 @@ class VehicleController extends Controller
         $data['list_vehicletypes'] = ArrayHelper::map($prepare_list_vehicletypes, 'vehicletype_id', 'vehicletype_name');
         $data['list_drivers'] = ArrayHelper::map($prepare_list_drivers, 'driver_id', 'driver_name');
         $data['list_lines'] = ArrayHelper::map($prepare_list_lines, 'line_id', 'line_name');
-        // Foreach list line and check, if it has max 10 station, we will unset it
+        // Foreach list line and check, if it has max 7 station, we will unset it
         foreach ($data['list_lines'] as $line_id => $line_name ) {
             $count = Vehicle::find()->where(['line_id' => $line_id, 'record_status' => 4])->count();
             if ($count >= 10) {
