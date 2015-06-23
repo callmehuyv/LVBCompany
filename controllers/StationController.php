@@ -94,7 +94,7 @@ class StationController extends Controller
 
         if ( $model->load(Yii::$app->request->post()) ) {
             if ($model->validate()) {
-                $count = Station::find()->where(['line_id' => $model->line_id, 'record_status' => 4])->where(['not', ['station_id' => $model->station_id]])->count();
+                $count = Station::find()->where(['line_id' => $model->line_id, 'record_status' => 4])->andWhere(['not', ['station_id' => $model->station_id]])->count();
                 if ($count >= 7) {
                     $model->addError('line_id', 'This Line has max 7 station. Please choose other line');
                 } else {
